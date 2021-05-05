@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>油田智云服务系统</title>
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/layui-src@2.6.3-2/dist/layui.js"></script>
+</head>
+
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <div class="layui-header">
+            <div class="layui-logo">油田智云服务系统</div>
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item"><a href="/index">首页</a></li>
+                <li class="layui-nav-item">
+                    <a href="">云服务</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">持续部署服务</a></dd>
+                        <dd><a href="">持续测试服务</a></dd>
+                        <dd><a href="">地理信息服务</a></dd>
+                        <dd><a href="">对象存储服务</a></dd>
+                        <dd><a href="">分布式数据库</a></dd>
+                        <dd><a href="">负载均衡服务</a></dd>
+                        <dd><a href="">过程管理服务</a></dd>
+                        <dd><a href="">数字证书服务</a></dd>
+                        <dd><a href="">小机资源服务</a></dd>
+                        <dd><a href="">组件安全服务</a></dd>
+                        <dd><a href="">离线大数据分析服务</a></dd>
+                        <dd><a href="">分布式应用程序管理服务</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="/classification">个性化分类</a></li>
+                <li class="layui-nav-item"><a href="https://www.cnki.net">知识库</a></li>
+                <li class="layui-nav-item"><a href="">资源下载</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">开放平台</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">客服服务</a></dd>
+                        <dd><a href="">安全云盾</a></dd>
+                        <dd><a href="">代码仓库服务</a></dd>
+                        <dd><a href="">大数据开发云平台</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="/about">关于</a></li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="https://i.loli.net/2019/10/29/kIxyLJwb7saud1C.jpg" class="layui-nav-img">
+                        测试用户
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">基本资料</a></dd>
+                        <dd><a href="">安全设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="/login">告辞</a></li>
+            </ul>
+        </div>
+
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item "><a href="/classify">简单分类</a></li>
+                    <li class="layui-nav-item"><a href="/classification">个性标签动态分类</a></li>
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">云服务管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="/manage">云服务管理</a></dd>
+                            <dd><a href="/add">添加云服务</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 内容主体区域 -->
+        <div class="layui-body">
+            <!--路径-->
+            <!--
+            <div style="margin-left: 20px; padding-bottom: 20px;">
+                <span class="layui-breadcrumb">
+                    <a href="">首页</a>
+                    <a href="">搜索</a>
+                    <a><cite>专利信息录入</cite></a>
+                </span>
+            </div>
+            -->
+
+            <div class="layui-fluid">
+                <div class="layui-card">
+                    <div class="layui-card-header">专利信息录入</div>
+                    <div class="layui-card-body" style="padding: 15px;">
+                        <form class="layui-form" action="" lay-filter="component-form-group">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">专利名称</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                        placeholder="请输入标题" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">专利id</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="username" lay-verify="required" placeholder="请输入"
+                                        autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">专利人所在国家</label>
+                                    <div class="layui-input-inline">
+                                        <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off"
+                                            class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">申请人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="email" lay-verify="email" autocomplete="off"
+                                            class="layui-input">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">Family ID</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="number" lay-verify="required|number" autocomplete="off"
+                                            class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">申请日期</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="date" id="LAY-component-form-group-date"
+                                            lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off"
+                                            class="layui-input" lay-key="1">
+                                    </div>
+                                </div>
+                               
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">Abstract</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="identity" lay-verify="identity" placeholder=""
+                                        autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">引文</label>
+                                <div class="layui-input-inline">
+                                    <input type="password" name="password" lay-verify="pass" placeholder=""
+                                        autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-form-mid layui-word-aux"></div>
+                            </div>
+
+                            
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">专利类别</label>
+                                <div class="layui-input-block">
+                                    <select name="interest" lay-filter="aihao">
+                                        <option value=""></option>
+                                        <option value="0" selected=''>请选择</option>
+                                        <option value="1" >阅读</option>
+                                        <option value="2">游戏</option>
+                                        <option value="3">音乐</option>
+                                        <option value="4">旅行</option>
+                                    </select>
+                                    <div class="layui-unselect layui-form-select">
+                                        <div class="layui-select-title"><input type="text" placeholder="请选择" value="阅读"
+                                                readonly="" class="layui-input layui-unselect"><i
+                                                class="layui-edge"></i></div>
+                                        <dl class="layui-anim layui-anim-upbit">
+                                            <dd lay-value="" class="layui-select-tips">请选择</dd>
+                                            <dd lay-value="0" class="">写作</dd>
+                                            <dd lay-value="1" class="layui-this">阅读</dd>
+                                            <dd lay-value="2" class="">游戏</dd>
+                                            <dd lay-value="3" class="">音乐</dd>
+                                            <dd lay-value="4" class="">旅行</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">声明</label>
+                                <div class="layui-input-block">
+                                  <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+                                </div>
+                              </div>
+
+
+                            
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">复选框</label>
+                                <div class="layui-input-block">
+                                    <input type="checkbox" name="like[write]" title="写作">
+                                    <div class="layui-unselect layui-form-checkbox"><span>写作</span><i
+                                            class="layui-icon layui-icon-ok"></i></div>
+                                    <input type="checkbox" name="like[read]" title="阅读" checked="">
+                                    <div class="layui-unselect layui-form-checkbox layui-form-checked"><span>阅读</span><i
+                                            class="layui-icon layui-icon-ok"></i></div>
+                                    <input type="checkbox" name="like[game]" title="游戏">
+                                    <div class="layui-unselect layui-form-checkbox"><span>游戏</span><i
+                                            class="layui-icon layui-icon-ok"></i></div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item" pane="">
+                                <label class="layui-form-label">原始复选框</label>
+                                <div class="layui-input-block">
+                                    <input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked="">
+                                    <div class="layui-unselect layui-form-checkbox layui-form-checked"
+                                        lay-skin="primary"><span>写作</span><i class="layui-icon layui-icon-ok"></i></div>
+                                    <input type="checkbox" name="like1[read]" lay-skin="primary" title="阅读">
+                                    <div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>阅读</span><i
+                                            class="layui-icon layui-icon-ok"></i></div>
+                                    <input type="checkbox" name="like1[game]" lay-skin="primary" title="游戏" disabled="">
+                                    <div class="layui-unselect layui-form-checkbox layui-checkbox-disbaled layui-disabled"
+                                        lay-skin="primary"><span>游戏</span><i class="layui-icon layui-icon-ok"></i></div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">开关-默认关</label>
+                                <div class="layui-input-block">
+                                    <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+                                    <div class="layui-unselect layui-form-switch" lay-skin="_switch"><em>OFF</em><i></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">开关-默认开</label>
+                                <div class="layui-input-block">
+                                    <input type="checkbox" checked="" name="open" lay-skin="switch"
+                                        lay-filter="component-form-switchTest" lay-text="ON|OFF">
+                                    <div class="layui-unselect layui-form-switch layui-form-onswitch"
+                                        lay-skin="_switch"><em>ON</em><i></i></div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">单选框</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="sex" value="男" title="男" checked="">
+                                    <div class="layui-unselect layui-form-radio layui-form-radioed"><i
+                                            class="layui-anim layui-icon"></i>
+                                        <div>男</div>
+                                    </div>
+                                    <input type="radio" name="sex" value="女" title="女">
+                                    <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i>
+                                        <div>女</div>
+                                    </div>
+                                    <input type="radio" name="sex" value="禁" title="禁用" disabled="">
+                                    <div class="layui-unselect layui-form-radio layui-radio-disbaled layui-disabled"><i
+                                            class="layui-anim layui-icon"></i>
+                                        <div>禁用</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">普通文本域</label>
+                                <div class="layui-input-block">
+                                    <textarea name="text" placeholder="请输入内容" class="layui-textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <div class="layui-footer">
+                                        <button class="layui-btn" lay-submit=""
+                                            lay-filter="component-form-demo1">立即提交</button>
+                                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            ©2021 油田智云服务系统
+        </div>
+
+    </div>
+    <script src="https://www.layuicdn.com/layui/layui.js"></script>
+    <script src="./country.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script>
+        window.onload = function () {
+
+
+            layui.use(['form', 'upload'], function () {  //如果只加载一个模块，可以不填数组。如：layui.use('form')
+                var form = layui.form //获取form模块
+                    , upload = layui.upload; //获取upload模块
+
+
+                for (var i = 0; i < country.length; i++) {
+                    $("#country-select").append("<option value='" + country[i][0] + "' style='font-weight: bold;'>" + country[i][1] + "</option>");
+
+                }
+
+                form.render('select')
+            });
+
+            layui.use('table', function () {
+                var table = layui.table;
+
+                //第一个实例
+                table.render({
+                    elem: '#demo'
+                    , height: 312
+                    , url: './test.json' //数据接口
+                    , page: true //开启分页
+                    , cols: [[ //表头
+                        { field: 'id', title: 'ID', width: 150, sort: true, fixed: 'left' }
+                        , { field: 'city', title: '申请国家', width: 120 }
+                        , { field: 'name', title: '专利名称', width: 500, sort: true }
+                        , { field: 'amount', title: '引文数目', width: 120 }
+                        , { field: 'app', title: '申请人名称', width: 200 },
+                        { field: 'time', title: '发布时间', width: 120 }
+                    ]]
+                });
+
+            });
+        }
+
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+
+        });
+
+
+
+
+
+    </script>
+
+    <style>
+        html {
+            background-color: #f2f2f2;
+            color: #666;
+        }
+
+        .layui-layout-admin .layui-body {
+            position: fixed;
+            top: 80px;
+            bottom: 44px;
+        }
+
+        .layuiadmin-card-list p.layuiadmin-big-font {
+            font-size: 36px;
+            color: #666;
+            line-height: 36px;
+            padding: 5px 0 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            white-space: nowrap;
+        }
+
+        .layui-col-sm6.layui-col-md3.width75 {
+            width: 75%;
+        }
+    </style>
+</body>
+
+</html>

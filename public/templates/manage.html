@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>油田智云服务系统</title>
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/layui-src@2.6.3-2/dist/layui.js"></script>
+
+
+</head>
+
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <div class="layui-header">
+            <div class="layui-logo">油田智云服务系统</div>
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item"><a href="/index">首页</a></li>
+                <li class="layui-nav-item">
+                    <a href="">云服务</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">持续部署服务</a></dd>
+                        <dd><a href="">持续测试服务</a></dd>
+                        <dd><a href="">地理信息服务</a></dd>
+                        <dd><a href="">对象存储服务</a></dd>
+                        <dd><a href="">分布式数据库</a></dd>
+                        <dd><a href="">负载均衡服务</a></dd>
+                        <dd><a href="">过程管理服务</a></dd>
+                        <dd><a href="">数字证书服务</a></dd>
+                        <dd><a href="">小机资源服务</a></dd>
+                        <dd><a href="">组件安全服务</a></dd>
+                        <dd><a href="">离线大数据分析服务</a></dd>
+                        <dd><a href="">分布式应用程序管理服务</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="/classification">个性化分类</a></li>
+                <li class="layui-nav-item"><a href="https://www.cnki.net">知识库</a></li>
+                <li class="layui-nav-item"><a href="">资源下载</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">开放平台</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">客服服务</a></dd>
+                        <dd><a href="">安全云盾</a></dd>
+                        <dd><a href="">代码仓库服务</a></dd>
+                        <dd><a href="">大数据开发云平台</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="/about">关于</a></li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="https://i.loli.net/2019/10/29/kIxyLJwb7saud1C.jpg" class="layui-nav-img">
+                        测试用户
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/myinfo">基本资料</a></dd>
+                        <dd><a href="/myinfo">安全设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="/login">告辞</a></li>
+            </ul>
+        </div>
+
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item "><a href="/classify">简单分类</a></li>
+                    <li class="layui-nav-item"><a href="/classification">个性标签动态分类</a></li>
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">云服务管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="/manage" class="layui-this">云服务管理</a></dd>
+                            <dd><a href="/add">添加云服务</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 内容主体区域 -->
+        <div class="layui-body">
+            <div class="layui-fluid">
+                <div class="layui-card">
+                    <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+                        <div class="layui-form-item">
+                            <!--
+                            <div class="layui-inline">
+                                <label class="layui-form-label">开始时间</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="id" placeholder="请输入开始时间" autocomplete="off"
+                                        class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">结束时间</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="author" placeholder="请输入结束时间" autocomplete="off"
+                                        class="layui-input">
+                                </div>
+                            </div>
+                            -->
+                            <div class="layui-card-body">
+                                <div class="layui-col-md8">
+                                    <div id="main" style="width: 800px; height: 600px"></div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <table id="demo" lay-filter="test"></table>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部固定区域 -->
+        <div class="layui-footer">
+            ©2021 油田智云服务系统
+        </div>
+        
+    </div>
+    <script src="/static/echarts.min.js"></script>
+    <script src="/static/echarts-wordcloud.min.js"></script>
+    <script src="/static/wordcloud.js"></script>
+    <script src="https://www.layuicdn.com/layui/layui.js"></script>
+    <script src="/static/country.js"></script>
+    <script>
+        layui.use('table', function () {
+            var table = layui.table;
+
+            //第一个实例
+            table.render({
+                elem: '#demo'
+                , height: 520
+                , url: '/static/wordcloud.json' //数据接口
+                , cols: [[ //表头
+                    { field: 'name', title: '关键词', width: 145, sort: true, fixed: 'left' }
+                    , { field: 'value', title: '频次', width: 145 ,sort: true}
+                ]]
+            });
+        });
+
+
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+            console.log(Math.floor(Math.random() * 21))
+
+        });
+
+    </script>
+
+    <style>
+        html {
+            background-color: #f2f2f2;
+            color: #666;
+        }
+
+        .layui-layout-admin .layui-body {
+            position: fixed;
+            top: 80px;
+            bottom: 44px;
+        }
+
+        .layuiadmin-card-list p.layuiadmin-big-font {
+            font-size: 36px;
+            color: #666;
+            line-height: 36px;
+            padding: 5px 0 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            white-space: nowrap;
+        }
+
+        .layui-col-sm6.layui-col-md3.width75 {
+            width: 75%;
+        }
+
+        .layui-card-header.layuiadmin-card-header-auto {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            height: auto;
+        }
+    </style>
+</body>
+
+</html>
