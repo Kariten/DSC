@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from flask import Flask, url_for
 from flask import render_template, request, redirect, session
 
@@ -9,18 +8,17 @@ from util.result import ApiResult
 from util.page import getPage
 from util.lda import getidbyinfo
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_mapping(
-        SECRETE_KEY = 'dev',
-        DATABASE = os.path.join(app.instance_path, 'classification.sqlite')
+        SECRETE_KEY='dev',
+        DATABASE=os.path.join(app.instance_path, 'classification.sqlite')
     )
     # existing code omitted
 
     from . import db
     db.init_app(app)
-
-    
 
     @app.route('/')
     @app.route('/login', methods=['GET', 'POST'])
@@ -32,17 +30,14 @@ def create_app():
                 session['user'] = request.form.get('username')
                 return redirect('/')
 
-
     @app.route('/index')
     @app.route('/manage')
     def manage():
         return render_template('/manage.html')
 
-
     @app.route('/add')
     def add():
         return render_template('add.html')
-
 
     @app.route('/classify', methods=['GET', 'POST'])
     def classify():
@@ -56,7 +51,6 @@ def create_app():
         else:
             return render_template('classify.html')
 
-
     @app.route('/selectdatabytag')
     def selectDatabyTag():
         tag = request.args.get("tag")
@@ -65,7 +59,8 @@ def create_app():
         with open("public/static/service.json", "r", encoding="utf-8") as isfile:
             f_json = json.loads(isfile.read())
             if tag is None or tag == '':
-                return ApiResult({"count": len(f_json['data']), "data": getPage(f_json['data'], page, limit)}).success("请求成功")
+                return ApiResult({"count": len(f_json['data']), "data": getPage(f_json['data'], page, limit)}).success(
+                    "请求成功")
             res = []
             for data in f_json['data']:
                 if data['type'] == tag:
@@ -80,7 +75,8 @@ def create_app():
         with open("public/static/service.json", "r", encoding="utf-8") as isfile:
             f_json = json.loads(isfile.read())
             if info is None or info == '':
-                return ApiResult({"count": len(f_json['data']), "data": getPage(f_json['data'], page, limit)}).success("请求成功")
+                return ApiResult({"count": len(f_json['data']), "data": getPage(f_json['data'], page, limit)}).success(
+                    "请求成功")
             res = []
             resultlist = getidbyinfo(info)
             for data in f_json['data']:
@@ -92,17 +88,14 @@ def create_app():
     def classification():
         return render_template('classification.html')
 
-
     @app.route('/myinfo')
     def myinfo():
         return render_template('myinfo.html')
-
 
     with app.test_request_context():
         print(url_for('manage'))
         print(url_for('login'))
         print(url_for('static', filename='login.css'))
         # print(url_for('check'))
-
 
     return app

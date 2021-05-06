@@ -141,21 +141,6 @@
     </script>
     <script>
         window.onload = function () {
-
-
-            layui.use(['form', 'upload'], function () {  //如果只加载一个模块，可以不填数组。如：layui.use('form')
-                var form = layui.form //获取form模块
-                    , upload = layui.upload; //获取upload模块
-
-
-                for (var i = 0; i < country.length; i++) {
-                    $("#country-select").append("<option value='" + country[i][0] + "' style='font-weight: bold;'>" + country[i][1] + "</option>");
-
-                }
-
-                form.render('select')
-            });
-
             layui.use('table', function () {
                 var table = layui.table;
 
@@ -198,6 +183,7 @@
                         curr: 1 //重新从第 1 页开始
                     }
                 });
+                return false;
             });
             table.on('tool(test)', function (obj) {
                 var data = obj.data;
