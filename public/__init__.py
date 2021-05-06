@@ -7,6 +7,7 @@ import os
 import json
 from util.result import ApiResult
 from util.page import getPage
+from util.lda import getidbyinfo
 
 def create_app():
     app = Flask(__name__)
@@ -71,6 +72,21 @@ def create_app():
                     res.append(data)
         return ApiResult({"count": len(res), "data": getPage(res, page, limit)}).success("请求成功")
 
+    @app.route('/selectdatabyinfo')
+    def selectDatabyInfo():
+        info = request.args.get("info")
+        page = request.args.get("page")
+        limit = request.args.get("limit")
+        with open("public/static/service.json", "r", encoding="utf-8") as isfile:
+            f_json = json.loads(isfile.read())
+            if info is None or info == '':
+                return ApiResult({"count": len(f_json['data']), "data": getPage(f_json['data'], page, limit)}).success("请求成功")
+            res = []
+            resultlist = getidbyinfo(info)
+            for data in f_json['data']:
+                if data['id'] in resultlist:
+                    res.append(data)
+        return ApiResult({"count": len(res), "data": getPage(res, page, limit)}).success("请求成功")
 
     @app.route('/classification')
     def classification():

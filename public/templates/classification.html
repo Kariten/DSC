@@ -111,18 +111,18 @@
                                 </div>
                             </div>
                             -->
-                            <div class="layui-inline">
-                                <label class="layui-form-label">个性标签</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="content" placeholder="请输入标签" autocomplete="off"
-                                        class="layui-input">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">个性标签</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="info" placeholder="请输入标签" autocomplete="off" class="layui-input">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="layui-inline">
-                                <button class="layui-btn layuiadmin-btn-comm" data-type="reload" lay-submit=""
-                                    lay-filter="LAY-app-contcomm-search">
-                                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
-                                </button>
+                                <div class="layui-inline">
+                                    <button class="layui-btn layuiadmin-btn-comm" data-type="reload" lay-submit="" lay-filter="search">
+                                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                    </button>
+                                </div>
                             </div>
                         </form>
                         <table id="demo" lay-filter="test"></table>
@@ -136,9 +136,9 @@
             ©2021 油田智云服务系统
         </div>
     </div>
-    <script src="https://www.layuicdn.com/layui/layui.js"></script>
-    <script src="./country.js"></script>
-    <script src="js/jquery.min.js"></script>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="jump">点击进入</a>
+    </script>
     <script>
         window.onload = function () {
 
@@ -162,23 +162,49 @@
                 //第一个实例
                 table.render({
                     elem: '#demo', 
-                    height: 460, 
-                    url: '/static/service.json', //数据接口
-                    page: false,  //开启分页
+                    height: 414, 
+                    //url: '/static/service.json', //数据接口
+                    url: '../selectdatabyinfo',
+                    parseData: function (res) { //res 即为原始返回的数据
+                        return {
+                            "code": res.code, //解析接口状态
+                            "msg": res.msg, //解析提示文本
+                            "count": res.data.count, //解析数据长度
+                            "data": res.data.data //解析数据列表
+                        }
+                    },
+                    page: true,  //开启分页
                     cols: [[ //表头
                         { field: 'name', title: '服务名称', width: 250, sort: true, fixed: 'left' }, 
                         { field: 'type', title: '主类别', width: 140, sort: true }, 
-                        { field: 'info', title: '简介', width: 650}, 
-                        { field: 'entrance', title: '入口', width: 150 }
+                        { field: 'info', title: '简介', width: 712}, 
+                        { field: 'entrance', title: '入口', toolbar: '#barDemo', width: 90 }
                     ]]
                 });
             });
         }
 
         //JavaScript代码区域
-        layui.use('element', function () {
-            var element = layui.element;
-
+        layui.use(['element','form','table'], function () {
+            const element = layui.element;
+            const form = layui.form;
+            const table = layui.table;
+            form.on('submit(search)', function(data){
+                table.reload('demo', {
+                    where: {
+                        info:data.field
+                    } //设定异步数据接口的额外参数
+                    ,page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                });
+            });
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'jump') {
+                    window.location.href="http://"+data.entrance
+                }
+            });
         });
 
 
