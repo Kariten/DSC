@@ -115,11 +115,11 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">个性标签</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" name="info" placeholder="请输入标签" autocomplete="off" class="layui-input">
+                                        <input id="search_text" type="text" name="info" placeholder="请输入标签" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-inline">
-                                    <button class="layui-btn layuiadmin-btn-comm" data-type="reload" lay-submit="" lay-filter="search">
+                                    <button class="layui-btn layuiadmin-btn-comm" data-type="reload" type="button" id="submit">
                                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                                     </button>
                                 </div>
@@ -174,18 +174,20 @@
             const element = layui.element;
             const form = layui.form;
             const table = layui.table;
-            form.on('submit(search)', function(data){
+            const $ = layui.$
+
+            $("#submit").click(function(){
+                const search_text = $("#search_text")[0].value;
                 table.reload('demo', {
                     where: {
-                        info:data.field
+                        info:search_text
                     } //设定异步数据接口的额外参数
                     ,page: {
                         curr: 1 //重新从第 1 页开始
                     }
                 });
-                return false;
-                table.reload('demo', {where: {info:data.field},page: {curr: 1}});
-            });
+            })
+
             table.on('tool(test)', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'jump') {
