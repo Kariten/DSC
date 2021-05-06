@@ -27,7 +27,7 @@ def getidbyinfo( info ):
     '''
 
     # 分词过滤条件
-    jieba.add_word('四强', 9, 'n')
+    # jieba.add_word('四强', 9, 'n')
     flags = ('n', 'nr', 'ns', 'nt', 'eng', 'v', 'd')  # 词性
     stopwords = ('数据', '提供', '应用', '技术', '支持', '集成', '中国', '业务', '适用', '使用',
                 '简称', '开发', '实现', '数据库', '需求', '平台')  # 停词
@@ -56,16 +56,18 @@ def getidbyinfo( info ):
     i = 0
     resultlist = []
     if x == 5:
-        return resultlist
-    for line in lda.inference(corpus)[0]:
-        if line[x]>1:
-            print (i,':',line)
+        for i in range(len(texts)-1):
             resultlist.append(i)
-        i += 1
-    print(lda.inference(corpus)[0][-1])
-    # print(type(lda.inference(corpus)))
+    else:
+        for line in lda.inference(corpus)[0]:
+            if line[x]>1:
+                print (i,':',line)
+                resultlist.append(i)
+            i += 1
+        print(lda.inference(corpus)[0][-1])
+        # print(type(lda.inference(corpus)))
 
     return resultlist
 
 if __name__ == "__main__":
-    print(getidbyinfo("大数据 数据库 云计算"))
+    print(getidbyinfo("大数据"))
