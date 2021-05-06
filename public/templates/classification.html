@@ -184,6 +184,7 @@
                     }
                 });
                 return false;
+                table.reload('demo', {where: {info:data.field},page: {curr: 1}});
             });
             table.on('tool(test)', function (obj) {
                 var data = obj.data;

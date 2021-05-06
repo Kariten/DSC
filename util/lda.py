@@ -5,7 +5,7 @@ import re
 
 def getidbyinfo( info ):
 
-    with open("../public/static/service.json",'r',encoding='utf-8') as load_f:
+    with open("public/static/service.json",'r',encoding='utf-8') as load_f:
         load_dict = json.load(load_f)
         print(load_dict)
     load_dict['smallberg'] = [8200,{1:[['Python',81],['shirt',300]]}]
@@ -46,7 +46,7 @@ def getidbyinfo( info ):
     for topic in lda.print_topics(num_words=5):
         print(topic)
     # 主题推断
-    # print(lda.inference(corpus)[0])
+    print(lda.inference(corpus)[0])
     x = 0
     for value in lda.inference(corpus)[0][-1]:
         if value < 1 :
@@ -55,6 +55,8 @@ def getidbyinfo( info ):
             break
     i = 0
     resultlist = []
+    if x == 5:
+        return resultlist
     for line in lda.inference(corpus)[0]:
         if line[x]>1:
             print (i,':',line)
@@ -64,3 +66,6 @@ def getidbyinfo( info ):
     # print(type(lda.inference(corpus)))
 
     return resultlist
+
+if __name__ == "__main__":
+    print(getidbyinfo("大数据 数据库 云计算"))
