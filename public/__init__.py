@@ -11,9 +11,11 @@ from util.lda import getidbyinfo
 
 def create_app():
     app = Flask(__name__)
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(BASE_DIR, "classification.db")
     app.config.from_mapping(
-        SECRETE_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'classification.sqlite')
+        SECRETE_KEY='123456',
+        DATABASE=db_path
     )
     # existing code omitted
 
@@ -91,11 +93,12 @@ def create_app():
     @app.route('/myinfo')
     def myinfo():
         return render_template('myinfo.html')
-
+    '''
     with app.test_request_context():
         print(url_for('manage'))
         print(url_for('login'))
         print(url_for('static', filename='login.css'))
         # print(url_for('check'))
-
+        print(app.instance_path)
+    '''
     return app

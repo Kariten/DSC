@@ -4,7 +4,6 @@ import json
 import re
 
 def getidbyinfo( info ):
-
     with open("public/static/service.json",'r',encoding='utf-8') as load_f:
         load_dict = json.load(load_f)
         print(load_dict)
@@ -70,4 +69,4 @@ def getidbyinfo( info ):
     return resultlist
 
 if __name__ == "__main__":
-    print(getidbyinfo("大数据"))
+    print(getidbyinfo("大数据 云计算 服务器"))
