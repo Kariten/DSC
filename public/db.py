@@ -122,8 +122,67 @@ def resetUser():
         conn.commit()
     conn.close()
 
+def resetFreq():
+    conn = getdb()
+    c = conn.cursor()
+    c.execute("DROP TABLE IF EXISTS Frequency")
+    conn.commit()
+    c.execute('''
+    CREATE TABLE Frequency(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userid INTEGER NOT NULL,
+        servid INTEGER NOT NULL,
+        optime INTEGER NOT NULL DEFAULT 0
+    );
+    ''')
+    freqs = [
+        {
+            'id':0,
+            'userid':0,
+            'servid':3,
+            'optime':5
+        },
+        {
+            'id':1,
+            'userid':0,
+            'servid':15,
+            'optime':4
+        },
+        {
+            'id':2,
+            'userid':0,
+            'servid':28,
+            'optime':3
+        },
+        {
+            'id':3,
+            'userid':1,
+            'servid':31,
+            'optime':5
+        },
+        {
+            'id':4,
+            'userid':1,
+            'servid':33,
+            'optime':4
+        },
+        {
+            'id':5,
+            'userid':1,
+            'servid':23,
+            'optime':3
+        }
+    ]
+    for freq in freqs:
+        query = 'INSERT INTO Frequency VALUES ({id},{userid},{servid},{optime})'.format(**freq)
+        print(query)
+        c.execute(query)
+        conn.commit()
+    conn.close()
+
 if __name__ == "__main__":
 
-    if sys.argv == 'reset':
+    if sys.argv[1] == 'reset':
         resetServ()
         resetUser()
+        resetFreq()
