@@ -58,33 +58,71 @@ def create_app():
         tag = request.args.get("tag")
         page = request.args.get("page")
         limit = request.args.get("limit")
+        res = [] # 结果服务字典列表
+        # json源
+        '''
         with open("public/static/service.json", "r", encoding="utf-8") as isfile:
             f_json = json.loads(isfile.read())
             if tag is None or tag == '':
                 return ApiResult({"count": len(f_json['data']), "data": getPage(f_json['data'], page, limit)}).success(
                     "请求成功")
-            res = []
             for data in f_json['data']:
                 if data['type'] == tag:
                     res.append(data)
+        '''
+        # db源
+        conn = db.get_db()
+        c = conn.cursor()
+        query = "SELECT * FROM Serv"
+        servs = c.execute(query).fetchall()
+        for serv in servs:
+            if tag is None or tag == '' or serv[2] == tag:
+                res.append({
+                    "id": serv[0],
+                    "name": serv[1],
+                    "type": serv[2],
+                    "info": serv[3],
+                    "entrance": serv[4]
+                })
+
         return ApiResult({"count": len(res), "data": getPage(res, page, limit)}).success("请求成功")
+        
 
     @app.route('/selectdatabyinfo')
     def selectDatabyInfo():
         info = request.args.get("info")
         page = request.args.get("page")
         limit = request.args.get("limit")
+        resultlist = getidbyinfo(info)
+        res = []
+        '''
+        # json源
         with open("public/static/service.json", "r", encoding="utf-8") as isfile:
             f_json = json.loads(isfile.read())
             if info is None or info == '':
                 return ApiResult({"count": len(f_json['data']), "data": getPage(f_json['data'], page, limit)}).success(
                     "请求成功")
-            res = []
-            resultlist = getidbyinfo(info)
             for data in f_json['data']:
                 if data['id'] in resultlist:
                     res.append(data)
+        '''
+        # db源
+        conn = db.get_db()
+        c = conn.cursor()
+        query = "SELECT * FROM Serv"
+        servs = c.execute(query).fetchall()
+        for serv in servs:
+            if info is None or info == '' or serv[0] in resultlist:
+                res.append({
+                    "id": serv[0],
+                    "name": serv[1],
+                    "type": serv[2],
+                    "info": serv[3],
+                    "entrance": serv[4]
+                })
+
         return ApiResult({"count": len(res), "data": getPage(res, page, limit)}).success("请求成功")
+
 
     @app.route('/classification')
     def classification():
@@ -94,6 +132,7 @@ def create_app():
     def myinfo():
         return render_template('myinfo.html')
     '''
+    # 测试输出
     with app.test_request_context():
         print(url_for('manage'))
         print(url_for('login'))

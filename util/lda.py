@@ -2,28 +2,59 @@ from gensim import corpora, models
 import jieba.posseg as jp, jieba
 import json
 import re
+import sqlite3
 
-def getidbyinfo( info ):
+def getdb():
+    conn = sqlite3.connect('public/classification.db',detect_types=sqlite3.PARSE_DECLTYPES)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def getidbyinfo(info, uid=0):
+
+    # 个人简介
+    myinfo = info
+    # 文本集
+    texts = []
+    # 结果服务id列表
+    resultlist = []
+
+    # 服务简介
+    r'''
+    # json源
     with open("public/static/service.json",'r',encoding='utf-8') as load_f:
         load_dict = json.load(load_f)
         print(load_dict)
     load_dict['smallberg'] = [8200,{1:[['Python',81],['shirt',300]]}]
     # print(load_dict)
     # print(type(load_dict['data'][0]))
-
-    # 个人简介
-    myinfo = info
-
-    # 文本集
-    texts = []
     for serv in load_dict['data']:
         text = re.sub(r"\?|？|。|、|，|（|）|/|；| |-|\+|\n|[0-9]|[a-z]|[A-Z]|\.|%", "", serv['info'], 0) 
         texts.append(text)
-    texts.append(myinfo)
     '''
+    # db源
+    conn = getdb()
+    c = conn.cursor()
+    # 获取用户常用服务
+    query = "SELECT servid FROM Frequency WHERE userid={}".format(uid)
+    servs = c.execute(query).fetchall()
+    for serv in servs:
+        resultlist.append(serv[0])
+    # 获取动态分类服务
+    query = "SELECT * FROM Serv"
+    servs = c.execute(query).fetchall()
+    for serv in servs:
+        text = re.sub(r"(|)|\?|？|。|、|，|（|）|/|；| |-|\+|\n|[0-9]|[a-z]|[A-Z]|\.|%", "", serv[3], 0) 
+        texts.append(text)
+    conn.close()
+
+    if info is None or info == '':
+        return range(0,len(servs)-1)
+
+    texts.append(myinfo)
+    
     for info in texts:
         print(info)
-    '''
+    
 
     # 分词过滤条件
     # jieba.add_word('四强', 9, 'n')
@@ -41,11 +72,11 @@ def getidbyinfo( info ):
     corpus = [dictionary.doc2bow(words) for words in words_ls]
     # lda模型，num_topics设置主题的个数
     lda = models.ldamodel.LdaModel(corpus=corpus, id2word=dictionary, num_topics=5)
-    # 打印所有主题，每个主题显示5个词
-    for topic in lda.print_topics(num_words=5):
+    # 打印所有主题，每个主题显示4个词
+    for topic in lda.print_topics(num_words=4):
         print(topic)
     # 主题推断
-    print(lda.inference(corpus)[0])
+    # print(lda.inference(corpus)[0])
     x = 0
     for value in lda.inference(corpus)[0][-1]:
         if value < 1 :
@@ -53,17 +84,19 @@ def getidbyinfo( info ):
         else:
             break
     i = 0
-    resultlist = []
+    
     if x == 5:
         for i in range(len(texts)-1):
             resultlist.append(i)
     else:
         for line in lda.inference(corpus)[0]:
             if line[x]>1:
+                # 显示与用户同类的服务
                 print (i,':',line)
-                resultlist.append(i)
+                if i not in resultlist:
+                    resultlist.append(i)
             i += 1
-        print(lda.inference(corpus)[0][-1])
+        # print(lda.inference(corpus)[0][-1])
         # print(type(lda.inference(corpus)))
 
     return resultlist
