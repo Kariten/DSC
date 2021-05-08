@@ -37,8 +37,19 @@ def create_app():
     def manage():
         return render_template('/manage.html')
 
-    @app.route('/add')
+    @app.route('/add', methods=['GET', 'POST'])
     def add():
+        # not finished yet
+        if request.method == 'POST':
+            servname = request.form.get('servname')
+            servtype = request.form.get('servtype')
+            servinfo = request.form.get('servinfo')
+            serventrance = request.form.get('serventrance')
+            conn = db.get_db()
+            c = conn.cursor()
+            query = "INSERT INTO Serv (servname, servtype, servinfo, serventrance) VALUES ('{}','{}','{}','{}')".format(servname, servtype, servinfo, serventrance)
+            c.execute(query)
+            conn.commit()
         return render_template('add.html')
 
     @app.route('/classify', methods=['GET', 'POST'])

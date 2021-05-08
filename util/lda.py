@@ -48,7 +48,7 @@ def getidbyinfo(info, uid=0):
     conn.close()
 
     if info is None or info == '':
-        return range(0,len(servs)-1)
+        return range(0,len(servs))
 
     texts.append(myinfo)
     

@@ -116,28 +116,14 @@
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">服务类型</label>
-                                <div class="layui-input-block">
-                                    <input type="checkbox" name="like[write]" title="计算资源">
-                                    <div class="layui-unselect layui-form-checkbox"><span>计算资源</span><i
-                                            class="layui-icon layui-icon-ok"></i></div>
-                                    <input type="checkbox" name="like[read]" title="存储">
-                                    <div class="layui-unselect layui-form-checkbox layui-form-checked"><span>存储</span><i
-                                            class="layui-icon layui-icon-ok"></i></div>
-                                    <input type="checkbox" name="like[game]" title="中间件">
-                                    <div class="layui-unselect layui-form-checkbox"><span>中间件</span><i
-                                            class="layui-icon layui-icon-ok"></i></div>
-                                    <input type="checkbox" name="like[write]" title="数据库">
-                                    <div class="layui-unselect layui-form-checkbox"><span>数据库</span><i
-                                            class="layui-icon layui-icon-ok"></i></div>
-                                    <input type="checkbox" name="like[read]" title="应用">
-                                    <div class="layui-unselect layui-form-checkbox layui-form-checked"><span>应用</span><i
-                                            class="layui-icon layui-icon-ok"></i></div>
-                                    <input type="checkbox" name="like[game]" title="大数据">
-                                    <div class="layui-unselect layui-form-checkbox"><span>大数据</span><i
-                                            class="layui-icon layui-icon-ok"></i></div>
-                                    <input type="checkbox" name="like[write]" title="安全">
-                                    <div class="layui-unselect layui-form-checkbox"><span>安全</span><i
-                                            class="layui-icon layui-icon-ok"></i></div>
+                                <div class="layui-input-block" >
+                                    <input type="radio" lay-filter="select" name="type" value="计算资源" onclick="select(this);" title="计算资源" checked>
+                                    <input type="radio" lay-filter="select" name="type" value="存储" onclick="select(this);" title="存储">
+                                    <input type="radio" lay-filter="select" name="type" value="中间件" onclick="select(this);" title="中间件">
+                                    <input type="radio" lay-filter="select" name="type" value="数据库" onclick="select(this);" title="数据库">
+                                    <input type="radio" lay-filter="select" name="type" value="应用" onclick="select(this);" title="应用">
+                                    <input type="radio" lay-filter="select" name="type" value="大数据" onclick="select(this);" title="大数据">
+                                    <input type="radio" lay-filter="select" name="type" value="安全" onclick="select(this);" title="安全">
                                 </div>
                             </div>
                             <div class="layui-form-item layui-form-text">
