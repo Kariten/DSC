@@ -41,15 +41,17 @@ def create_app():
     def add():
         # not finished yet
         if request.method == 'POST':
-            servname = request.form.get('servname')
-            servtype = request.form.get('servtype')
-            servinfo = request.form.get('servinfo')
-            serventrance = request.form.get('serventrance')
+            servname = request.json.get('servname')
+            servtype = request.json.get('type')
+            servinfo = request.json.get('info')
+            serventrance = request.json.get('serventrance')
+            print(servname, servtype, servinfo, serventrance)
             conn = db.get_db()
             c = conn.cursor()
             query = "INSERT INTO Serv (servname, servtype, servinfo, serventrance) VALUES ('{}','{}','{}','{}')".format(servname, servtype, servinfo, serventrance)
             c.execute(query)
             conn.commit()
+            conn.close()
         return render_template('add.html')
 
     @app.route('/classify', methods=['GET', 'POST'])
@@ -95,7 +97,7 @@ def create_app():
                     "info": serv[3],
                     "entrance": serv[4]
                 })
-
+        conn.close()
         return ApiResult({"count": len(res), "data": getPage(res, page, limit)}).success("请求成功")
         
 
@@ -131,7 +133,7 @@ def create_app():
                     "info": serv[3],
                     "entrance": serv[4]
                 })
-
+        conn.close()
         return ApiResult({"count": len(res), "data": getPage(res, page, limit)}).success("请求成功")
 
 

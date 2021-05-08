@@ -103,14 +103,14 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">服务名称</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                    <input type="text" name="servname" lay-verify="title" autocomplete="off"
                                         placeholder="请输入服务名称" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">服务地址</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="username" lay-verify="required" placeholder="请输入服务入口"
+                                    <input type="text" name="serventrance" lay-verify="required" placeholder="请输入服务入口"
                                         autocomplete="off" class="layui-input">
                                 </div>
                             </div>
@@ -129,154 +129,12 @@
                             <div class="layui-form-item layui-form-text">
                                 <label class="layui-form-label">服务简介</label>
                                 <div class="layui-input-block">
-                                  <textarea placeholder="请输入一段简介" class="layui-textarea"></textarea>
+                                  <textarea placeholder="请输入一段简介" name="info" class="layui-textarea"></textarea>
                                 </div>
                             </div>
-                            <!--
-                            <div class="layui-form-item">
-                                <div class="layui-inline">
-                                    <label class="layui-form-label">专利人所在国家</label>
-                                    <div class="layui-input-inline">
-                                        <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off"
-                                            class="layui-input">
-                                    </div>
-                                </div>
-                                <div class="layui-inline">
-                                    <label class="layui-form-label">申请人</label>
-                                    <div class="layui-input-inline">
-                                        <input type="text" name="email" lay-verify="email" autocomplete="off"
-                                            class="layui-input">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item">
-                                <div class="layui-inline">
-                                    <label class="layui-form-label">Family ID</label>
-                                    <div class="layui-input-inline">
-                                        <input type="text" name="number" lay-verify="required|number" autocomplete="off"
-                                            class="layui-input">
-                                    </div>
-                                </div>
-                                <div class="layui-inline">
-                                    <label class="layui-form-label">申请日期</label>
-                                    <div class="layui-input-inline">
-                                        <input type="text" name="date" id="LAY-component-form-group-date"
-                                            lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off"
-                                            class="layui-input" lay-key="1">
-                                    </div>
-                                </div>
-                               
-                            </div>
-
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">Abstract</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="identity" lay-verify="identity" placeholder=""
-                                        autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">引文</label>
-                                <div class="layui-input-inline">
-                                    <input type="password" name="password" lay-verify="pass" placeholder=""
-                                        autocomplete="off" class="layui-input">
-                                </div>
-                                <div class="layui-form-mid layui-word-aux"></div>
-                            </div>
-                            -->
-                            
-                            <!--
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">专利类别</label>
-                                <div class="layui-input-block">
-                                    <select name="interest" lay-filter="aihao">
-                                        <option value=""></option>
-                                        <option value="0" selected=''>请选择</option>
-                                        <option value="1" >阅读</option>
-                                        <option value="2">游戏</option>
-                                        <option value="3">音乐</option>
-                                        <option value="4">旅行</option>
-                                    </select>
-                                    <div class="layui-unselect layui-form-select">
-                                        <div class="layui-select-title"><input type="text" placeholder="请选择" value="阅读"
-                                                readonly="" class="layui-input layui-unselect"><i
-                                                class="layui-edge"></i></div>
-                                        <dl class="layui-anim layui-anim-upbit">
-                                            <dd lay-value="" class="layui-select-tips">请选择</dd>
-                                            <dd lay-value="0" class="">写作</dd>
-                                            <dd lay-value="1" class="layui-this">阅读</dd>
-                                            <dd lay-value="2" class="">游戏</dd>
-                                            <dd lay-value="3" class="">音乐</dd>
-                                            <dd lay-value="4" class="">旅行</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            
-                            <div class="layui-form-item" pane="">
-                                <label class="layui-form-label">原始复选框</label>
-                                <div class="layui-input-block">
-                                    <input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked="">
-                                    <div class="layui-unselect layui-form-checkbox layui-form-checked"
-                                        lay-skin="primary"><span>写作</span><i class="layui-icon layui-icon-ok"></i></div>
-                                    <input type="checkbox" name="like1[read]" lay-skin="primary" title="阅读">
-                                    <div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>阅读</span><i
-                                            class="layui-icon layui-icon-ok"></i></div>
-                                    <input type="checkbox" name="like1[game]" lay-skin="primary" title="游戏" disabled="">
-                                    <div class="layui-unselect layui-form-checkbox layui-checkbox-disbaled layui-disabled"
-                                        lay-skin="primary"><span>游戏</span><i class="layui-icon layui-icon-ok"></i></div>
-                                </div>
-                            </div>
-                            
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">开关-默认关</label>
-                                <div class="layui-input-block">
-                                    <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
-                                    <div class="layui-unselect layui-form-switch" lay-skin="_switch"><em>OFF</em><i></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">开关-默认开</label>
-                                <div class="layui-input-block">
-                                    <input type="checkbox" checked="" name="open" lay-skin="switch"
-                                        lay-filter="component-form-switchTest" lay-text="ON|OFF">
-                                    <div class="layui-unselect layui-form-switch layui-form-onswitch"
-                                        lay-skin="_switch"><em>ON</em><i></i></div>
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">单选框</label>
-                                <div class="layui-input-block">
-                                    <input type="radio" name="sex" value="男" title="男" checked="">
-                                    <div class="layui-unselect layui-form-radio layui-form-radioed"><i
-                                            class="layui-anim layui-icon"></i>
-                                        <div>男</div>
-                                    </div>
-                                    <input type="radio" name="sex" value="女" title="女">
-                                    <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i>
-                                        <div>女</div>
-                                    </div>
-                                    <input type="radio" name="sex" value="禁" title="禁用" disabled="">
-                                    <div class="layui-unselect layui-form-radio layui-radio-disbaled layui-disabled"><i
-                                            class="layui-anim layui-icon"></i>
-                                        <div>禁用</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layui-form-item layui-form-text">
-                                <label class="layui-form-label">普通文本域</label>
-                                <div class="layui-input-block">
-                                    <textarea name="text" placeholder="请输入内容" class="layui-textarea"></textarea>
-                                </div>
-                            </div>
-                            -->
                             <div class="layui-form-item">
                                 <div class="layui-input-block">
-                                    <button class="layui-btn" lay-submit=""
-                                        lay-filter="component-form-demo1">立即提交</button>
+                                    <button class="layui-btn" lay-submit lay-filter="component-form-demo1">立即提交</button>
                                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                                 </div>
                             </div>
@@ -295,45 +153,37 @@
             ©2021 油田智云服务系统
         </div>
     </div>
-    <script src="https://www.layuicdn.com/layui/layui.js"></script>
-    <script src="./country.js"></script>
-    <script src="js/jquery.min.js"></script>
+    <!--
+        <script src="https://www.layuicdn.com/layui/layui.js"></script>
+        <script src="./country.js"></script>
+    -->
+    <script src="static/jquery.min.js"></script>
     <script>
         window.onload = function () {
-
 
             layui.use(['form', 'upload'], function () {  //如果只加载一个模块，可以不填数组。如：layui.use('form')
                 var form = layui.form //获取form模块
                     , upload = layui.upload; //获取upload模块
 
-
-                for (var i = 0; i < country.length; i++) {
-                    $("#country-select").append("<option value='" + country[i][0] + "' style='font-weight: bold;'>" + country[i][1] + "</option>");
-
-                }
+                    form.on('submit(component-form-demo1)', function(data){
+                        //layer.msg(JSON.stringify(data.field));
+                        $.ajax({
+                            url:'/add',
+                            type:'post',
+                            dataType:'text',
+                            contentType: 'application/json',
+                            data:JSON.stringify(data.field),
+                            success:function(data){
+                                layer.msg("提交成功");
+                            },
+                            error:function () {
+                                layer.msg("提交失败，请重试");
+                            }
+                        })
+                        return false;
+                    });
 
                 form.render('select')
-            });
-
-            layui.use('table', function () {
-                var table = layui.table;
-
-                //第一个实例
-                table.render({
-                    elem: '#demo'
-                    , height: 312
-                    , url: './test.json' //数据接口
-                    , page: true //开启分页
-                    , cols: [[ //表头
-                        { field: 'id', title: 'ID', width: 150, sort: true, fixed: 'left' }
-                        , { field: 'city', title: '申请国家', width: 120 }
-                        , { field: 'name', title: '专利名称', width: 500, sort: true }
-                        , { field: 'amount', title: '引文数目', width: 120 }
-                        , { field: 'app', title: '申请人名称', width: 200 },
-                        { field: 'time', title: '发布时间', width: 120 }
-                    ]]
-                });
-
             });
         }
 
