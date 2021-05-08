@@ -39,8 +39,9 @@ def create_app():
 
     @app.route('/add', methods=['GET', 'POST'])
     def add():
-        # not finished yet
-        if request.method == 'POST':
+        if request.method == 'GET':
+            return render_template('add.html')
+        elif request.method == 'POST':
             servname = request.json.get('servname')
             servtype = request.json.get('type')
             servinfo = request.json.get('info')
@@ -48,11 +49,15 @@ def create_app():
             print(servname, servtype, servinfo, serventrance)
             conn = db.get_db()
             c = conn.cursor()
-            query = "INSERT INTO Serv (servname, servtype, servinfo, serventrance) VALUES ('{}','{}','{}','{}')".format(servname, servtype, servinfo, serventrance)
-            c.execute(query)
-            conn.commit()
-            conn.close()
-        return render_template('add.html')
+            try:
+                query = "INSERT INTO Serv (servname, servtype, servinfo, serventrance) VALUES ('{}','{}','{}','{}')".format(servname, servtype, servinfo, serventrance)
+                c.execute(query)
+                conn.commit()
+                db.close_db()
+                return ApiResult('').success('提交成功')
+            except:
+                db.close_db()
+                return ApiResult('').fault('提交失败')
 
     @app.route('/classify', methods=['GET', 'POST'])
     def classify():
@@ -97,7 +102,7 @@ def create_app():
                     "info": serv[3],
                     "entrance": serv[4]
                 })
-        conn.close()
+        db.close_db()
         return ApiResult({"count": len(res), "data": getPage(res, page, limit)}).success("请求成功")
         
 
@@ -133,7 +138,7 @@ def create_app():
                     "info": serv[3],
                     "entrance": serv[4]
                 })
-        conn.close()
+        db.close_db()
         return ApiResult({"count": len(res), "data": getPage(res, page, limit)}).success("请求成功")
 
 

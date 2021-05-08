@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>油田智云服务系统</title>
     <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css">
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/layui-src@2.6.3-2/dist/layui.js"></script>
 </head>
 
@@ -156,15 +155,17 @@
     <!--
         <script src="https://www.layuicdn.com/layui/layui.js"></script>
         <script src="./country.js"></script>
+        <script src="static/jquery.min.js"></script>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
     -->
-    <script src="static/jquery.min.js"></script>
+    
     <script>
         window.onload = function () {
 
             layui.use(['form', 'upload'], function () {  //如果只加载一个模块，可以不填数组。如：layui.use('form')
                 var form = layui.form //获取form模块
                     , upload = layui.upload; //获取upload模块
-
+                    $ = layui.$
                     form.on('submit(component-form-demo1)', function(data){
                         //layer.msg(JSON.stringify(data.field));
                         $.ajax({
@@ -174,7 +175,14 @@
                             contentType: 'application/json',
                             data:JSON.stringify(data.field),
                             success:function(data){
-                                layer.msg("提交成功");
+                                mydata = JSON.parse(data)
+                                if(mydata.code === "1"){
+                                    layer.msg("提交失败，请重试");
+                                }
+                                else{
+                                    layer.msg("提交成功");
+                                    $("form")[0].reset();
+                                }
                             },
                             error:function () {
                                 layer.msg("提交失败，请重试");
