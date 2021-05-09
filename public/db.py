@@ -5,6 +5,7 @@ import json
 from flask import current_app, g
 from flask.cli import with_appcontext
 
+
 # 为flask提供数据库连接
 def get_db():
     if 'db' not in g:
@@ -16,11 +17,14 @@ def get_db():
 
     return g.db
 
+
 # 为main内代码提供数据库连接
 def getdb():
-    conn = sqlite3.connect('public/classification.db',detect_types=sqlite3.PARSE_DECLTYPES)
+
+    conn = sqlite3.connect('../public/classification.db', detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
     return conn
+
 
 def close_db(e=None):
     db = g.pop('db', None)
@@ -64,10 +68,10 @@ def resetServ():
     )
     ''')
     conn.commit()
-    with open("public/static/service.json",'r',encoding='utf-8') as load_f:
+    with open("public/static/service.json", 'r', encoding='utf-8') as load_f:
         load_dict = json.load(load_f)
         # print(load_dict)
-    load_dict['smallberg'] = [8200,{1:[['Python',81],['shirt',300]]}]
+    load_dict['smallberg'] = [8200, {1: [['Python', 81], ['shirt', 300]]}]
     # print(load_dict)
     # print(type(load_dict['data'][0]))
     for serv in load_dict['data']:
@@ -76,6 +80,7 @@ def resetServ():
         c.execute(query)
         conn.commit()
     conn.close()
+
 
 def showServ():
     conn = getdb()
@@ -87,6 +92,7 @@ def showServ():
             print(item)
         print()
     conn.close()
+
 
 def resetUser():
     conn = getdb()
@@ -103,16 +109,16 @@ def resetUser():
     ''')
     users = [
         {
-            'id':0,
-            'username':"admin",
-            'pwd':"123456",
-            'info':"大数据 云计算 服务器"
+            'id': 0,
+            'username': "admin",
+            'pwd': "123456",
+            'info': "大数据 云计算 服务器"
         },
         {
-            'id':1,
-            'username':"guest",
-            'pwd':"123456",
-            'info':"安全 备份 分布式"
+            'id': 1,
+            'username': "guest",
+            'pwd': "123456",
+            'info': "安全 备份 分布式"
         }
     ]
     for user in users:
@@ -121,6 +127,7 @@ def resetUser():
         c.execute(query)
         conn.commit()
     conn.close()
+
 
 def resetFreq():
     conn = getdb()
@@ -137,40 +144,40 @@ def resetFreq():
     ''')
     freqs = [
         {
-            'id':0,
-            'userid':0,
-            'servid':3,
-            'optime':5
+            'id': 0,
+            'userid': 0,
+            'servid': 3,
+            'optime': 5
         },
         {
-            'id':1,
-            'userid':0,
-            'servid':15,
-            'optime':4
+            'id': 1,
+            'userid': 0,
+            'servid': 15,
+            'optime': 4
         },
         {
-            'id':2,
-            'userid':0,
-            'servid':28,
-            'optime':3
+            'id': 2,
+            'userid': 0,
+            'servid': 28,
+            'optime': 3
         },
         {
-            'id':3,
-            'userid':1,
-            'servid':31,
-            'optime':5
+            'id': 3,
+            'userid': 1,
+            'servid': 31,
+            'optime': 5
         },
         {
-            'id':4,
-            'userid':1,
-            'servid':33,
-            'optime':4
+            'id': 4,
+            'userid': 1,
+            'servid': 33,
+            'optime': 4
         },
         {
-            'id':5,
-            'userid':1,
-            'servid':23,
-            'optime':3
+            'id': 5,
+            'userid': 1,
+            'servid': 23,
+            'optime': 3
         }
     ]
     for freq in freqs:
@@ -180,9 +187,27 @@ def resetFreq():
         conn.commit()
     conn.close()
 
+
+def resetLoginStatus():
+    conn = getdb()
+    c = conn.cursor()
+    c.execute("DROP TABLE IF EXISTS LoginStatus")
+    conn.commit()
+    c.execute('''
+        CREATE TABLE LoginStatus(
+            token INTEGER PRIMARY KEY,
+            userId INTEGER UNIQUE NOT NULL,
+            loginTime DATETIME
+        );
+    ''')
+    conn.commit()
+    conn.close()
+
+
 if __name__ == "__main__":
 
     if sys.argv[1] == 'reset':
-        resetServ()
-        resetUser()
-        resetFreq()
+        # resetServ()
+        # resetUser()
+        # resetFreq()
+        resetLoginStatus()
