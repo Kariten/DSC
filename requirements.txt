@@ -3,3 +3,6 @@ gensim~=4.0.1
 Flask~=1.1.2
 Pillow~=8.2.0
 click~=7.1.2
+requests~=2.22.0
+pycryptodome~=3.10.1
+RSA

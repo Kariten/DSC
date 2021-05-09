@@ -195,7 +195,7 @@ def resetLoginStatus():
     conn.commit()
     c.execute('''
         CREATE TABLE LoginStatus(
-            token INTEGER PRIMARY KEY,
+            token TEXT PRIMARY KEY,
             userId INTEGER UNIQUE NOT NULL,
             loginTime DATETIME
         );
@@ -208,6 +208,6 @@ if __name__ == "__main__":
 
     if sys.argv[1] == 'reset':
         # resetServ()
-        # resetUser()
+        resetUser()
         # resetFreq()
-        resetLoginStatus()
+        # resetLoginStatus()

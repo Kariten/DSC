@@ -5,9 +5,6 @@ class ApiResult:
     def __init__(self, data):
         self.data = data
 
-    def __init__(self):
-        self.data = None
-
     def success(self, msg):
         return jsonify({'code': '0', 'msg': msg, 'data': self.data})
 

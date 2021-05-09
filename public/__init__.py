@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
+import requests
 from flask import Flask, url_for, abort
 from flask import render_template, request, redirect, session
 
 import os
 import json
 
-from public.user import checkedToken
+from public.user import checkedToken, userLogin, userLogout
+from util.hash import generate_key
+from util.imageCode import getImgCode
 from util.result import ApiResult
 from util.page import getPage
 from util.lda import getidbyinfo
@@ -20,6 +23,8 @@ def create_app():
         DATABASE=db_path
     )
     # existing code omitted
+
+    app.config["SECRET_KEY"] = 'TPmi4aLWRbyVq8zu9v82dWYW1'
 
     from . import db
     db.init_app(app)
@@ -37,7 +42,7 @@ def create_app():
             return render_template('login.html')
 
         # 未登录允许的url入口
-        login_url = ["/login", "/logout", "/static", "/imgCode"]
+        login_url = ["/login", "/logout", "/static", "/imgCode","/test"]
 
         # 合法的url入口
         allow_url = ["/classify", "/classification", "/myinfo", "/api", "/add", "/manage", "/index"]
@@ -64,13 +69,34 @@ def create_app():
         if request.method == 'GET':
             return render_template('login.html')
         if request.method == 'POST':
-            if request.form.get('username') == '':
-                session['user'] = request.form.get('username')
-                return redirect('/')
+            username = request.json.get('username')
+            password = request.json.get('password')
+            # code = request.json.get("code")
+            # if not code == session['imageCode']:
+            #     return ApiResult('').fault("验证码错误")
+            print(password)
+            token = userLogin(username, password)
 
-    @app.route('/logout',methods=['GET'])
+            if token is None:
+                return ApiResult().fault("登录失败")
+            return ApiResult({"token": token}).success("登录成功")
+
+    @app.route('/api/getpublicKey', methods=["GET"])
+    def getPublickey():
+        privatekey, publickey = generate_key()
+        session['privatekey'] = privatekey
+        print(session['privatekey'])
+        return ApiResult({'publickey': publickey}).success("")
+
+    @app.route('/logout', methods=['GET'])
     def logout():
-        return ApiResult("").success("登出成功")
+        token = request.args.get("token")
+        userLogout(token)
+        return ApiResult('').success("登出成功")
+
+    @app.route('/imgCode')
+    def imgCode():
+        return getImgCode()
 
     @app.route('/index')
     @app.route('/manage')
@@ -188,6 +214,11 @@ def create_app():
     @app.route('/myinfo')
     def myinfo():
         return render_template('myinfo.html')
+
+    @app.route('/test', methods=['GET', 'POST'])
+    def test():
+        print(checkedToken("9aa0eda3d5d06c9"))
+        return '1'
 
     '''
     # 测试输出
