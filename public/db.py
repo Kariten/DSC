@@ -21,7 +21,7 @@ def get_db():
 # 为main内代码提供数据库连接
 def getdb():
 
-    conn = sqlite3.connect('../public/classification.db', detect_types=sqlite3.PARSE_DECLTYPES)
+    conn = sqlite3.connect('public/classification.db', detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -206,8 +206,14 @@ def resetLoginStatus():
 
 if __name__ == "__main__":
 
-    if sys.argv[1] == 'reset':
-        # resetServ()
-        resetUser()
-        # resetFreq()
-        # resetLoginStatus()
+    if len(sys.argv):
+        if sys.argv[1] == 'reset':
+            # resetServ()
+            resetUser()
+            # resetFreq()
+            # resetLoginStatus()
+        elif sys.argv[1] == 'reset_all':
+            resetServ()
+            resetUser()
+            resetFreq()
+            resetLoginStatus()
