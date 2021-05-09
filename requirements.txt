@@ -1,0 +1,5 @@
+jieba~=0.42.1
+gensim~=4.0.1
+Flask~=1.1.2
+Pillow~=8.2.0
+click~=7.1.2
