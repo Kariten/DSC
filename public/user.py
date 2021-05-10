@@ -45,8 +45,7 @@ def getToken():
 
 
 def userLogin(username, password):
-    # password = getHash(rsa_decrypt(session['privatekey'], password).decode())
-
+    password = getHash(rsa_decrypt(session['privatekey'], password).decode()[1:-1])
     conn = db.get_db()
     c = conn.cursor()
     query = "select * from User where username='{}'".format(username)

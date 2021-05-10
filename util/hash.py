@@ -30,7 +30,7 @@ def rsa_decrypt(private_key, message):
     sentinel = Random.new().read(1024 + dsize)
     private_key = RSA.import_key(private_key)
     cipher_rsa = PKCS1_v1_5.new(private_key)
-    return cipher_rsa.decrypt(message, sentinel)
+    return cipher_rsa.decrypt(b64decode(message), sentinel)
 
 
 

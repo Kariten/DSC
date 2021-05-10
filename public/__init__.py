@@ -44,7 +44,7 @@ def create_app():
                 token = session['token']
                 print(token)
             except KeyError:
-                print(error)
+                (error)
         else:
             session['token'] =token
 
@@ -53,7 +53,7 @@ def create_app():
 
         # 未登录允许的url入口
 
-        login_url = ["/register", "/login",  "/static", "/imgCode","/test"]
+        login_url = ["/register", "/login",  "/static", "/imgCode","/test","/getpublicKey"]
 
         # 合法的url入口
         allow_url = ["/logout" , "/classify", "/classification", "/myinfo", "/api", "/add", "/manage", "/index"]
@@ -82,10 +82,10 @@ def create_app():
         if request.method == 'POST':
             username = request.json.get('username')
             password = request.json.get('password')
-            # code = request.json.get("code")
-            # if not code == session['imageCode']:
-            #     return ApiResult('').fault("验证码错误")
-            # print(password)
+            code = request.json.get("code").lower()
+            if not code == session['imageCode'].lower() :
+                return ApiResult('').fault("验证码错误")
+            (password)
             token = userLogin(username, password)
             session['token'] = token
             if token in [0, 101, 102]:
@@ -95,11 +95,11 @@ def create_app():
 
             return ApiResult({"token": token}).success("登录成功")
 
-    @app.route('/api/getpublicKey', methods=["GET"])
+    @app.route('/getpublicKey', methods=["GET"])
     def getPublickey():
         privatekey, publickey = generate_key()
         session['privatekey'] = privatekey
-        print(session['privatekey'])
+        (session['privatekey'])
         return ApiResult({'publickey': publickey}).success("")
 
     @app.route('/logout', methods=['GET'])
@@ -132,7 +132,7 @@ def create_app():
             servtype = request.json.get('type')
             servinfo = request.json.get('info')
             serventrance = request.json.get('serventrance')
-            print(servname, servtype, servinfo, serventrance)
+            (servname, servtype, servinfo, serventrance)
             conn = db.get_db()
             c = conn.cursor()
             try:
@@ -153,7 +153,7 @@ def create_app():
             age = request.form['age']
             retdict = {'name': name, 'age': age}
             retjson = json.dumps(retdict)
-            print(retjson)
+            (retjson)
             return render_template('classify.html', name=name, age=age)
         else:
             return render_template('classify.html')
