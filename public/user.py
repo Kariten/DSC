@@ -12,20 +12,26 @@ def checkedToken(token):
     conn = db.get_db()
     c = conn.cursor()
     try:
-        token = c.execute(query).fetchone()
+        token_data = c.execute(query).fetchone()
     except IOError:
         return False
         conn.close()
-    if token is None:
+    if token_data is None:
         return False
-    db.close_db()
     time_1_struct = datetime.now()
-    time_2_struct = datetime.strptime(token['LoginTime'], "%Y-%m-%d %H:%M:%S")
+    time_2_struct = datetime.strptime(token_data['LoginTime'], "%Y-%m-%d %H:%M:%S")
 
     seconds = (time_1_struct - time_2_struct).seconds
 
     if seconds <= 3600:
         return True
+
+    try:
+        c.execute("delete from LoginStatus where token='{}'".format(token))
+        conn.commit()
+    except IOError:
+        db.close_db()
+    db.close_db()
     return False
 
 
@@ -83,6 +89,14 @@ def userLogin(username, password):
 
 
 def userLogout(token):
+    conn = db.get_db()
+    c = conn.cursor()
+    try:
+        c.execute("delete from LoginStatus where token='{}'".format(token))
+        conn.commit()
+    except IOError:
+        db.close_db()
+    db.close_db()
     return 1
 
 

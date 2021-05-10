@@ -42,7 +42,7 @@ def create_app():
             return render_template('login.html')
 
         # 未登录允许的url入口
-        login_url = ["/login", "/logout", "/static", "/imgCode","/test"]
+        login_url = ["/login", "/logout", "/static", "/imgCode", "/test"]
 
         # 合法的url入口
         allow_url = ["/classify", "/classification", "/myinfo", "/api", "/add", "/manage", "/index"]
@@ -74,11 +74,14 @@ def create_app():
             # code = request.json.get("code")
             # if not code == session['imageCode']:
             #     return ApiResult('').fault("验证码错误")
-            print(password)
+            # print(password)
             token = userLogin(username, password)
 
+            if token in [0, 101, 102]:
+                return ApiResult('').fault("用户名和密码不正确")
             if token is None:
                 return ApiResult().fault("登录失败")
+
             return ApiResult({"token": token}).success("登录成功")
 
     @app.route('/api/getpublicKey', methods=["GET"])
