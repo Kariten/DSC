@@ -42,11 +42,8 @@ def create_app():
             return render_template('login.html')
 
         # 未登录允许的url入口
-<<<<<<< HEAD
-        login_url = ["/login", "/logout", "/static", "/imgCode", "/test"]
-=======
+
         login_url = ["/register", "/login", "/logout", "/static", "/imgCode","/test"]
->>>>>>> 3e884f2fb6d05176167539a5edb6d0451879d2f6
 
         # 合法的url入口
         allow_url = ["/classify", "/classification", "/myinfo", "/api", "/add", "/manage", "/index"]
