@@ -93,6 +93,7 @@ def userLogout(token):
     c = conn.cursor()
     try:
         c.execute("delete from LoginStatus where token='{}'".format(token))
+        print("删除成功")
         conn.commit()
     except IOError:
         db.close_db()

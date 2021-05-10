@@ -38,15 +38,25 @@ def create_app():
     @app.before_request
     def before_login():
         token = request.args.get("token")
+
+        if token is None:
+            try:
+                token = session['token']
+                print(token)
+            except KeyError:
+                print(error)
+        else:
+            session['token'] =token
+
         if request.path == "/":
             return render_template('login.html')
 
         # 未登录允许的url入口
 
-        login_url = ["/register", "/login", "/logout", "/static", "/imgCode","/test"]
+        login_url = ["/register", "/login",  "/static", "/imgCode","/test"]
 
         # 合法的url入口
-        allow_url = ["/classify", "/classification", "/myinfo", "/api", "/add", "/manage", "/index"]
+        allow_url = ["/logout" , "/classify", "/classification", "/myinfo", "/api", "/add", "/manage", "/index"]
 
         for url in login_url:
             if request.path.startswith(url):
@@ -77,7 +87,7 @@ def create_app():
             #     return ApiResult('').fault("验证码错误")
             # print(password)
             token = userLogin(username, password)
-
+            session['token'] = token
             if token in [0, 101, 102]:
                 return ApiResult('').fault("用户名和密码不正确")
             if token is None:
@@ -94,8 +104,9 @@ def create_app():
 
     @app.route('/logout', methods=['GET'])
     def logout():
-        token = request.args.get("token")
+        token = session['token']
         userLogout(token)
+        session.pop('token')
         return ApiResult('').success("登出成功")
 
     @app.route('/imgCode')

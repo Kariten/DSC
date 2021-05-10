@@ -61,6 +61,7 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item"><a href="/login">告辞</a></li>
+                <li class="layui-nav-item"><a id="logout">告辞</a></li>
             </ul>
         </div>
 
@@ -179,10 +180,41 @@
         }
 
         //JavaScript代码区域
-        layui.use(['element','form','table'], function () {
+        layui.use(['element','form','table',"layer"], function () {
             const element = layui.element;
             const form = layui.form;
             const table = layui.table;
+            const Layer = layui.layer;
+
+            document.getElementById('logout').onclick = (e) =>{
+                fetch("../logout").then(res=>{
+                    if (res.ok){
+                        return res.json().then(data => {
+                            if (data.code === "0"){
+                                layer.msg("登出成功,正在跳转,倒计时<span id='confirm'>3</span>");
+                                setTimeout(e=>{
+                                    $("#confirm").text("2");
+                                    setTimeout(e=>{
+                                        $("#confirm").text("1");
+                                        setTimeout(e=>{
+                                            layer.closeAll();
+                                            window.location.href="../login";
+                                        }, 800 )
+                                    }, 800 )
+                                }, 800 )
+                                return 0
+                            }
+                            window.location.href="../login";
+	                        layer.msg(data.msg);
+                        })
+                    }
+                    layer.msg("服务器连接失败");
+                }).catch(function(e) {
+                    console.log("Oops, error");
+                    window.location.href="../login";
+                })
+            }
+
             form.on('radio(select)', function(data){
                 table.reload('demo', {
                     where: {
