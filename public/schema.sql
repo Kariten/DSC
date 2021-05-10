@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Serv;
 DROP TABLE IF EXISTS Frequency;
+DROP TABLE IF EXISTS LoginStatus;
 
 
 CREATE TABLE User(
@@ -25,3 +26,8 @@ CREATE TABLE Frequency(
     optime INTEGER NOT NULL DEFAULT 0
 );
 
+CREATE TABLE LoginStatus(
+    token TEXT PRIMARY KEY,
+    userId INTEGER UNIQUE NOT NULL,
+    loginTime DATETIME
+);

@@ -32,7 +32,7 @@ def create_app():
     @app.errorhandler(404)
     def error(e):
         # return render_template('exception/404.html')
-        return "<h1 stytle='size:200px;'>路径不存在<h1>"
+        return render_template('404.html')
 
     # 拦截器入口
     @app.before_request
@@ -42,7 +42,11 @@ def create_app():
             return render_template('login.html')
 
         # 未登录允许的url入口
+<<<<<<< HEAD
         login_url = ["/login", "/logout", "/static", "/imgCode", "/test"]
+=======
+        login_url = ["/register", "/login", "/logout", "/static", "/imgCode","/test"]
+>>>>>>> 3e884f2fb6d05176167539a5edb6d0451879d2f6
 
         # 合法的url入口
         allow_url = ["/classify", "/classification", "/myinfo", "/api", "/add", "/manage", "/index"]
@@ -100,6 +104,11 @@ def create_app():
     @app.route('/imgCode')
     def imgCode():
         return getImgCode()
+
+    @app.route('/register', methods=['GET', 'POST'])
+    def register():
+        if request.method == 'GET':
+            return render_template('register.html')
 
     @app.route('/index')
     @app.route('/manage')
