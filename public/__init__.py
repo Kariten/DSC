@@ -139,7 +139,6 @@ def create_app():
             servtype = request.json.get('type')
             servinfo = request.json.get('info')
             serventrance = request.json.get('serventrance')
-            (servname, servtype, servinfo, serventrance)
             conn = db.get_db()
             c = conn.cursor()
             try:
@@ -276,9 +275,27 @@ def create_app():
     def userclassification():
         return render_template('userclassification.html')
 
-    @app.route('/myinfo')
+    @app.route('/myinfo', methods=['GET', 'POST'])
     def myinfo():
-        return render_template('myinfo.html')
+        if request.method == 'GET':
+            return render_template('myinfo.html')
+        elif request.method == 'POST':
+            username = request.json.get('username')
+            userinfo = request.json.get('userinfo')
+            uid = request.json.get('uid')
+            print(username, userinfo)
+            conn = db.get_db()
+            c = conn.cursor()
+            try:
+                query = "UPDATE User SET username='{}', info='{}' WHERE id='{}'".format(username, userinfo, uid)
+                c.execute(query)
+                conn.commit()
+                db.close_db()
+                return ApiResult('').success('提交成功')
+            except:
+                db.close_db()
+                return ApiResult('').fault('提交失败')
+
 
     @app.route('/test', methods=['GET', 'POST'])
     def test():

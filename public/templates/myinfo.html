@@ -111,21 +111,21 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">原密码</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="password" lay-verify="required" placeholder="请输入原密码"
+                                    <input type="text" name="password" placeholder="请输入原密码"
                                         autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">新密码</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="newpwd" lay-verify="required" placeholder="请输入新密码"
+                                    <input type="text" name="newpwd" placeholder="请输入新密码"
                                         autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">确认密码</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="confirmpwd" lay-verify="required" placeholder="请重新确认密码"
+                                    <input type="text" name="confirmpwd" placeholder="请重新确认密码"
                                         autocomplete="off" class="layui-input">
                                 </div>
                             </div>
@@ -158,7 +158,7 @@
                             <div class="layui-form-item layui-form-text">
                                 <label class="layui-form-label">个人简介</label>
                                 <div class="layui-input-block">
-                                  <textarea placeholder="请输入一段简介" name="myinfo" class="layui-textarea"></textarea>
+                                  <textarea placeholder="请输入一段简介" name="userinfo" class="layui-textarea"></textarea>
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -196,8 +196,33 @@
                 var form = layui.form //获取form模块
                 form.val('component-form-group', {
                     'username': res.username,
-                    'myinfo': res.info
+                    'userinfo': res.info
                 })
+                form.on('submit(component-form-demo1)', function(data){
+                    data.field['uid'] = res.userId
+                    console.log(JSON.stringify(data.field));
+                    $.ajax({
+                        url:'/myinfo',
+                        type:'post',
+                        dataType:'text',
+                        contentType: 'application/json',
+                        data:JSON.stringify(data.field),
+                        success:function(data){
+                            mydata = JSON.parse(data);
+                            console.log(data);
+                            if(mydata.code === "1"){
+                                layer.msg("提交失败，请重试");
+                            }
+                            else{
+                                layer.msg("提交成功");
+                            }
+                        },
+                        error:function () {
+                            layer.msg("提交失败，请重试");
+                        }
+                    })
+                    return false;
+                });
             });
         })
 
@@ -206,35 +231,7 @@
             layui.use(['form', 'upload'], function () {  //如果只加载一个模块，可以不填数组。如：layui.use('form')
                 var form = layui.form //获取form模块
                     , upload = layui.upload; //获取upload模块
-
-
-                for (var i = 0; i < country.length; i++) {
-                    $("#country-select").append("<option value='" + country[i][0] + "' style='font-weight: bold;'>" + country[i][1] + "</option>");
-
-                }
-
-                form.render('select')
-            });
-
-            layui.use('table', function () {
-                var table = layui.table;
-
-                //第一个实例
-                table.render({
-                    elem: '#demo'
-                    , height: 312
-                    , url: './test.json' //数据接口
-                    , page: true //开启分页
-                    , cols: [[ //表头
-                        { field: 'id', title: 'ID', width: 150, sort: true, fixed: 'left' }
-                        , { field: 'city', title: '申请国家', width: 120 }
-                        , { field: 'name', title: '专利名称', width: 500, sort: true }
-                        , { field: 'amount', title: '引文数目', width: 120 }
-                        , { field: 'app', title: '申请人名称', width: 200 },
-                        { field: 'time', title: '发布时间', width: 120 }
-                    ]]
-                });
-
+                
             });
         }
 
@@ -243,10 +240,6 @@
             var element = layui.element;
 
         });
-
-
-
-
 
     </script>
 
