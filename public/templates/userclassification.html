@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>油田智云服务系统</title>
     <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css">
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/layui-src@2.6.3-2/dist/layui.js"></script>
 </head>
 
@@ -69,8 +68,8 @@
             <div class="layui-side-scroll">
                 <ul class="layui-nav layui-nav-tree" lay-filter="test">
                     <li class="layui-nav-item "><a href="/classify">简单分类</a></li>
-                    <li class="layui-nav-item" ><a href="/classification" class="layui-this">文本主题模型分类</a></li>
-                    <li class="layui-nav-item" ><a href="/userclassification">个性标签动态分类</a></li>
+                    <li class="layui-nav-item" ><a href="/classification">文本主题模型分类</a></li>
+                    <li class="layui-nav-item" ><a href="/userclassification" class="layui-this">个性标签动态分类</a></li>
                     <li class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;">云服务管理</a>
                         <dl class="layui-nav-child">
@@ -99,24 +98,16 @@
                         <fieldset class="layui-elem-field layui-field-title">
                             <legend>个性标签动态分类简介</legend>
                             <div class="layui-field-box" style="margin-left: 40px; margin-top: 7px;">
-                                请描述您需要的云服务，系统将根据文本主题及语义距离匹配最适合您的若干云服务。
+                                系统将根据您个人信息中的个人简介以及您的使用习惯为您匹配最适合您的若干云服务。
                             </div>
                         </fieldset>
+                        <!--
                         <form class="layui-form" action="" lay-filter="component-form-group">
-                            <!--
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">个性标签</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="title" lay-verify="title" autocomplete="off"
-                                        placeholder="请输入标签" class="layui-input">
-                                </div>
-                            </div>
-                            -->
                             <div class="layui-form-item">
                                 <div class="layui-inline">
-                                    <label class="layui-form-label">文本描述</label>
+                                    <label class="layui-form-label">个性标签</label>
                                     <div class="layui-input-inline">
-                                        <input id="search_text" type="text" name="info" placeholder="请输入描述" autocomplete="off" class="layui-input">
+                                        <input id="search_text" type="text" name="info" placeholder="请输入标签" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-inline">
@@ -126,6 +117,7 @@
                                 </div>
                             </div>
                         </form>
+                        -->
                         <table id="demo" lay-filter="test"></table>
                     </div>
                 </div>
@@ -140,24 +132,21 @@
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="jump">点击进入</a>
     </script>
-    
     <script src="/static/mx.js"></script>
     <script>
         getUserInfo(window.localStorage['token'], (res) => {
             console.log(res)
             document.getElementById("userName").innerText = res.username
-        })
 
-        window.onload = function () {
             layui.use('table', function () {
                 var table = layui.table;
-
+                var urltemp = "../api/selectdatabyuser?info=x&uid=z".replace('x',res.info).replace('z',res.userId);
                 //第一个实例
                 table.render({
                     elem: '#demo', 
-                    height: 414, 
+                    height: 453, 
                     //url: '/static/service.json', //数据接口
-                    url: '../api/selectdatabyinfo',
+                    url: urltemp,
                     parseData: function (res) { //res 即为原始返回的数据
                         return {
                             "code": res.code, //解析接口状态
@@ -166,7 +155,7 @@
                             "data": res.data.data //解析数据列表
                         }
                     },
-                    page: true,  //开启分页
+                    page: false,  //开启分页
                     cols: [[ //表头
                         { field: 'name', title: '服务名称', width: 250, sort: true, fixed: 'left' }, 
                         { field: 'type', title: '主类别', width: 140, sort: true }, 
@@ -175,39 +164,7 @@
                     ]]
                 });
             });
-        }
-
-        //JavaScript代码区域
-        layui.use(['element','form','table'], function () {
-            const element = layui.element;
-            const form = layui.form;
-            const table = layui.table;
-            const $ = layui.$
-
-            $("#submit").click(function(){
-                const search_text = $("#search_text")[0].value;
-                table.reload('demo', {
-                    where: {
-                        info:search_text
-                    } //设定异步数据接口的额外参数
-                    ,page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                });
-            })
-
-            table.on('tool(test)', function (obj) {
-                var data = obj.data;
-                if (obj.event === 'jump') {
-                    window.location.href="http://"+data.entrance
-                }
-            });
-        });
-
-
-
-
-
+        })
     </script>
     <style>
         html {

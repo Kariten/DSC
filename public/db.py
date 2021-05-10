@@ -111,13 +111,13 @@ def resetUser():
         {
             'id': 0,
             'username': "admin",
-            'pwd': "123456",
+            'pwd': "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
             'info': "大数据 云计算 服务器"
         },
         {
             'id': 1,
             'username': "guest",
-            'pwd': "123456",
+            'pwd': "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
             'info': "安全 备份 分布式"
         }
     ]

@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>油田智云服务系统</title>
     <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css">
-    <script src="https://cdn.jsdelivr.net/npm/layui-src@2.6.3-2/dist/layui.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://www.layuicdn.com/layui/layui.js"></script>
 </head>
 
 <body class="layui-layout-body">
@@ -52,7 +53,7 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;">
                         <img src="https://i.loli.net/2019/10/29/kIxyLJwb7saud1C.jpg" class="layui-nav-img">
-                        测试用户
+                        <span id="userName"></span>
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="/myinfo">基本资料</a></dd>
@@ -68,7 +69,8 @@
             <div class="layui-side-scroll">
                 <ul class="layui-nav layui-nav-tree" lay-filter="test">
                     <li class="layui-nav-item "><a href="/classify">简单分类</a></li>
-                    <li class="layui-nav-item"><a href="/classification">个性标签动态分类</a></li>
+                    <li class="layui-nav-item" ><a href="/classification">文本主题模型分类</a></li>
+                    <li class="layui-nav-item" ><a href="/userclassification">个性标签动态分类</a></li>
                     <li class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;">云服务管理</a>
                         <dl class="layui-nav-child">
@@ -159,7 +161,13 @@
         <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
     -->
     
+    <script src="/static/mx.js"></script>
     <script>
+        getUserInfo(window.localStorage['token'], (res) => {
+            console.log(res)
+            document.getElementById("userName").innerText = res.username
+        })
+
         window.onload = function () {
 
             layui.use(['form', 'upload'], function () {  //如果只加载一个模块，可以不填数组。如：layui.use('form')
