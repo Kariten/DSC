@@ -9,7 +9,6 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css" media="all">
-    <link id="layuicss-layer" rel="stylesheet" href="" media="all">
     <link id="layuicss-layuiAdmin" rel="stylesheet" href="/static/admin.css" media="all">
 
 </head>
@@ -47,7 +46,7 @@
                     </div>
                     <div class="layui-col-xs5">
                         <div style="margin-left: 10px;">
-                            <img src="/imgCode"
+                            <img id="img" onclick="code()" src="/imgCode"
                                  class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
                         </div>
                     </div>
@@ -82,8 +81,13 @@
 <script src="static/layui.js"></script>
 <script src="static/jsencrypt.min.js"></script>
 <script>
-    layui.use(['form'], function () {
-        var $ = layui.$, form = layui.form
+    function code() {
+        document.getElementById("img").src = "/imgCode?" + Math.random();
+    }
+
+    layui.use(['form', 'layer'], function () {
+        const $ = layui.$, form = layui.form
+        const layer = layui.layer;
         form.render();
 
         let encrypt = new JSEncrypt();
@@ -115,26 +119,15 @@
                     return res.json()
                 }
             ).then(res => {
-                console.log(res.msg)
-                if (res.code === 0){
-                    location.href="/manage"
+                if (res.code === '0') {
+                    let storage = window.localStorage;
+                    storage["token"] = res.data.token;
+                    location.href = "/manage"
                 }
-                if (res.msg === "验证码错误" ){
-                    layer.msg("验证码")
-                }
-                layer.msg("用户名或密码错误")
+                layer.msg(res.msg)
             })
             console.log(obj.field)
-            //请求登入接口
 
-
-        });
-
-
-        //实际使用时记得删除该代码
-        layer.msg('为了方便演示，用户名密码可随意输入', {
-            offset: '15px'
-            , icon: 1
         });
 
     });

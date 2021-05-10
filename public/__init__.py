@@ -6,7 +6,7 @@ from flask import render_template, request, redirect, session
 import os
 import json
 
-from public.user import checkedToken, userLogin, userLogout
+from public.user import checkedToken, userLogin, userLogout, getUserInfo
 from util.hash import generate_key
 from util.imageCode import getImgCode
 from util.result import ApiResult
@@ -46,17 +46,17 @@ def create_app():
             except KeyError:
                 (error)
         else:
-            session['token'] =token
+            session['token'] = token
 
         if request.path == "/":
             return render_template('login.html')
 
         # 未登录允许的url入口
 
-        login_url = ["/register", "/login",  "/static", "/imgCode","/test","/getpublicKey"]
+        login_url = ["/register", "/login", "/static", "/imgCode", "/test", "/getpublicKey"]
 
         # 合法的url入口
-        allow_url = ["/logout" , "/classify", "/classification", "/myinfo", "/api", "/add", "/manage", "/index"]
+        allow_url = ["/logout", "/classify", "/classification", "/myinfo", "/api", "/add", "/manage", "/index"]
 
         for url in login_url:
             if request.path.startswith(url):
@@ -83,9 +83,9 @@ def create_app():
             username = request.json.get('username')
             password = request.json.get('password')
             code = request.json.get("code").lower()
-            if not code == session['imageCode'].lower() :
+            if not code == session['imageCode'].lower():
                 return ApiResult('').fault("验证码错误")
-            (password)
+
             token = userLogin(username, password)
             session['token'] = token
             if token in [0, 101, 102]:
@@ -99,8 +99,16 @@ def create_app():
     def getPublickey():
         privatekey, publickey = generate_key()
         session['privatekey'] = privatekey
-        (session['privatekey'])
+
         return ApiResult({'publickey': publickey}).success("")
+
+    @app.route('/api/getuserinfo', methods=["GET", 'POST'])
+    def getuserinfo():
+        token = request.json.get('token')
+        UserInfo = getUserInfo(token)
+        if UserInfo is None:
+            return ApiResult('').fault("查询失败")
+        return ApiResult(UserInfo).success("查询成功")
 
     @app.route('/logout', methods=['GET'])
     def logout():
@@ -153,7 +161,7 @@ def create_app():
             age = request.form['age']
             retdict = {'name': name, 'age': age}
             retjson = json.dumps(retdict)
-            (retjson)
+
             return render_template('classify.html', name=name, age=age)
         else:
             return render_template('classify.html')

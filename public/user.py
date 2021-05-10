@@ -35,6 +35,31 @@ def checkedToken(token):
     return False
 
 
+def getUserInfo(token):
+    query = "select * from LoginStatus where token='{}'".format(token)
+    conn = db.get_db()
+    c = conn.cursor()
+    try:
+        token_data = c.execute(query).fetchone()
+    except:
+        return None
+        conn.close()
+    if token_data is None:
+        return None
+    userId = token_data['userId']
+    print(userId)
+
+    try:
+        userInfo = c.execute("select * from User where id='{}'".format(userId)).fetchone()
+    except:
+        db.close_db()
+    db.close_db()
+    username = userInfo["username"]
+    id = userInfo['id']
+    info = userInfo['info']
+    return {'username': username, 'userId': id, 'info': info}
+
+
 def getToken():
     random = Random()
     My_List = []
