@@ -163,7 +163,7 @@
                 //第一个实例
                 table.render({
                     elem: '#demo', 
-                    height: 460, 
+                    height: 447, 
                     url: '..//api/selectdatabytag', //数据接口
                     parseData: function (res) { //res 即为原始返回的数据
                         return {
@@ -175,7 +175,7 @@
                     },
                     page: true,  //开启分页
                     cols: [[ //表头
-                        { field: 'name', title: '服务名称', width: 250, sort: true, fixed: 'left' }, 
+                        { field: 'name', title: '服务名称', width: 250, sort: true }, 
                         { field: 'type', title: '主类别', width: 140, sort: true }, 
                         { field: 'info', title: '简介', width: 712}, 
                         { field: 'entrance', title: '入口', toolbar: '#barDemo', width: 90 }

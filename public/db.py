@@ -187,6 +187,46 @@ def resetFreq():
         conn.commit()
     conn.close()
 
+def resetUserType():
+    conn = getdb()
+    c = conn.cursor()
+    c.execute("DROP TABLE IF EXISTS UserType")
+    conn.commit()
+    c.execute('''
+    CREATE TABLE UserType(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userid INTEGER NOT NULL,
+        typeid INTEGER NOT NULL
+    );
+    ''')
+    usertypes = [
+        {
+            'id': 0,
+            'userid': 0,
+            'typeid': 1
+        },
+        {
+            'id': 1,
+            'userid': 0,
+            'typeid': 2
+        },
+        {
+            'id': 2,
+            'userid': 1,
+            'typeid': 3
+        },
+        {
+            'id': 3,
+            'userid': 1,
+            'typeid': 4
+        }
+    ]
+    for usertype in usertypes:
+        query = 'INSERT INTO UserType VALUES ({id},{userid},{typeid})'.format(**usertype)
+        print(query)
+        c.execute(query)
+        conn.commit()
+    conn.close()
 
 def resetLoginStatus():
     conn = getdb()
@@ -216,4 +256,5 @@ if __name__ == "__main__":
             resetServ()
             resetUser()
             resetFreq()
+            resetUserType()
             resetLoginStatus()
