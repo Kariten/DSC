@@ -216,7 +216,6 @@
 
         form.on('submit(component-form-demo1)', function (data) {
             if (data.field.confirmpwd !== data.field.newpwd) {
-
                 layer.msg("密码输入不一致，请重新输入")
                 form.val('component-form-group', {
                     'confirmpwd': '',
@@ -225,7 +224,7 @@
                 return false
             }
 
-            if (data.field.password === '' && data.field.confirmpwd === '') {
+            if (data.field.password == '' && data.field.confirmpwd != '') {
                 layer.msg('原密码不能为空')
                 return false
             }

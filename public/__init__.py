@@ -289,7 +289,7 @@ def create_app():
 
             token = session['token']
 
-            if password is not '':
+            if rsa_decrypt(session['privatekey'], password).decode()[1:-1] is not '':
                 print(rsa_decrypt(session['privatekey'], password).decode()[1:-1])
 
                 if getUserInfo(token).password == getHash(rsa_decrypt(session['privatekey'], password).decode()[1:-1]):
