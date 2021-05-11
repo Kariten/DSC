@@ -1,4 +1,4 @@
-function getUserInfo(token,callback) {
+function getUserInfo(token, callback) {
     fetch("../api/getuserinfo", {
         method: 'POST',
         mode: 'cors',
@@ -6,7 +6,7 @@ function getUserInfo(token,callback) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-                token : token
+                token: token
             }
         )
     }).then(res => {
@@ -20,3 +20,4 @@ function getUserInfo(token,callback) {
         layer.msg("用户信息获取失败")
     }).then(callback)
 }
+
