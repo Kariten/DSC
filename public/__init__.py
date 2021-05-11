@@ -6,7 +6,7 @@ from flask import render_template, request, redirect, session
 import os
 import json
 
-from public.user import checkedToken, userLogin, userLogout, getUserInfo
+from public.user import checkedToken, userLogin, userLogout, getUserInfo, UpdateUserInfo,UserModel
 from util.hash import generate_key
 from util.imageCode import getImgCode
 from util.result import ApiResult
@@ -55,7 +55,8 @@ def create_app():
         login_url = ["/register", "/login", "/static", "/imgCode", "/test", "/getpublicKey"]
 
         # 合法的url入口
-        allow_url = ["/logout", "/classify", "/classification", "/userclassification", "/myinfo", "/api", "/add", "/manage", "/index"]
+        allow_url = ["/logout", "/classify", "/classification", "/userclassification", "/myinfo", "/api", "/add",
+                     "/manage", "/index"]
 
         for url in login_url:
             if request.path.startswith(url):
@@ -107,7 +108,7 @@ def create_app():
         UserInfo = getUserInfo(token)
         if UserInfo is None:
             return ApiResult('').fault("查询失败")
-        return ApiResult(UserInfo).success("查询成功")
+        return ApiResult(UserInfo.getUserVo()).success("查询成功")
 
     @app.route('/logout', methods=['GET'])
     def logout():
@@ -238,7 +239,7 @@ def create_app():
         page = request.args.get("page")
         limit = request.args.get("limit")
         id = request.args.get("uid")
-        resultlist = getidbyuser(info,id)
+        resultlist = getidbyuser(info, id)
         res = []
         # json源
         # with open("public/static/service.json", "r", encoding="utf-8") as isfile:
@@ -280,28 +281,20 @@ def create_app():
         if request.method == 'GET':
             return render_template('myinfo.html')
         elif request.method == 'POST':
-            username = request.json.get('username')
-            userinfo = request.json.get('userinfo')
-            uid = request.json.get('uid')
-            print(username, userinfo)
-            conn = db.get_db()
-            c = conn.cursor()
-            try:
-                query = "UPDATE User SET username='{}', info='{}' WHERE id='{}'".format(username, userinfo, uid)
-                c.execute(query)
-                conn.commit()
-                db.close_db()
-                return ApiResult('').success('提交成功')
-            except:
-                db.close_db()
+            updateUser = UserModel()
+            updateUser.username = request.json.get('username')
+            updateUser.info = request.json.get('userinfo')
+            token = session['token']
+            res = UpdateUserInfo(token, updateUser)
+            if res is not None:
+                return ApiResult(res.getUserVo()).success('提交成功')
+            else:
                 return ApiResult('').fault('提交失败')
-
 
     @app.route('/test', methods=['GET', 'POST'])
     def test():
         print(checkedToken("9aa0eda3d5d06c9"))
         return '1'
-
 
     '''
     # 测试输出
