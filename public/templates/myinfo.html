@@ -52,14 +52,14 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">
                     <img src="https://i.loli.net/2019/10/29/kIxyLJwb7saud1C.jpg" class="layui-nav-img">
-                    <span id="userName"></span>
+                    <span id="userName">&#12288;&#12288;&#12288;&#12288;</span>
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="/myinfo">基本资料</a></dd>
                     <dd><a href="/myinfo">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="/login">告辞</a></li>
+            <li class="layui-nav-item"><a id="logout" href="">告辞</a></li>
         </ul>
     </div>
 
@@ -184,6 +184,7 @@
 </div>
 <script src="/static/layui.js"></script>
 <script src="/static/mx.js"></script>
+<script src="/static/jsencrypt.min.js"></script>
 <script>
 
     getUserInfo(window.localStorage['token'], (res) => {
@@ -203,8 +204,19 @@
     layui.use(['form'], function () {
         var form = layui.form //获取form模块
 
+        let encrypt = new JSEncrypt();
+
+        fetch("../getpublicKey").then(res => {
+            if (res.ok) {
+                return res.json()
+            }
+        }).then(res => {
+            encrypt.setPublicKey(res.data.publickey);
+        })
+
         form.on('submit(component-form-demo1)', function (data) {
             if (data.field.confirmpwd !== data.field.newpwd) {
+
                 layer.msg("密码输入不一致，请重新输入")
                 form.val('component-form-group', {
                     'confirmpwd': '',
@@ -212,6 +224,15 @@
                 })
                 return false
             }
+
+            if (data.field.password === '' && data.field.confirmpwd === '') {
+                layer.msg('原密码不能为空')
+                return false
+            }
+
+            data.field.password = encrypt.encrypt(JSON.stringify(data.field.password));
+            data.field.newpwd = encrypt.encrypt(JSON.stringify(data.field.newpwd));
+
             $.ajax({
                 url: '/myinfo',
                 type: 'post',
@@ -223,7 +244,7 @@
                     mydata = JSON.parse(data);
                     console.log();
                     if (mydata.code === "1") {
-                        layer.msg("提交失败，请重试");
+                        layer.msg(mydata.msg);
                     } else {
                         document.getElementById("userName").innerText = mydata.data.username
                         layer.msg("提交成功");
@@ -247,9 +268,39 @@
     }
 
     //JavaScript代码区域
-    layui.use('element', function () {
+    layui.use(['element', 'layer'], function () {
         var element = layui.element;
+        const layer = layui.layer;
 
+
+        document.getElementById('logout').onclick = (e) => {
+            fetch("../logout").then(res => {
+                if (res.ok) {
+                    return res.json().then(data => {
+                        if (data.code === "0") {
+                            layer.msg("登出成功,正在跳转,倒计时<span id='confirm'>3</span>");
+                            setTimeout(e => {
+                                $("#confirm").text("2");
+                                setTimeout(e => {
+                                    $("#confirm").text("1");
+                                    setTimeout(e => {
+                                        layer.closeAll();
+                                        window.location.href = "../login";
+                                    }, 800)
+                                }, 800)
+                            }, 800)
+                            return 0
+                        }
+                        window.location.href = "../login";
+                        layer.msg(data.msg);
+                    })
+                }
+                layer.msg("服务器连接失败");
+            }).catch(function (e) {
+                console.log("Oops, error");
+                window.location.href = "../login";
+            })
+        }
     });
 
 </script>

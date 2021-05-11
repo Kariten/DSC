@@ -7,7 +7,7 @@ import os
 import json
 
 from public.user import checkedToken, userLogin, userLogout, getUserInfo, UpdateUserInfo,UserModel
-from util.hash import generate_key
+from util.hash import generate_key, rsa_decrypt, getHash
 from util.imageCode import getImgCode
 from util.result import ApiResult
 from util.page import getPage
@@ -284,12 +284,23 @@ def create_app():
             updateUser = UserModel()
             updateUser.username = request.json.get('username')
             updateUser.info = request.json.get('userinfo')
+            password = request.json.get('password')
+            newpwd = request.json.get('newpwd')
+
             token = session['token']
+
+            if password is not '':
+                print(rsa_decrypt(session['privatekey'], password).decode()[1:-1])
+
+                if getUserInfo(token).password == getHash(rsa_decrypt(session['privatekey'], password).decode()[1:-1]):
+                    updateUser.setPassword(newpwd)
+                else:
+                    return ApiResult('').fault('原密码输入错误，如忘记请联系管理员')
             res = UpdateUserInfo(token, updateUser)
             if res is not None:
-                return ApiResult(res.getUserVo()).success('提交成功')
+                return ApiResult(res.getUserVo()).success('修改成功')
             else:
-                return ApiResult('').fault('提交失败')
+                return ApiResult('').fault('修改失败')
 
     @app.route('/test', methods=['GET', 'POST'])
     def test():

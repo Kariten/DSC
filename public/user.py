@@ -130,7 +130,7 @@ def UpdateUserInfo(token, updateUser):
     conn = db.get_db()
     c = conn.cursor()
     try:
-        query = "UPDATE User SET username='{}', info='{}' WHERE id='{}'".format(user.username, user.info, user.userId)
+        query = "UPDATE User SET username='{}', info='{}',pwd='{}' WHERE id='{}'".format(user.username, user.info,user.password, user.userId)
         c.execute(query)
         conn.commit()
         db.close_db()

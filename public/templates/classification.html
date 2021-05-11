@@ -11,231 +11,266 @@
 </head>
 
 <body class="layui-layout-body">
-    <div class="layui-layout layui-layout-admin">
+<div class="layui-layout layui-layout-admin">
 
-        <!-- 头部区域（可配合layui已有的水平导航） -->
-        <div class="layui-header">
-            <div class="layui-logo">油田智云服务系统</div>
-            <ul class="layui-nav layui-layout-left">
-                <li class="layui-nav-item"><a href="/index">首页</a></li>
-                <li class="layui-nav-item">
-                    <a href="">云服务</a>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <div class="layui-header">
+        <div class="layui-logo">油田智云服务系统</div>
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="/index">首页</a></li>
+            <li class="layui-nav-item">
+                <a href="">云服务</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">持续部署服务</a></dd>
+                    <dd><a href="">持续测试服务</a></dd>
+                    <dd><a href="">地理信息服务</a></dd>
+                    <dd><a href="">对象存储服务</a></dd>
+                    <dd><a href="">分布式数据库</a></dd>
+                    <dd><a href="">负载均衡服务</a></dd>
+                    <dd><a href="">过程管理服务</a></dd>
+                    <dd><a href="">数字证书服务</a></dd>
+                    <dd><a href="">小机资源服务</a></dd>
+                    <dd><a href="">组件安全服务</a></dd>
+                    <dd><a href="">离线大数据分析服务</a></dd>
+                    <dd><a href="">分布式应用程序管理服务</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="/classification">个性化分类</a></li>
+            <li class="layui-nav-item"><a href="https://www.cnki.net">知识库</a></li>
+            <li class="layui-nav-item"><a href="">资源下载</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">开放平台</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">客服服务</a></dd>
+                    <dd><a href="">安全云盾</a></dd>
+                    <dd><a href="">代码仓库服务</a></dd>
+                    <dd><a href="">大数据开发云平台</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="/about">关于</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="https://i.loli.net/2019/10/29/kIxyLJwb7saud1C.jpg" class="layui-nav-img">
+                    <span id="userName"></span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/myinfo">基本资料</a></dd>
+                    <dd><a href="/myinfo">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a id="logout" href="">告辞</a></li>
+        </ul>
+    </div>
+
+    <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item "><a href="/classify">简单分类</a></li>
+                <li class="layui-nav-item"><a href="/classification" class="layui-this">文本主题模型分类</a></li>
+                <li class="layui-nav-item"><a href="/userclassification">个性标签动态分类</a></li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">云服务管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="">持续部署服务</a></dd>
-                        <dd><a href="">持续测试服务</a></dd>
-                        <dd><a href="">地理信息服务</a></dd>
-                        <dd><a href="">对象存储服务</a></dd>
-                        <dd><a href="">分布式数据库</a></dd>
-                        <dd><a href="">负载均衡服务</a></dd>
-                        <dd><a href="">过程管理服务</a></dd>
-                        <dd><a href="">数字证书服务</a></dd>
-                        <dd><a href="">小机资源服务</a></dd>
-                        <dd><a href="">组件安全服务</a></dd>
-                        <dd><a href="">离线大数据分析服务</a></dd>
-                        <dd><a href="">分布式应用程序管理服务</a></dd>
+                        <dd><a href="/manage">云服务管理</a></dd>
+                        <dd><a href="/add">添加云服务</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="/classification">个性化分类</a></li>
-                <li class="layui-nav-item"><a href="https://www.cnki.net">知识库</a></li>
-                <li class="layui-nav-item"><a href="">资源下载</a></li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">开放平台</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="">客服服务</a></dd>
-                        <dd><a href="">安全云盾</a></dd>
-                        <dd><a href="">代码仓库服务</a></dd>
-                        <dd><a href="">大数据开发云平台</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a href="/about">关于</a></li>
-            </ul>
-            <ul class="layui-nav layui-layout-right">
-                <li class="layui-nav-item">
-                    <a href="javascript:;">
-                        <img src="https://i.loli.net/2019/10/29/kIxyLJwb7saud1C.jpg" class="layui-nav-img">
-                        <span id="userName"></span>
-                    </a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/myinfo">基本资料</a></dd>
-                        <dd><a href="/myinfo">安全设置</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a href="/login">告辞</a></li>
             </ul>
         </div>
+    </div>
 
-        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-        <div class="layui-side layui-bg-black">
-            <div class="layui-side-scroll">
-                <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                    <li class="layui-nav-item "><a href="/classify">简单分类</a></li>
-                    <li class="layui-nav-item" ><a href="/classification" class="layui-this">文本主题模型分类</a></li>
-                    <li class="layui-nav-item" ><a href="/userclassification">个性标签动态分类</a></li>
-                    <li class="layui-nav-item layui-nav-itemed">
-                        <a href="javascript:;">云服务管理</a>
-                        <dl class="layui-nav-child">
-                            <dd><a href="/manage">云服务管理</a></dd>
-                            <dd><a href="/add">添加云服务</a></dd>
-                        </dl>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- 内容主体区域 -->
-        <div class="layui-body">
-            <!--路径-->
-            <div style="margin-left: 20px; padding-bottom: 20px;">
+    <!-- 内容主体区域 -->
+    <div class="layui-body">
+        <!--路径-->
+        <div style="margin-left: 20px; padding-bottom: 20px;">
                 <span class="layui-breadcrumb">
                     <a href="">首页</a>
                     <a href="">分类</a>
                     <a><cite>个性标签动态分类</cite></a>
                 </span>
-            </div>
+        </div>
 
-            <div class="layui-fluid">
-                <div class="layui-card">
-                    <div class="layui-card-body" style="padding: 15px;">
-                        <fieldset class="layui-elem-field layui-field-title">
-                            <legend>个性标签动态分类简介</legend>
-                            <div class="layui-field-box" style="margin-left: 40px; margin-top: 7px;">
-                                请描述您需要的云服务，系统将根据文本主题及语义距离匹配最适合您的若干云服务。
+        <div class="layui-fluid">
+            <div class="layui-card">
+                <div class="layui-card-body" style="padding: 15px;">
+                    <fieldset class="layui-elem-field layui-field-title">
+                        <legend>个性标签动态分类简介</legend>
+                        <div class="layui-field-box" style="margin-left: 40px; margin-top: 7px;">
+                            请描述您需要的云服务，系统将根据文本主题及语义距离匹配最适合您的若干云服务。
+                        </div>
+                    </fieldset>
+                    <form class="layui-form" action="" lay-filter="component-form-group">
+                        <!--
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">个性标签</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                    placeholder="请输入标签" class="layui-input">
                             </div>
-                        </fieldset>
-                        <form class="layui-form" action="" lay-filter="component-form-group">
-                            <!--
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">个性标签</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="title" lay-verify="title" autocomplete="off"
-                                        placeholder="请输入标签" class="layui-input">
+                        </div>
+                        -->
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">文本描述</label>
+                                <div class="layui-input-inline">
+                                    <input id="search_text" type="text" name="info" placeholder="请输入描述"
+                                           autocomplete="off" class="layui-input">
                                 </div>
                             </div>
-                            -->
-                            <div class="layui-form-item">
-                                <div class="layui-inline">
-                                    <label class="layui-form-label">文本描述</label>
-                                    <div class="layui-input-inline">
-                                        <input id="search_text" type="text" name="info" placeholder="请输入描述" autocomplete="off" class="layui-input">
-                                    </div>
-                                </div>
-                                <div class="layui-inline">
-                                    <button class="layui-btn layuiadmin-btn-comm" data-type="reload" type="button" id="submit">
-                                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
-                                    </button>
-                                </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layuiadmin-btn-comm" data-type="reload" type="button"
+                                        id="submit">
+                                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                </button>
                             </div>
-                        </form>
-                        <table id="demo" lay-filter="test"></table>
-                    </div>
+                        </div>
+                    </form>
+                    <table id="demo" lay-filter="test"></table>
                 </div>
             </div>
         </div>
-
-        <!-- 底部固定区域 -->
-        <div class="layui-footer">
-            ©2021 油田智云服务系统
-        </div>
     </div>
-    <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="jump">点击进入</a>
-    </script>
-    
-    <script src="/static/mx.js"></script>
-    <script>
-        getUserInfo(window.localStorage['token'], (res) => {
-            console.log(res)
-            document.getElementById("userName").innerText = res.username
-        })
 
-        window.onload = function () {
-            layui.use('table', function () {
-                var table = layui.table;
+    <!-- 底部固定区域 -->
+    <div class="layui-footer">
+        ©2021 油田智云服务系统
+    </div>
+</div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="jump">点击进入</a>
+</script>
 
-                //第一个实例
-                table.render({
-                    elem: '#demo', 
-                    height: 414, 
-                    //url: '/static/service.json', //数据接口
-                    url: '../api/selectdatabyinfo',
-                    parseData: function (res) { //res 即为原始返回的数据
-                        return {
-                            "code": res.code, //解析接口状态
-                            "msg": res.msg, //解析提示文本
-                            "count": res.data.count, //解析数据长度
-                            "data": res.data.data //解析数据列表
-                        }
-                    },
-                    page: true,  //开启分页
-                    cols: [[ //表头
-                        { field: 'name', title: '服务名称', width: 250, sort: true, fixed: 'left' }, 
-                        { field: 'type', title: '主类别', width: 140, sort: true }, 
-                        { field: 'info', title: '简介', width: 712}, 
-                        { field: 'entrance', title: '入口', toolbar: '#barDemo', width: 90 }
-                    ]]
-                });
-            });
-        }
+<script src="/static/mx.js"></script>
+<script>
+    getUserInfo(window.localStorage['token'], (res) => {
+        console.log(res)
+        document.getElementById("userName").innerText = res.username
+    })
 
-        //JavaScript代码区域
-        layui.use(['element','form','table'], function () {
-            const element = layui.element;
-            const form = layui.form;
-            const table = layui.table;
-            const $ = layui.$
+    window.onload = function () {
+        layui.use('table', function () {
+            var table = layui.table;
 
-            $("#submit").click(function(){
-                const search_text = $("#search_text")[0].value;
-                table.reload('demo', {
-                    where: {
-                        info:search_text
-                    } //设定异步数据接口的额外参数
-                    ,page: {
-                        curr: 1 //重新从第 1 页开始
+            //第一个实例
+            table.render({
+                elem: '#demo',
+                height: 414,
+                //url: '/static/service.json', //数据接口
+                url: '../api/selectdatabyinfo',
+                parseData: function (res) { //res 即为原始返回的数据
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.data.count, //解析数据长度
+                        "data": res.data.data //解析数据列表
                     }
-                });
-            })
-
-            table.on('tool(test)', function (obj) {
-                var data = obj.data;
-                if (obj.event === 'jump') {
-                    window.location.href="http://"+data.entrance
-                }
+                },
+                page: true,  //开启分页
+                cols: [[ //表头
+                    {field: 'name', title: '服务名称', width: 250, sort: true, fixed: 'left'},
+                    {field: 'type', title: '主类别', width: 140, sort: true},
+                    {field: 'info', title: '简介', width: 712},
+                    {field: 'entrance', title: '入口', toolbar: '#barDemo', width: 90}
+                ]]
             });
         });
+    }
+
+    layui.use(['element', 'layer'], function () {
+        var element = layui.element;
+        const layer = layui.layer;
 
 
-
-
-
-    </script>
-    <style>
-        html {
-            background-color: #f2f2f2;
-            color: #666;
+        document.getElementById('logout').onclick = (e) => {
+            fetch("../logout").then(res => {
+                if (res.ok) {
+                    return res.json().then(data => {
+                        if (data.code === "0") {
+                            layer.msg("登出成功,正在跳转,倒计时<span id='confirm'>3</span>");
+                            setTimeout(e => {
+                                $("#confirm").text("2");
+                                setTimeout(e => {
+                                    $("#confirm").text("1");
+                                    setTimeout(e => {
+                                        layer.closeAll();
+                                        window.location.href = "../login";
+                                    }, 800)
+                                }, 800)
+                            }, 800)
+                            return 0
+                        }
+                        window.location.href = "../login";
+                        layer.msg(data.msg);
+                    })
+                }
+                layer.msg("服务器连接失败");
+            }).catch(function (e) {
+                console.log("Oops, error");
+                window.location.href = "../login";
+            })
         }
+    });
 
-        .layui-layout-admin .layui-body {
-            position: fixed;
-            top: 80px;
-            bottom: 44px;
-        }
+    //JavaScript代码区域
+    layui.use(['element', 'form', 'table'], function () {
+        const element = layui.element;
+        const form = layui.form;
+        const table = layui.table;
+        const $ = layui.$
 
-        .layuiadmin-card-list p.layuiadmin-big-font {
-            font-size: 36px;
-            color: #666;
-            line-height: 36px;
-            padding: 5px 0 10px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            word-break: break-all;
-            white-space: nowrap;
-        }
 
-        .layui-col-sm6.layui-col-md3.width75 {
-            width: 75%;
-        }
-    </style>
+        $("#submit").click(function () {
+            const search_text = $("#search_text")[0].value;
+            table.reload('demo', {
+                where: {
+                    info: search_text
+                } //设定异步数据接口的额外参数
+                , page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        })
+
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'jump') {
+                window.location.href = "http://" + data.entrance
+            }
+        });
+    });
+
+
+</script>
+<style>
+    html {
+        background-color: #f2f2f2;
+        color: #666;
+    }
+
+    .layui-layout-admin .layui-body {
+        position: fixed;
+        top: 80px;
+        bottom: 44px;
+    }
+
+    .layuiadmin-card-list p.layuiadmin-big-font {
+        font-size: 36px;
+        color: #666;
+        line-height: 36px;
+        padding: 5px 0 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        white-space: nowrap;
+    }
+
+    .layui-col-sm6.layui-col-md3.width75 {
+        width: 75%;
+    }
+</style>
 </body>
 
 </html>
