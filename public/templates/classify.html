@@ -53,7 +53,7 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;">
                         <img src="https://i.loli.net/2019/10/29/kIxyLJwb7saud1C.jpg" class="layui-nav-img">
-                        测试用户
+                        <span id="userName"></span>
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="/myinfo">基本资料</a></dd>
@@ -69,7 +69,8 @@
             <div class="layui-side-scroll">
                 <ul class="layui-nav layui-nav-tree" lay-filter="test">
                     <li class="layui-nav-item "><a href="/classify" class="layui-this">简单分类</a></li>
-                    <li class="layui-nav-item" ><a href="/classification">个性标签动态分类</a></li>
+                    <li class="layui-nav-item" ><a href="/classification">文本主题模型分类</a></li>
+                    <li class="layui-nav-item" ><a href="/userclassification">个性标签动态分类</a></li>
                     <li class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;">云服务管理</a>
                         <dl class="layui-nav-child">
@@ -148,8 +149,13 @@
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="jump">点击进入</a>
     </script>
-
+    <script src="/static/mx.js"></script>
     <script>
+        getUserInfo(window.localStorage['token'], (res) => {
+            console.log(res)
+            document.getElementById("userName").innerText = res.username
+        })
+
         window.onload = function () {
             layui.use('table', function () {
                 var table = layui.table;

@@ -11,7 +11,7 @@ from util.hash import generate_key
 from util.imageCode import getImgCode
 from util.result import ApiResult
 from util.page import getPage
-from util.lda import getidbyinfo
+from util.lda import getidbyinfo, getidbyuser
 
 
 def create_app():
@@ -52,11 +52,10 @@ def create_app():
             return render_template('login.html')
 
         # 未登录允许的url入口
-
         login_url = ["/register", "/login", "/static", "/imgCode", "/test", "/getpublicKey"]
 
         # 合法的url入口
-        allow_url = ["/logout", "/classify", "/classification", "/myinfo", "/api", "/add", "/manage", "/index"]
+        allow_url = ["/logout", "/classify", "/classification", "/userclassification", "/myinfo", "/api", "/add", "/manage", "/index"]
 
         for url in login_url:
             if request.path.startswith(url):
@@ -140,7 +139,6 @@ def create_app():
             servtype = request.json.get('type')
             servinfo = request.json.get('info')
             serventrance = request.json.get('serventrance')
-            (servname, servtype, servinfo, serventrance)
             conn = db.get_db()
             c = conn.cursor()
             try:
@@ -207,7 +205,41 @@ def create_app():
         limit = request.args.get("limit")
         resultlist = getidbyinfo(info)
         res = []
+        # json源
+        # with open("public/static/service.json", "r", encoding="utf-8") as isfile:
+        #     f_json = json.loads(isfile.read())
+        #     if info is None or info == '':
+        #         return ApiResult({"count": len(f_json['data']), "data": getPage(f_json['data'], page, limit)})\
+        #             .success("请求成功")
+        #     for data in f_json['data']:
+        #         if data['id'] in resultlist:
+        #             res.append(data)
+        #
+        # db源
+        conn = db.get_db()
+        c = conn.cursor()
+        query = "SELECT * FROM Serv"
+        servs = c.execute(query).fetchall()
+        for serv in servs:
+            if info is None or info == '' or serv[0] in resultlist:
+                res.append({
+                    "id": serv[0],
+                    "name": serv[1],
+                    "type": serv[2],
+                    "info": serv[3],
+                    "entrance": serv[4]
+                })
+        db.close_db()
+        return ApiResult({"count": len(res), "data": getPage(res, page, limit)}).success("请求成功")
 
+    @app.route('/api/selectdatabyuser')
+    def selectDatabyUser():
+        info = request.args.get("info")
+        page = request.args.get("page")
+        limit = request.args.get("limit")
+        id = request.args.get("uid")
+        resultlist = getidbyuser(info,id)
+        res = []
         # json源
         # with open("public/static/service.json", "r", encoding="utf-8") as isfile:
         #     f_json = json.loads(isfile.read())
@@ -239,14 +271,37 @@ def create_app():
     def classification():
         return render_template('classification.html')
 
-    @app.route('/myinfo')
+    @app.route('/userclassification')
+    def userclassification():
+        return render_template('userclassification.html')
+
+    @app.route('/myinfo', methods=['GET', 'POST'])
     def myinfo():
-        return render_template('myinfo.html')
+        if request.method == 'GET':
+            return render_template('myinfo.html')
+        elif request.method == 'POST':
+            username = request.json.get('username')
+            userinfo = request.json.get('userinfo')
+            uid = request.json.get('uid')
+            print(username, userinfo)
+            conn = db.get_db()
+            c = conn.cursor()
+            try:
+                query = "UPDATE User SET username='{}', info='{}' WHERE id='{}'".format(username, userinfo, uid)
+                c.execute(query)
+                conn.commit()
+                db.close_db()
+                return ApiResult('').success('提交成功')
+            except:
+                db.close_db()
+                return ApiResult('').fault('提交失败')
+
 
     @app.route('/test', methods=['GET', 'POST'])
     def test():
         print(checkedToken("9aa0eda3d5d06c9"))
         return '1'
+
 
     '''
     # 测试输出

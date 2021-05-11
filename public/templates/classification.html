@@ -53,7 +53,7 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;">
                         <img src="https://i.loli.net/2019/10/29/kIxyLJwb7saud1C.jpg" class="layui-nav-img">
-                        测试用户
+                        <span id="userName"></span>
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="/myinfo">基本资料</a></dd>
@@ -69,7 +69,8 @@
             <div class="layui-side-scroll">
                 <ul class="layui-nav layui-nav-tree" lay-filter="test">
                     <li class="layui-nav-item "><a href="/classify">简单分类</a></li>
-                    <li class="layui-nav-item" ><a href="/classification" class="layui-this">个性标签动态分类</a></li>
+                    <li class="layui-nav-item" ><a href="/classification" class="layui-this">文本主题模型分类</a></li>
+                    <li class="layui-nav-item" ><a href="/userclassification">个性标签动态分类</a></li>
                     <li class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;">云服务管理</a>
                         <dl class="layui-nav-child">
@@ -98,7 +99,7 @@
                         <fieldset class="layui-elem-field layui-field-title">
                             <legend>个性标签动态分类简介</legend>
                             <div class="layui-field-box" style="margin-left: 40px; margin-top: 7px;">
-                              输入个人简介，系统将根据智能聚类及语义距离匹配最适合您的若干云服务。
+                                请描述您需要的云服务，系统将根据文本主题及语义距离匹配最适合您的若干云服务。
                             </div>
                         </fieldset>
                         <form class="layui-form" action="" lay-filter="component-form-group">
@@ -113,9 +114,9 @@
                             -->
                             <div class="layui-form-item">
                                 <div class="layui-inline">
-                                    <label class="layui-form-label">个性标签</label>
+                                    <label class="layui-form-label">文本描述</label>
                                     <div class="layui-input-inline">
-                                        <input id="search_text" type="text" name="info" placeholder="请输入标签" autocomplete="off" class="layui-input">
+                                        <input id="search_text" type="text" name="info" placeholder="请输入描述" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-inline">
@@ -139,7 +140,14 @@
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="jump">点击进入</a>
     </script>
+    
+    <script src="/static/mx.js"></script>
     <script>
+        getUserInfo(window.localStorage['token'], (res) => {
+            console.log(res)
+            document.getElementById("userName").innerText = res.username
+        })
+
         window.onload = function () {
             layui.use('table', function () {
                 var table = layui.table;
