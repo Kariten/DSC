@@ -99,58 +99,56 @@
                     <fieldset class="layui-elem-field layui-field-title">
                         <legend>个人信息</legend>
                     </fieldset>
-                    <form class="layui-form" action="" lay-filter="component-form-group">
+                    <form class="layui-form" action="" lay-filter="component-form-group" id="userform">
                         <div class="layui-form-item">
                             <label class="layui-form-label">用户名</label>
                             <div class="layui-input-block">
-                                <input type="text" name="username" lay-verify="title" autocomplete="off" id="nameinput"
-                                       lay-filter="nameinput"
-                                       placeholder="测试用户" class="layui-input">
+                                <div class="mx-info" id="username"></div>
                             </div>
                         </div>
+
                         <div class="layui-form-item">
                             <label class="layui-form-label">原密码</label>
                             <div class="layui-input-block">
-                                <input type="text" name="password" placeholder="请输入原密码"
-                                       autocomplete="off" class="layui-input">
+                                <div class="mx-info"> *********</div>
                             </div>
                         </div>
-                        <div class="layui-form-item">
+                        <div class="layui-form-item" style="display: none">
                             <label class="layui-form-label">新密码</label>
                             <div class="layui-input-block">
-                                <input type="text" name="newpwd" placeholder="请输入新密码"
+                                <input type="password" name="newpwd" placeholder="请输入新密码"
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
-                        <div class="layui-form-item">
+                        <div class="layui-form-item" style="display: none">
                             <label class="layui-form-label">确认密码</label>
                             <div class="layui-input-block">
-                                <input type="text" name="confirmpwd" placeholder="请重新确认密码"
+                                <input type="password" name="confirmpwd" placeholder="请重新确认密码"
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">常用服务</label>
-                            <div class="layui-input-block">
-                                <input type="checkbox" name="like[write]" title="计算资源">
+                            <div class="layui-input-block" id="service-select">
+                                <input type="checkbox" name="like[write]" title="计算资源" disabled>
                                 <div class="layui-unselect layui-form-checkbox"><span>计算资源</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
-                                <input type="checkbox" name="like[read]" title="存储">
+                                <input type="checkbox" name="like[read]" title="存储" disabled>
                                 <div class="layui-unselect layui-form-checkbox layui-form-checked"><span>存储</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
-                                <input type="checkbox" name="like[game]" title="中间件">
+                                <input type="checkbox" name="like[game]" title="中间件" disabled>
                                 <div class="layui-unselect layui-form-checkbox"><span>中间件</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
-                                <input type="checkbox" name="like[write]" title="数据库">
+                                <input type="checkbox" name="like[write]" title="数据库" disabled>
                                 <div class="layui-unselect layui-form-checkbox"><span>数据库</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
-                                <input type="checkbox" name="like[read]" title="应用">
+                                <input type="checkbox" name="like[read]" title="应用" disabled>
                                 <div class="layui-unselect layui-form-checkbox layui-form-checked"><span>应用</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
-                                <input type="checkbox" name="like[game]" title="大数据">
+                                <input type="checkbox" name="like[game]" title="大数据" disabled>
                                 <div class="layui-unselect layui-form-checkbox"><span>大数据</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
-                                <input type="checkbox" name="like[write]" title="安全">
+                                <input type="checkbox" name="like[write]" title="安全" disabled>
                                 <div class="layui-unselect layui-form-checkbox"><span>安全</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
                             </div>
@@ -158,15 +156,18 @@
                         <div class="layui-form-item layui-form-text">
                             <label class="layui-form-label">个人简介</label>
                             <div class="layui-input-block">
-                                <textarea placeholder="请输入一段简介" name="userinfo" class="layui-textarea"></textarea>
+                                <fieldset class="layui-elem-field">
+                                    <div class="layui-field-box" id="info"></div>
+                                </fieldset>
                             </div>
                         </div>
+
+
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit=""
-                                        lay-filter="component-form-demo1">提交
+                                <button type="button" class="layui-btn layui-btn-normal" id="edit-userinfo-button">修改用户信息
                                 </button>
-                                <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+
                             </div>
                         </div>
 
@@ -186,23 +187,55 @@
 <script src="/static/mx.js"></script>
 <script src="/static/jsencrypt.min.js"></script>
 <script>
+    let user_form = document.getElementById('userform').innerHTML
 
     getUserInfo(window.localStorage['token'], (res) => {
         console.log(res)
         document.getElementById("userName").innerText = res.username
-        //为输入框提供未修改前的值
-        layui.use(['form'], function () {
-            var form = layui.form //获取form模块
-            form.val('component-form-group', {
-                'username': res.username,
-                'userinfo': res.info
+        document.getElementById("username").innerText = res.username
+        document.getElementById('info').innerText = res.info
+
+    })
+
+    document.getElementById('edit-userinfo-button').onclick = (e) => {
+        let input = document.getElementsByClassName('layui-input-block')
+        input[0].innerHTML = '<input type="text" name="username" lay-verify="title" autocomplete="off" id="nameinput"' +
+            'lay-filter="nameinput"placeholder="测试用户" class="layui-input">'
+
+        input[1].innerHTML = '<input type="password" name="password" placeholder="请输入原密码" autocomplete="off" ' +
+            'class="layui-input">'
+
+        let t = document.getElementsByClassName('layui-form-item')
+        t[2].style.display = '';
+        t[3].style.display = '';
+
+        input[5].innerHTML = '<textarea placeholder="请输入一段简介" name="userinfo" class="layui-textarea"></textarea>'
+
+        input[6].innerHTML = ' <button  type="button"  lay-submit="" class="layui-btn" lay-filter="component-form-demo1">提交</button>' +
+            '<button type="reset" class="layui-btn layui-btn-danger">重置</button>'
+
+        document.querySelectorAll('#service-select input').forEach(e => {
+            e.removeAttribute('disabled')
+        })
+
+
+        getUserInfo(window.localStorage['token'], (res) => {
+            //为输入框提供未修改前的值
+            layui.use(['form'], function () {
+                var form = layui.form //获取form模块
+                form.val('component-form-group', {
+                    'username': res.username,
+                    'userinfo': res.info
+                })
             })
         })
-    })
+
+    }
 
 
     layui.use(['form'], function () {
         var form = layui.form //获取form模块
+        let $ = layui.$
 
         let encrypt = new JSEncrypt();
 
@@ -214,6 +247,7 @@
             encrypt.setPublicKey(res.data.publickey);
         })
 
+
         form.on('submit(component-form-demo1)', function (data) {
             if (data.field.confirmpwd !== data.field.newpwd) {
                 layer.msg("密码输入不一致，请重新输入")
@@ -223,6 +257,7 @@
                 })
                 return false
             }
+
 
             if (data.field.password == '' && data.field.confirmpwd != '') {
                 layer.msg('原密码不能为空')
@@ -245,14 +280,18 @@
                     if (mydata.code === "1") {
                         layer.msg(mydata.msg);
                     } else {
+                        layer.msg(mydata.msg);
                         document.getElementById("userName").innerText = mydata.data.username
-                        layer.msg("提交成功");
+                        document.getElementById('userform').innerHTML = user_form
+                        document.getElementById("username").innerText = mydata.data.username
+                        document.getElementById('info').innerText = mydata.data.info
                     }
                 },
                 error: function () {
                     layer.msg("提交失败，请重试");
                 }
             })
+
             return false;
         });
     });
@@ -325,6 +364,12 @@
         text-overflow: ellipsis;
         word-break: break-all;
         white-space: nowrap;
+    }
+
+    .mx-info {
+        height: 38px;
+        line-height: 38px;
+        padding-left: 10px;
     }
 
     .layui-col-sm6.layui-col-md3.width75 {

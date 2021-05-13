@@ -91,7 +91,8 @@ def userLogin(username, password):
         if res is not None:
             update_sql = "UPDATE LoginStatus SET token='{}',loginTime='{}' WHERE userId='{}'".format(token,
                                                                                                      time.strftime(
-                                                                                                         "%Y-%m-%d %H:%M:%S",
+                                                                                                         "%Y-%m-%d "
+                                                                                                         "%H:%M:%S",
                                                                                                          time.localtime()),
                                                                                                      int(userInfo[
                                                                                                              'id']))

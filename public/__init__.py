@@ -6,7 +6,7 @@ from flask import render_template, request, redirect, session
 import os
 import json
 
-from public.user import checkedToken, userLogin, userLogout, getUserInfo, UpdateUserInfo,UserModel
+from public.user import checkedToken, userLogin, userLogout, getUserInfo, UpdateUserInfo, UserModel
 from util.hash import generate_key, rsa_decrypt, getHash
 from util.imageCode import getImgCode
 from util.result import ApiResult
@@ -99,7 +99,6 @@ def create_app():
     def getPublickey():
         privatekey, publickey = generate_key()
         session['privatekey'] = privatekey
-
         return ApiResult({'publickey': publickey}).success("")
 
     @app.route('/api/getuserinfo', methods=["GET", 'POST'])
@@ -164,6 +163,12 @@ def create_app():
             return render_template('classify.html', name=name, age=age)
         else:
             return render_template('classify.html')
+
+    @app.route('/api/setOnlineTime')
+    def setOnlineTime():
+        return 'time'
+
+
 
     @app.route('/api/selectdatabytag')
     def selectDatabyTag():
