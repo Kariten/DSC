@@ -177,7 +177,9 @@ def UpdateUserInfo(token, updateUser):
     if checkedUserName(updateUser.username):
         if user.username != updateUser.username:
             return "用户已存在"
+    print(updateUser.password)
     user.updateUser(updateUser)
+    print(user.password)
 
     conn = db.get_db()
     c = conn.cursor()
@@ -208,7 +210,8 @@ class UserModel:
         pass
 
     def setPassword(self, password):
-        self.password = getHash(rsa_decrypt(session['privatekey'], password).decode()[1:-1])
+        if rsa_decrypt(session['privatekey'], password).decode()[1:-1] is not '':
+            self.password = getHash(rsa_decrypt(session['privatekey'], password).decode()[1:-1])
 
     def getUserInfoFromDB(self, user):
         self.username = user['username']

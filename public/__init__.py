@@ -106,7 +106,7 @@ def create_app():
         UserInfo = getUserInfo(token)
         if UserInfo is None:
             return ApiResult('').fault("查询失败")
-        print(UserInfo.getUserVo())
+
         return ApiResult(UserInfo.getUserVo()).success("查询成功")
 
     @app.route('/logout', methods=['GET'])
