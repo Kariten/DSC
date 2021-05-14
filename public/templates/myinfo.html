@@ -59,7 +59,7 @@
                     <dd><a href="/myinfo">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a id="logout" href="">告辞</a></li>
+            <li class="layui-nav-item"><a id="logout" href="javascript:;">告辞</a></li>
         </ul>
     </div>
 
@@ -130,8 +130,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">常用服务</label>
                             <div class="layui-input-block" id="service-select">
-                                <input type="checkbox" name="like[write]" title="计算资源" disabled>
-                                <div class="layui-unselect layui-form-checkbox"><span>计算资源</span><i
+                                <input type="checkbox" name="1" title="计算资源" disabled>
+                                <div class="layui-unselect layui-form-checked layui-form-checkbox"><span>计算资源</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
                                 <input type="checkbox" name="like[read]" title="存储" disabled>
                                 <div class="layui-unselect layui-form-checkbox layui-form-checked"><span>存储</span><i
@@ -195,6 +195,16 @@
         document.getElementById("username").innerText = res.username
         document.getElementById('info').innerText = res.info
 
+        layui.use(['form'],()=>{
+            let form = layui.form;
+            form.val('component-form-group', {
+                    '1': 'on'
+                })
+
+            form.render()
+            setFormSelect(res)
+        })
+
     })
 
     document.getElementById('edit-userinfo-button').onclick = (e) => {
@@ -225,7 +235,8 @@
                 var form = layui.form //获取form模块
                 form.val('component-form-group', {
                     'username': res.username,
-                    'userinfo': res.info
+                    'userinfo': res.info,
+                    '1': 'on'
                 })
             })
         })
@@ -249,12 +260,14 @@
 
 
         form.on('submit(component-form-demo1)', function (data) {
+            console.log(JSON.stringify(data.field));
             if (data.field.confirmpwd !== data.field.newpwd) {
                 layer.msg("密码输入不一致，请重新输入")
                 form.val('component-form-group', {
                     'confirmpwd': '',
                     'newpwd': ''
                 })
+
                 return false
             }
 
@@ -281,10 +294,7 @@
                         layer.msg(mydata.msg);
                     } else {
                         layer.msg(mydata.msg);
-                        document.getElementById("userName").innerText = mydata.data.username
-                        document.getElementById('userform').innerHTML = user_form
-                        document.getElementById("username").innerText = mydata.data.username
-                        document.getElementById('info').innerText = mydata.data.info
+                        location.reload()
                     }
                 },
                 error: function () {
@@ -341,6 +351,20 @@
         }
     });
 
+    function setFormSelect(data) {
+        let select = document.querySelectorAll("#service-select span")
+        for (let i = 1; i <8 ; i++) {
+            data['1'] = "on"
+            if (data[i.toString()] === 'on'){
+                console.log(select[i-1])
+                {#select[i-1].style = "background-color: #5FB878!important;"#}
+                select[i-1].classList.add("qc")
+                select[i-1].classList.add("lx")
+                select[i-1].classList.add("mx-select")
+            }
+        }
+    }
+
 </script>
 
 <style>
@@ -374,6 +398,10 @@
 
     .layui-col-sm6.layui-col-md3.width75 {
         width: 75%;
+    }
+
+    .qc.lx.mx-select{
+        background-color: #5FB878!important;
     }
 </style>
 </body>

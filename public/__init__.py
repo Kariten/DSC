@@ -168,8 +168,6 @@ def create_app():
     def setOnlineTime():
         return 'time'
 
-
-
     @app.route('/api/selectdatabytag')
     def selectDatabyTag():
         tag = request.args.get("tag")
@@ -303,6 +301,8 @@ def create_app():
                     return ApiResult('').fault('原密码输入错误，如忘记请联系管理员')
             res = UpdateUserInfo(token, updateUser)
             if res is not None:
+                if res == "用户已存在":
+                    return ApiResult("").fault("用户名冲突")
                 return ApiResult(res.getUserVo()).success('修改成功')
             else:
                 return ApiResult('').fault('修改失败')

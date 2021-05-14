@@ -7,6 +7,19 @@ import time
 from datetime import datetime
 
 
+def checkedUserName(userName):
+    query = "select * from User where username='{}'".format(userName)
+    conn = db.get_db()
+    c = conn.cursor()
+    try:
+        userInfo = c.execute(query).fetchone()
+    except:
+        return False
+    if userInfo is None:
+        return False
+    return True
+
+
 def checkedToken(token):
     query = "select * from LoginStatus where token='{}'".format(token)
     conn = db.get_db()
@@ -126,12 +139,17 @@ def userLogout(token):
 
 def UpdateUserInfo(token, updateUser):
     user = getUserInfo(token)
+
+    if checkedUserName(updateUser.username):
+        if user.username != updateUser.username:
+            return "用户已存在"
     user.updateUser(updateUser)
 
     conn = db.get_db()
     c = conn.cursor()
     try:
-        query = "UPDATE User SET username='{}', info='{}',pwd='{}' WHERE id='{}'".format(user.username, user.info,user.password, user.userId)
+        query = "UPDATE User SET username='{}', info='{}',pwd='{}' WHERE id='{}'".format(user.username, user.info,
+                                                                                         user.password, user.userId)
         c.execute(query)
         conn.commit()
         db.close_db()
@@ -150,6 +168,7 @@ class UserModel:
     userId = ''
     password = ''
     info = ''
+    service = ''
 
     def __init__(self):
         pass
@@ -164,7 +183,7 @@ class UserModel:
         self.userId = user['id']
 
     def getUserVo(self):
-        return {'username': self.username, 'userId': self.userId, 'info': self.info}
+        return {'username': self.username, 'userId': self.userId, 'info': self.info, 'service': self.service}
 
     def updateUser(self, newUser):
         self.username = newUser.username if newUser.username is not '' else self.username
