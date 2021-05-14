@@ -6,7 +6,7 @@ from flask import render_template, request, redirect, session
 import os
 import json
 
-from public.user import checkedToken, userLogin, userLogout, getUserInfo, UpdateUserInfo, UserModel
+from public.user import checkedToken, userLogin, userLogout, getUserInfo, UpdateUserInfo, UserModel, updateService
 from util.hash import generate_key, rsa_decrypt, getHash
 from util.imageCode import getImgCode
 from util.result import ApiResult
@@ -42,9 +42,8 @@ def create_app():
         if token is None:
             try:
                 token = session['token']
-                print(token)
             except KeyError:
-                (error)
+                print(error)
         else:
             session['token'] = token
 
@@ -107,6 +106,7 @@ def create_app():
         UserInfo = getUserInfo(token)
         if UserInfo is None:
             return ApiResult('').fault("查询失败")
+        print(UserInfo.getUserVo())
         return ApiResult(UserInfo.getUserVo()).success("查询成功")
 
     @app.route('/logout', methods=['GET'])
@@ -287,14 +287,22 @@ def create_app():
             updateUser = UserModel()
             updateUser.username = request.json.get('username')
             updateUser.info = request.json.get('userinfo')
+
+            Service = []
+            for i in range(1, 8):
+                on = request.json.get(str(i))
+                if on == 'on':
+                    Service.append(str(i))
+            if Service is not []:
+                if updateService(service=Service) is None:
+                    return ApiResult('').fault('用戶類型修改失敗')
+
             password = request.json.get('password')
             newpwd = request.json.get('newpwd')
 
             token = session['token']
 
             if rsa_decrypt(session['privatekey'], password).decode()[1:-1] is not '':
-                print(rsa_decrypt(session['privatekey'], password).decode()[1:-1])
-
                 if getUserInfo(token).password == getHash(rsa_decrypt(session['privatekey'], password).decode()[1:-1]):
                     updateUser.setPassword(newpwd)
                 else:

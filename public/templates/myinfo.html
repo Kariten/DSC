@@ -131,24 +131,24 @@
                             <label class="layui-form-label">常用服务</label>
                             <div class="layui-input-block" id="service-select">
                                 <input type="checkbox" name="1" title="计算资源" disabled>
-                                <div class="layui-unselect layui-form-checked layui-form-checkbox"><span>计算资源</span><i
+                                <div class="layui-unselect  layui-form-checkbox"><span>计算资源</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
-                                <input type="checkbox" name="like[read]" title="存储" disabled>
-                                <div class="layui-unselect layui-form-checkbox layui-form-checked"><span>存储</span><i
+                                <input type="checkbox" name="2" title="存储" disabled>
+                                <div class="layui-unselect layui-form-checkbox "><span>存储</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
-                                <input type="checkbox" name="like[game]" title="中间件" disabled>
+                                <input type="checkbox" name="3" title="中间件" disabled>
                                 <div class="layui-unselect layui-form-checkbox"><span>中间件</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
-                                <input type="checkbox" name="like[write]" title="数据库" disabled>
+                                <input type="checkbox" name="4" title="数据库" disabled>
                                 <div class="layui-unselect layui-form-checkbox"><span>数据库</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
-                                <input type="checkbox" name="like[read]" title="应用" disabled>
-                                <div class="layui-unselect layui-form-checkbox layui-form-checked"><span>应用</span><i
+                                <input type="checkbox" name="5" title="应用" disabled>
+                                <div class="layui-unselect layui-form-checkbox "><span>应用</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
-                                <input type="checkbox" name="like[game]" title="大数据" disabled>
+                                <input type="checkbox" name="6" title="大数据" disabled>
                                 <div class="layui-unselect layui-form-checkbox"><span>大数据</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
-                                <input type="checkbox" name="like[write]" title="安全" disabled>
+                                <input type="checkbox" name="7" title="安全" disabled>
                                 <div class="layui-unselect layui-form-checkbox"><span>安全</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
                             </div>
@@ -197,12 +197,9 @@
 
         layui.use(['form'],()=>{
             let form = layui.form;
-            form.val('component-form-group', {
-                    '1': 'on'
-                })
-
+            form.val('component-form-group', res.service)
             form.render()
-            setFormSelect(res)
+            setFormSelect(res.service)
         })
 
     })
@@ -235,8 +232,7 @@
                 var form = layui.form //获取form模块
                 form.val('component-form-group', {
                     'username': res.username,
-                    'userinfo': res.info,
-                    '1': 'on'
+                    'userinfo': res.info
                 })
             })
         })
@@ -267,7 +263,6 @@
                     'confirmpwd': '',
                     'newpwd': ''
                 })
-
                 return false
             }
 
@@ -354,9 +349,7 @@
     function setFormSelect(data) {
         let select = document.querySelectorAll("#service-select span")
         for (let i = 1; i <8 ; i++) {
-            data['1'] = "on"
             if (data[i.toString()] === 'on'){
-                console.log(select[i-1])
                 {#select[i-1].style = "background-color: #5FB878!important;"#}
                 select[i-1].classList.add("qc")
                 select[i-1].classList.add("lx")

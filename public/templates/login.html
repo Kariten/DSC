@@ -97,6 +97,7 @@
             }
         }).then(res => {
             encrypt.setPublicKey(res.data.publickey);
+
         })
 
 
@@ -129,6 +130,7 @@
                     }
 
                 }
+                code()
                 layer.msg(res.msg)
             })
             console.log(obj.field)

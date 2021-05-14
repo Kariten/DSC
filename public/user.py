@@ -60,6 +60,13 @@ def getUserInfo(token):
     if token_data is None:
         return None
     userId = token_data['userId']
+
+    try:
+        userService = c.execute("select * from UserType where userid='{}'".format(userId)).fetchall()
+    except:
+        db.close_db()
+        return None
+
     try:
         userInfo = c.execute("select * from User where id='{}'".format(userId)).fetchone()
     except:
@@ -67,6 +74,10 @@ def getUserInfo(token):
         return None
     db.close_db()
     user = UserModel()
+    serviceList = []
+    for i in userService:
+        serviceList.append(i['typeid'])
+    user.setService(serviceList)
     user.getUserInfoFromDB(userInfo)
     return user
 
@@ -137,6 +148,29 @@ def userLogout(token):
     return 1
 
 
+def updateService(service):
+    userId = getUserInfo(session['token']).userId
+    conn = db.get_db()
+    c = conn.cursor()
+    try:
+        c.execute("delete from UserType where userid='{}'".format(userId))
+        conn.commit()
+    except TypeError:
+        db.close_db()
+        return None
+    try:
+        for i in service:
+            query = "INSERT INTO UserType(userid, typeid) VALUES({}, {})".format(int(userId), int(i))
+            c.execute(query)
+        conn.commit()
+        db.close_db()
+    except TypeError:
+        conn.rollback()
+        db.close_db()
+        return None
+    return 1
+
+
 def UpdateUserInfo(token, updateUser):
     user = getUserInfo(token)
 
@@ -168,7 +202,7 @@ class UserModel:
     userId = ''
     password = ''
     info = ''
-    service = ''
+    service = {}
 
     def __init__(self):
         pass
@@ -190,6 +224,7 @@ class UserModel:
         self.info = newUser.info if newUser.info is not '' else self.info
         self.password = newUser.password if newUser.password is not '' else self.password
 
-
-if __name__ == '__main__':
-    print(checkedToken("9aa0eda3d5d06c9"))
+    def setService(self, data):
+        self.service = {}
+        for i in data:
+            self.service['{}'.format(str(i))] = "on"
