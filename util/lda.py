@@ -122,7 +122,7 @@ def getidbyuser(info, uid=0):
     conn = getdb()
     c = conn.cursor()
     # 获取用户常用服务
-    query = "SELECT servid FROM Frequency WHERE userid={}".format(uid)
+    query = "SELECT typeid FROM UserType WHERE userid={}".format(uid)
     servs = c.execute(query).fetchall()
     for serv in servs:
         resultlist.append(serv[0])
