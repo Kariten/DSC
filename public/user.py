@@ -108,7 +108,7 @@ def userLogin(username, password):
         return 102
 
     token = getToken()
-
+    userid = str(userInfo['id'])
     query2 = "select * from LoginStatus where userId={}".format(userInfo['id'])
     try:
         res = c.execute(query2).fetchone()
@@ -132,7 +132,7 @@ def userLogin(username, password):
     except IOError:
         conn.close()
     conn.close()
-    return token
+    return token, userid
 
 
 def userLogout(token):
@@ -140,7 +140,7 @@ def userLogout(token):
     c = conn.cursor()
     try:
         c.execute("delete from LoginStatus where token='{}'".format(token))
-        print("删除成功")
+        print("删除成 功")
         conn.commit()
     except IOError:
         db.close_db()

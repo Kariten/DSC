@@ -6,6 +6,7 @@ from flask import render_template, request, redirect, session
 import os
 import json
 
+from public.history import HistoryRecord
 from public.user import checkedToken, userLogin, userLogout, getUserInfo, UpdateUserInfo, UserModel, updateService
 from util.hash import generate_key, rsa_decrypt, getHash
 from util.imageCode import getImgCode
@@ -55,7 +56,7 @@ def create_app():
 
         # 合法的url入口
         allow_url = ["/logout", "/classify", "/classification", "/userclassification", "/myinfo", "/api", "/add",
-                     "/manage", "/index"]
+                     "/manage", "/index", "/visithistory"]
 
         for url in login_url:
             if request.path.startswith(url):
@@ -84,14 +85,14 @@ def create_app():
             code = request.json.get("code").lower()
             if not code == session['imageCode'].lower():
                 return ApiResult('').fault("验证码错误")
-
             token = userLogin(username, password)
             session['token'] = token
+            print(userId)
             if token in [0, 101, 102]:
                 return ApiResult('').fault("用户名和密码不正确")
             if token is None:
                 return ApiResult().fault("登录失败")
-
+            HistoryRecord("登录成功", "/login", 2, session['userId']).addRecord()
             return ApiResult({"token": token}).success("登录成功")
 
     @app.route('/getpublicKey', methods=["GET"])
@@ -314,6 +315,17 @@ def create_app():
                 return ApiResult(res.getUserVo()).success('修改成功')
             else:
                 return ApiResult('').fault('修改失败')
+
+    @app.route('/visithistory', methods=['GET', 'POST'])
+    def history():
+        return render_template("visithistory.html")
+
+    @app.route('/api/visitrecordhistory', methods=['GET', 'POST'])
+    def visitRecordHistory():
+        recordName = request.args.get("recordName")
+        recordType = request.args.get("recordType")
+        recordUrl = request.args.get("recordUrl")
+        return ApiResult("").success("ok")
 
     @app.route('/test', methods=['GET', 'POST'])
     def test():

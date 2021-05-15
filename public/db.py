@@ -21,7 +21,7 @@ def get_db():
 # 为main内代码提供数据库连接
 def getdb():
 
-    conn = sqlite3.connect('public/classification.db', detect_types=sqlite3.PARSE_DECLTYPES)
+    conn = sqlite3.connect('../public/classification.db', detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -129,62 +129,65 @@ def resetUser():
     conn.close()
 
 
-def resetFreq():
+def resetRecored():
     conn = getdb()
     c = conn.cursor()
     c.execute("DROP TABLE IF EXISTS Frequency")
+    c.execute("DROP TABLE IF EXISTS HistoryRecored")
     conn.commit()
     c.execute('''
-    CREATE TABLE Frequency(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        userid INTEGER NOT NULL,
-        servid INTEGER NOT NULL,
-        optime INTEGER NOT NULL DEFAULT 0
+    CREATE TABLE HistoryRecored(
+        recordId INTEGER PRIMARY KEY AUTOINCREMENT,
+        userId INTEGER NOT NULL,
+        recordType INTEGER NOT NULL ,
+        recordName varchar(255) NOT NULL,
+        visitedUrl varchar(255),
+        visitedTime DATETIME
     );
     ''')
-    freqs = [
-        {
-            'id': 0,
-            'userid': 0,
-            'servid': 3,
-            'optime': 5
-        },
-        {
-            'id': 1,
-            'userid': 0,
-            'servid': 15,
-            'optime': 4
-        },
-        {
-            'id': 2,
-            'userid': 0,
-            'servid': 28,
-            'optime': 3
-        },
-        {
-            'id': 3,
-            'userid': 1,
-            'servid': 31,
-            'optime': 5
-        },
-        {
-            'id': 4,
-            'userid': 1,
-            'servid': 33,
-            'optime': 4
-        },
-        {
-            'id': 5,
-            'userid': 1,
-            'servid': 23,
-            'optime': 3
-        }
-    ]
-    for freq in freqs:
-        query = 'INSERT INTO Frequency VALUES ({id},{userid},{servid},{optime})'.format(**freq)
-        print(query)
-        c.execute(query)
-        conn.commit()
+    # freqs = [
+    #     {
+    #         'id': 0,
+    #         'userid': 0,
+    #         'servid': 3,
+    #         'optime': 5
+    #     },
+    #     {
+    #         'id': 1,
+    #         'userid': 0,
+    #         'servid': 15,
+    #         'optime': 4
+    #     },
+    #     {
+    #         'id': 2,
+    #         'userid': 0,
+    #         'servid': 28,
+    #         'optime': 3
+    #     },
+    #     {
+    #         'id': 3,
+    #         'userid': 1,
+    #         'servid': 31,
+    #         'optime': 5
+    #     },
+    #     {
+    #         'id': 4,
+    #         'userid': 1,
+    #         'servid': 33,
+    #         'optime': 4
+    #     },
+    #     {
+    #         'id': 5,
+    #         'userid': 1,
+    #         'servid': 23,
+    #         'optime': 3
+    #     }
+    # ]
+    # for freq in freqs:
+    #     query = 'INSERT INTO Frequency VALUES ({id},{userid},{servid},{optime})'.format(**freq)
+    #     print(query)
+    #     c.execute(query)
+    #     conn.commit()
     conn.close()
 
 def resetUserType():
@@ -250,11 +253,11 @@ if __name__ == "__main__":
         if sys.argv[1] == 'reset':
             # resetServ()
             # resetUser()
-            resetFreq()
+            resetRecored()
             # resetLoginStatus()
         elif sys.argv[1] == 'reset_all':
             resetServ()
             resetUser()
-            resetFreq()
+            resetRecored()
             resetUserType()
             resetLoginStatus()
