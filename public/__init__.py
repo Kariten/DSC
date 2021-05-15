@@ -6,7 +6,7 @@ from flask import render_template, request, redirect, session
 import os
 import json
 
-from public.history import HistoryRecord
+from public.history import HistoryRecord, getRecordByUserId
 from public.user import checkedToken, userLogin, userLogout, getUserInfo, UpdateUserInfo, UserModel, updateService
 from util.hash import generate_key, rsa_decrypt, getHash
 from util.imageCode import getImgCode
@@ -117,6 +117,7 @@ def create_app():
         token = session['token']
         userLogout(token)
         session.pop('token')
+        HistoryRecord("登出", "logout", 2, session['userId']).addRecord()
         return ApiResult('').success("登出成功")
 
     @app.route('/imgCode')
@@ -131,6 +132,7 @@ def create_app():
     @app.route('/index')
     @app.route('/manage')
     def manage():
+        HistoryRecord("云服务管理", "manage", 3, session['userId']).addRecord()
         return render_template('/manage.html')
 
     @app.route('/add', methods=['GET', 'POST'])
@@ -150,6 +152,7 @@ def create_app():
                 c.execute(query)
                 conn.commit()
                 db.close_db()
+                HistoryRecord("新增云服务" + servname, "add", 2, session['userId']).addRecord()
                 return ApiResult('').success('提交成功')
             except:
                 db.close_db()
@@ -165,6 +168,7 @@ def create_app():
 
             return render_template('classify.html', name=name, age=age)
         else:
+            HistoryRecord("简单分类", "classify", 3, session['userId']).addRecord()
             return render_template('classify.html')
 
     @app.route('/api/setOnlineTime')
@@ -276,15 +280,18 @@ def create_app():
 
     @app.route('/classification')
     def classification():
+        HistoryRecord("文本主题分类", "classification", 3, session['userId']).addRecord()
         return render_template('classification.html')
 
     @app.route('/userclassification')
     def userclassification():
+        HistoryRecord("个性标签动态分类", "userclassification", 3, session['userId']).addRecord()
         return render_template('userclassification.html')
 
     @app.route('/myinfo', methods=['GET', 'POST'])
     def myinfo():
         if request.method == 'GET':
+            HistoryRecord("个人中心", "myinfo", 3, session['userId']).addRecord()
             return render_template('myinfo.html')
         elif request.method == 'POST':
             updateUser = UserModel()
@@ -314,6 +321,7 @@ def create_app():
             if res is not None:
                 if res == "用户已存在":
                     return ApiResult("").fault("用户名冲突")
+                HistoryRecord("修改用户信息", "myinfo", 2, session['userId']).addRecord()
                 return ApiResult(res.getUserVo()).success('修改成功')
             else:
                 return ApiResult('').fault('修改失败')
@@ -322,11 +330,23 @@ def create_app():
     def history():
         return render_template("visithistory.html")
 
+    @app.route('/api/getUserHistory', methods=['GET', 'POST'])
+    def getUserHistory():
+        page = request.args.get("page")
+        limit = request.args.get("limit")
+        userhistory = getRecordByUserId(session['userId'])
+
+        if userhistory is not None:
+            return ApiResult({'count': len(userhistory),
+                              'history': getPage(userhistory, page, limit)}).success("查询成功")
+        return ApiResult('').fault("查询失败")
+
     @app.route('/api/visitrecordhistory', methods=['GET', 'POST'])
     def visitRecordHistory():
         recordName = request.args.get("recordName")
         recordType = request.args.get("recordType")
         recordUrl = request.args.get("recordUrl")
+        HistoryRecord(recordName, recordUrl, recordType, session['userId']).addRecord()
         return ApiResult("").success("ok")
 
     @app.route('/test', methods=['GET', 'POST'])

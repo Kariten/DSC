@@ -234,6 +234,8 @@
             table.on('tool(test)', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'jump') {
+                    fetch("http://127.0.0.1:5000/api/visitrecordhistory?recordName="+data.name+
+                        "&recordType=1&recordUrl="+data.entrance)
                     window.location.href="http://"+data.entrance
                 }
             });

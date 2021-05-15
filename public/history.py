@@ -32,7 +32,7 @@ def getFreqTimesByUserId(userId):
     resList = []
     for record in records:
         resList.append(indexMap[record["recordName"]])
-    return Counter(resList)
+    return Counter(resList).most_common(100)
 
 
 def getRecordByUserId(userId):
@@ -41,10 +41,8 @@ def getRecordByUserId(userId):
     try:
         query = "select * from HistoryRecored where userId={}".format(userId)
         records = c.execute(query).fetchall()
-        conn.commit()
         db.close_db()
     except IOError:
-        conn.rollback()
         db.close_db()
         return None
 
@@ -53,8 +51,11 @@ def getRecordByUserId(userId):
         history = HistoryRecord(recordName=record['recordName'], recordUrl=record['visitedUrl'],
                                 recordType=record['recordType'], userId=record['userId'])
         history.recordTime = record['visitedTime']
-        resList.append(history)
-    return resList
+        resList.append(history.Serialization())
+    resList2 = []
+    for i in range(len(resList) - 1, 0, -1):
+        resList2.append(resList[i])
+    return resList2
 
 
 class HistoryRecord:
@@ -71,6 +72,14 @@ class HistoryRecord:
         self.recordName = recordName
         pass
 
+    def Serialization(self):
+        return {
+            'recordName': self.recordName,
+            'recordType': self.recordType,
+            'recordTime': self.recordTime[:-7],
+            'recordUrl': self.recordUrl
+        }
+
     def addRecord(self):
         conn = db.get_db()
         c = conn.cursor()
@@ -80,7 +89,6 @@ class HistoryRecord:
                     "VALUES({}, '{}','{}',{},'{}')".format(self.userId, self.recordName, self.recordUrl,
                                                            self.recordType, self.recordTime)
 
-            print(query)
             c.execute(query)
             conn.commit()
             db.close_db()

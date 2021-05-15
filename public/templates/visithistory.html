@@ -89,36 +89,7 @@
                     <legend>访问历史记录</legend>
                 </fieldset>
                 <ul class="layui-timeline flow-default" id="LAY_demo1">
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-timeline-axis"></i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title">2021年5月15日14:07:22 访问云盾服务</div>
-                        </div>
-                    </li>
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-timeline-axis"></i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title">2021年5月15日14:05:22 访问表格存储服务OTS</div>
-                        </div>
-                    </li>
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-timeline-axis"></i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title">2016年，layui 首个版本发布</div>
-                        </div>
-                    </li>
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-timeline-axis"></i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title">2015年，layui 孵化</div>
-                        </div>
-                    </li>
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop layui-timeline-axis"></i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title">更久前，轮子时代。维护几个独立组件：layer等</div>
-                        </div>
-                    </li>
+
                 </ul>
             </div>
         </div>
@@ -130,11 +101,8 @@
     </div>
 
 </div>
-<script src="/static/echarts.min.js"></script>
-<script src="/static/echarts-wordcloud.min.js"></script>
-<script src="/static/wordcloud.js"></script>
+
 <script src="/static/layui.js"></script>
-<script src="/static/country.js"></script>
 <script src="/static/mx.js"></script>
 <script>
     getUserInfo(window.localStorage['token'], (res) => {
@@ -142,20 +110,77 @@
         document.getElementById("userName").innerText = res.username
     })
 
-    layui.use('table', function () {
-        var table = layui.table;
+    fetch("../api/getUserHistory?limit=20&page=1").then(res => {
+        return res.json()
+    }).then(res => {
+        console.log(res)
+        ul = document.getElementById("LAY_demo1")
 
-        //第一个实例
-        table.render({
-            elem: '#demo'
-            , height: 520
-            , url: '/static/wordcloud.json' //数据接口
-            , cols: [[ //表头
-                {field: 'name', title: '关键词', width: 145, sort: true, fixed: 'left'}
-                , {field: 'value', title: '频次', width: 145, sort: true}
-            ]]
+        historys = res.data.history
+        for (const history of historys) {
+            let info = ''
+            if (history.recordType === 1) {
+                info = history.recordTime + " &nbsp;&nbsp;&nbsp;访问了云服务：<a href='http://" + history.recordUrl + "'>" + history.recordName + "</a>"
+            } else if (history.recordType === 2) {
+                info = history.recordTime + "&nbsp;&nbsp;&nbsp;" + history.recordName
+            } else if (history.recordType === 3) {
+                info = history.recordTime + "&nbsp;&nbsp;&nbsp;访问了：<a href='../" + history.recordUrl + "'>" + history.recordName + "</a>页面"
+            }
+
+            console.log(info)
+            li = document.createElement("li")
+            li.classList.add("layui-timeline-item")
+            li.innerHTML = `
+                        <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <div class="layui-timeline-title">${info}</div>
+                        </div>
+            `
+            ul.appendChild(li)
+        }
+    }).then(() => {
+        layui.use('flow', function () {
+            var flow = layui.flow;
+
+
+            flow.load({
+                elem: '#LAY_demo1' //流加载容器
+                , scrollElem: '#LAY_demo1' //滚动条所在元素，一般不用填，此处只是演示需要。
+                , done: function (page, next) { //执行下一页的回调
+                    var lis = [];
+
+                    fetch("../api/getUserHistory?limit=20&page="+page).then(res => {
+                        return res.json()
+                    }).then(res => {
+                        layui.each(res.data.history, function (index, history) {
+                            let info = ''
+                            if (history.recordType === 1) {
+                                info = history.recordTime + " &nbsp;&nbsp;&nbsp;访问了云服务：<a href='http://" + history.recordUrl + "'>" + history.recordName + "</a>"
+                            } else if (history.recordType === 2) {
+                                info = history.recordTime + "&nbsp;&nbsp;&nbsp;" + history.recordName
+                            } else if (history.recordType === 3) {
+                                info = history.recordTime + "&nbsp;&nbsp;&nbsp;访问了：<a href='../" + history.recordUrl + "'>" + history.recordName + "</a>页面"
+                            }
+
+                            li = `
+                                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                                <div class="layui-timeline-content layui-text">
+                                <div class="layui-timeline-title">${info}</div>
+                                </div>
+                            `
+                            lis.push('<li class="layui-timeline-item">' + li + '</li>');
+                        });
+
+                        //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                        //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+
+                        next(lis.join(''), page < (res.data.count / 20));
+
+                    })
+                }
+            });
         });
-    });
+    })
 
 
     //JavaScript代码区域
@@ -194,40 +219,6 @@
         }
     });
 
-    layui.use('flow', function () {
-        var flow = layui.flow;
-
-        flow.load({
-            elem: '#LAY_demo1' //流加载容器
-            , scrollElem: '#LAY_demo1' //滚动条所在元素，一般不用填，此处只是演示需要。
-            , done: function (page, next) { //执行下一页的回调
-
-                //模拟数据插入
-                setTimeout(function () {
-                    var lis = [];
-                    next(lis.join(''), page < 10); //假设总页数为 10
-                }, 500);
-            }
-        });
-
-        flow.load({
-            elem: '#LAY_demo2' //流加载容器
-            , scrollElem: '#LAY_demo2' //滚动条所在元素，一般不用填，此处只是演示需要。
-            , isAuto: false
-            , isLazyimg: true
-            , done: function (page, next) { //加载下一页
-                //模拟插入
-
-            }
-        });
-
-        //按屏加载图片
-        flow.lazyimg({
-            elem: '#LAY_demo3 img'
-            , scrollElem: '#LAY_demo3' //一般不用设置，此处只是演示需要。
-        });
-
-    });
 
 </script>
 

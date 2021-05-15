@@ -4,6 +4,9 @@ import json
 import re
 import sqlite3
 
+from public.history import getFreqTimesByUserId
+
+
 def getdb():
     conn = sqlite3.connect('public/classification.db',detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
@@ -123,6 +126,7 @@ def getidbyuser(info, uid=0):
     c = conn.cursor()
     # 获取用户常用服务
     query = "SELECT servid FROM Frequency WHERE userid={}".format(uid)
+
     servs = c.execute(query).fetchall()
     for serv in servs:
         resultlist.append(serv[0])

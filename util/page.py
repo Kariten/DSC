@@ -1,4 +1,8 @@
 def getPage(data, page, limit):
+    if page is None:
+        page = 1
+    if limit is None:
+        limit = 20
     limit = int(limit)
     page = int(page)
 
