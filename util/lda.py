@@ -49,10 +49,10 @@ def getidbyinfo(info):
         return range(0,len(servs))
 
     texts.append(myinfo)
-    
+    '''
     for info in texts:
         print(info)
-    
+    '''
 
     # 分词过滤条件
     # jieba.add_word('四强', 9, 'n')
@@ -90,7 +90,7 @@ def getidbyinfo(info):
         for line in lda.inference(corpus)[0]:
             if line[x]>1:
                 # 显示与用户同类的服务
-                print (i,':',line)
+                # print (i,':',line)
                 if i not in resultlist:
                     resultlist.append(i)
             i += 1
@@ -109,27 +109,38 @@ def getidbyuser(info, uid=0):
     resultlist = []
 
     # 服务简介
-    r'''
-    # json源
-    with open("public/static/service.json",'r',encoding='utf-8') as load_f:
-        load_dict = json.load(load_f)
-        print(load_dict)
-    load_dict['smallberg'] = [8200,{1:[['Python',81],['shirt',300]]}]
-    # print(load_dict)
-    # print(type(load_dict['data'][0]))
-    for serv in load_dict['data']:
-        text = re.sub(r"\?|？|。|、|，|（|）|/|；| |-|\+|\n|[0-9]|[a-z]|[A-Z]|\.|%", "", serv['info'], 0) 
-        texts.append(text)
-    '''
     # db源
     conn = getdb()
     c = conn.cursor()
+<<<<<<< HEAD
     # 获取用户常用服务
     query = "SELECT servid FROM Frequency WHERE userid={}".format(uid)
 
+=======
+    # 获取用户类型服务
+    query = "SELECT typeid FROM UserType WHERE userid={}".format(uid)
+>>>>>>> 0ebf389b5138198d6a3cf61477697fefe73c51e0
     servs = c.execute(query).fetchall()
     for serv in servs:
-        resultlist.append(serv[0])
+        kword = ''
+        if serv[0] is 1:
+            kword = '计算资源'
+        elif serv[0] is 2:
+            kword = '存储'
+        elif serv[0] is 3:
+            kword = '中间件'
+        elif serv[0] is 4:
+            kword = '数据库'
+        elif serv[0] is 5:
+            kword = '应用'
+        elif serv[0] is 6:
+            kword = '大数据'
+        elif serv[0] is 7:
+            kword = '安全'
+        query = "SELECT * FROM Serv WHERE servtype='{}'".format(kword)
+        servsbyutype = c.execute(query).fetchall()
+        for servbt in servsbyutype:
+            resultlist.append(servbt[0])
     # 获取动态分类服务
     query = "SELECT * FROM Serv"
     servs = c.execute(query).fetchall()
@@ -142,10 +153,10 @@ def getidbyuser(info, uid=0):
         return range(0,len(servs))
 
     texts.append(myinfo)
-    
+    '''
     for info in texts:
         print(info)
-    
+    '''
 
     # 分词过滤条件
     # jieba.add_word('四强', 9, 'n')
@@ -183,7 +194,7 @@ def getidbyuser(info, uid=0):
         for line in lda.inference(corpus)[0]:
             if line[x]>1:
                 # 显示与用户同类的服务
-                print (i,':',line)
+                # print (i,':',line)
                 if i not in resultlist:
                     resultlist.append(i)
             i += 1
@@ -193,4 +204,5 @@ def getidbyuser(info, uid=0):
     return resultlist
 
 if __name__ == "__main__":
-    print(getidbyinfo("大数据 云计算 服务器"))
+    # print(getidbyinfo("大数据 云计算 服务器"))
+    print(getidbyuser("大数据 云计算 服务器"))

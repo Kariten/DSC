@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS Serv;
 DROP TABLE IF EXISTS Frequency;
 DROP TABLE IF EXISTS LoginStatus;
 DROP TABLE IF EXISTS UserType;
+DROP TABLE IF EXISTS HistoryRecored;
 
 CREATE TABLE User(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,13 +20,6 @@ CREATE TABLE Serv(
     serventrance TEXT
 );
 
-CREATE TABLE Frequency(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    userid INTEGER NOT NULL,
-    servid INTEGER NOT NULL,
-    optime INTEGER NOT NULL DEFAULT 0
-);
-
 CREATE TABLE UserType(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     userid INTEGER NOT NULL,
@@ -36,4 +30,13 @@ CREATE TABLE LoginStatus(
     token TEXT PRIMARY KEY,
     userId INTEGER UNIQUE NOT NULL,
     loginTime DATETIME
+);
+
+CREATE TABLE HistoryRecored(
+    recordId INTEGER PRIMARY KEY AUTOINCREMENT,
+    userId INTEGER NOT NULL,
+    recordType INTEGER NOT NULL ,
+    recordName varchar(255) NOT NULL,
+    visitedUrl varchar(255),
+    visitedTime DATETIME
 );
