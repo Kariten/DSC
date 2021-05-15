@@ -112,14 +112,10 @@ def getidbyuser(info, uid=0):
     # db源
     conn = getdb()
     c = conn.cursor()
-<<<<<<< HEAD
-    # 获取用户常用服务
-    query = "SELECT servid FROM Frequency WHERE userid={}".format(uid)
 
-=======
     # 获取用户类型服务
     query = "SELECT typeid FROM UserType WHERE userid={}".format(uid)
->>>>>>> 0ebf389b5138198d6a3cf61477697fefe73c51e0
+
     servs = c.execute(query).fetchall()
     for serv in servs:
         kword = ''

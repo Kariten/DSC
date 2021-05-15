@@ -152,7 +152,7 @@ def create_app():
                 c.execute(query)
                 conn.commit()
                 db.close_db()
-                HistoryRecord("新增云服务" + servname, "add", 2, session['userId']).addRecord()
+                HistoryRecord("新增云服务：" + servname, "add", 2, session['userId']).addRecord()
                 return ApiResult('').success('提交成功')
             except:
                 db.close_db()
