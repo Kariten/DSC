@@ -86,14 +86,12 @@ def create_app():
             if not code == session['imageCode'].lower():
                 return ApiResult('').fault("验证码错误")
             token, userId = userLogin(username, password)
-            print(token[1])
             if token in [0, 101, 102]:
                 return ApiResult('').fault("用户名和密码不正确")
             if token is None:
                 return ApiResult().fault("登录失败")
             session['token'] = token
             session['userId'] = userId
-            print(session['userId'])
             HistoryRecord("登录成功", "login", 2, session['userId']).addRecord()
             return ApiResult({"token": token}).success("登录成功")
 

@@ -165,7 +165,8 @@
 
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button type="button" class="layui-btn layui-btn-normal" id="edit-userinfo-button">修改用户信息
+                                <button type="button" class="layui-btn layui-btn-normal" id="edit-userinfo-button">
+                                    修改用户信息
                                 </button>
 
                             </div>
@@ -195,7 +196,7 @@
         document.getElementById("username").innerText = res.username
         document.getElementById('info').innerText = res.info
 
-        layui.use(['form'],()=>{
+        layui.use(['form'], () => {
             let form = layui.form;
             form.val('component-form-group', res.service)
             form.render()
@@ -205,6 +206,7 @@
     })
 
     document.getElementById('edit-userinfo-button').onclick = (e) => {
+        document.getElementById("service-select").removeEventListener("click", dontclick)
         let input = document.getElementsByClassName('layui-input-block')
         input[0].innerHTML = '<input type="text" name="username" lay-verify="title" autocomplete="off" id="nameinput"' +
             'lay-filter="nameinput"placeholder="测试用户" class="layui-input">'
@@ -310,53 +312,62 @@
         });
     }
 
-    //JavaScript代码区域
-    layui.use(['element', 'layer'], function () {
-        var element = layui.element;
-        const layer = layui.layer;
+    function dontclick() {
+        layui.use(['element', 'layer'], function () {
+            const layer = layui.layer;
+            layer.msg("猪鼻别点了，先点编辑才能操作")
+        })
+    }
 
 
-        document.getElementById('logout').onclick = (e) => {
-            fetch("../logout").then(res => {
-                if (res.ok) {
-                    return res.json().then(data => {
-                        if (data.code === "0") {
-                            layer.msg("登出成功,正在跳转,倒计时<span id='confirm'>3</span>");
-                            setTimeout(e => {
-                                $("#confirm").text("2");
+        //JavaScript代码区域
+        layui.use(['element', 'layer'], function () {
+            var element = layui.element;
+            const layer = layui.layer;
+            document.getElementById("service-select").addEventListener("click", dontclick)
+
+
+            document.getElementById('logout').onclick = (e) => {
+                fetch("../logout").then(res => {
+                    if (res.ok) {
+                        return res.json().then(data => {
+                            if (data.code === "0") {
+                                layer.msg("登出成功,正在跳转,倒计时<span id='confirm'>3</span>");
                                 setTimeout(e => {
-                                    $("#confirm").text("1");
+                                    $("#confirm").text("2");
                                     setTimeout(e => {
-                                        layer.closeAll();
-                                        window.location.href = "../login";
+                                        $("#confirm").text("1");
+                                        setTimeout(e => {
+                                            layer.closeAll();
+                                            window.location.href = "../login";
+                                        }, 800)
                                     }, 800)
                                 }, 800)
-                            }, 800)
-                            return 0
-                        }
-                        window.location.href = "../login";
-                        layer.msg(data.msg);
-                    })
-                }
-                layer.msg("服务器连接失败");
-            }).catch(function (e) {
-                console.log("Oops, error");
-                window.location.href = "../login";
-            })
-        }
-    });
+                                return 0
+                            }
+                            window.location.href = "../login";
+                            layer.msg(data.msg);
+                        })
+                    }
+                    layer.msg("服务器连接失败");
+                }).catch(function (e) {
+                    console.log("Oops, error");
+                    window.location.href = "../login";
+                })
+            }
+        });
 
-    function setFormSelect(data) {
-        let select = document.querySelectorAll("#service-select span")
-        for (let i = 1; i <8 ; i++) {
-            if (data[i.toString()] === 'on'){
-                {#select[i-1].style = "background-color: #5FB878!important;"#}
-                select[i-1].classList.add("qc")
-                select[i-1].classList.add("lx")
-                select[i-1].classList.add("mx-select")
+        function setFormSelect(data) {
+            let select = document.querySelectorAll("#service-select span")
+            for (let i = 1; i < 8; i++) {
+                if (data[i.toString()] === 'on') {
+                    {#select[i-1].style = "background-color: #5FB878!important;"#}
+                    select[i - 1].classList.add("qc")
+                    select[i - 1].classList.add("lx")
+                    select[i - 1].classList.add("mx-select")
+                }
             }
         }
-    }
 
 </script>
 
@@ -393,8 +404,8 @@
         width: 75%;
     }
 
-    .qc.lx.mx-select{
-        background-color: #5FB878!important;
+    .qc.lx.mx-select {
+        background-color: #5FB878 !important;
     }
 </style>
 </body>

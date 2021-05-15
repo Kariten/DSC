@@ -75,7 +75,6 @@ def resetServ():
     # print(type(load_dict['data'][0]))
     for serv in load_dict['data']:
         query = 'INSERT INTO Serv VALUES ({id},"{name}","{type}","{info}","{entrance}")'.format(**serv)
-        print(query)
         c.execute(query)
         conn.commit()
     conn.close()

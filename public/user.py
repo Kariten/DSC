@@ -131,7 +131,6 @@ def userLogin(username, password):
 
     except IOError:
         conn.close()
-    conn.close()
     return token, userid
 
 
