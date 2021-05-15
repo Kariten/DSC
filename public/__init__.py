@@ -85,14 +85,16 @@ def create_app():
             code = request.json.get("code").lower()
             if not code == session['imageCode'].lower():
                 return ApiResult('').fault("验证码错误")
-            token = userLogin(username, password)
-            session['token'] = token
-            print(userId)
+            token, userId = userLogin(username, password)
+            print(token[1])
             if token in [0, 101, 102]:
                 return ApiResult('').fault("用户名和密码不正确")
             if token is None:
                 return ApiResult().fault("登录失败")
-            HistoryRecord("登录成功", "/login", 2, session['userId']).addRecord()
+            session['token'] = token
+            session['userId'] = userId
+            print(session['userId'])
+            HistoryRecord("登录成功", "login", 2, session['userId']).addRecord()
             return ApiResult({"token": token}).success("登录成功")
 
     @app.route('/getpublicKey', methods=["GET"])

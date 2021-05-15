@@ -122,7 +122,7 @@ def userLogin(username, password):
                                                                                                              'id']))
             c.execute(update_sql)
             conn.commit()
-            return token
+            return token, userid
         query_insert = 'INSERT INTO LoginStatus VALUES ("{}","{}","{}")'.format(token, int(userInfo['id']),
                                                                                 time.strftime("%Y-%m-%d %H:%M:%S",
                                                                                               time.localtime()))
@@ -140,7 +140,7 @@ def userLogout(token):
     c = conn.cursor()
     try:
         c.execute("delete from LoginStatus where token='{}'".format(token))
-        print("删除成 功")
+        print("删除成功")
         conn.commit()
     except IOError:
         db.close_db()
