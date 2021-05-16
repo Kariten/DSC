@@ -289,13 +289,10 @@
                 })
                 return false
             }
-
-
             if (data.field.password == '' && data.field.confirmpwd != '') {
                 layer.msg('原密码不能为空')
                 return false
             }
-
             data.field.password = encrypt.encrypt(JSON.stringify(data.field.password));
             data.field.newpwd = encrypt.encrypt(JSON.stringify(data.field.newpwd));
 

@@ -7,7 +7,7 @@ import os
 import json
 
 from public.history import HistoryRecord, getRecordByUserId
-from public.user import checkedToken, userLogin, userLogout, getUserInfo, UpdateUserInfo, UserModel, updateService
+from public.user import checkedToken, userLogin, userLogout, getUserInfo, UpdateUserInfo, UserModel, updateService, UserResiger
 from util.hash import generate_key, rsa_decrypt, getHash
 from util.imageCode import getImgCode
 from util.result import ApiResult
@@ -126,6 +126,28 @@ def create_app():
     def register():
         if request.method == 'GET':
             return render_template('register.html')
+        if request.method == 'POST':
+            username = request.json.get('username')
+            password = request.json.get('password')
+            code = request.json.get("code").lower()
+            if not code == session['imageCode'].lower():
+                return ApiResult('').fault("验证码错误")
+            password = getHash(rsa_decrypt(session['privatekey'], password).decode()[1:-1])
+            user = UserModel()
+            user.username = username
+            user.password = password
+            res = UserResiger(user)
+            if res.username:
+                HistoryRecord("注册成功", "register", 2, res.userId).addRecord()
+                return ApiResult('').success("注册成功")
+            elif res == "用户已存在":
+                return ApiResult('').fault("用户名已注册")
+            else:
+                return ApiResult('').fault("注册失败")
+
+
+
+
 
     @app.route('/index')
     @app.route('/manage')

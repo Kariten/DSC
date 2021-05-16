@@ -27,8 +27,8 @@ def checkedToken(token):
     try:
         token_data = c.execute(query).fetchone()
     except IOError:
-        return False
         conn.close()
+        return False
     if token_data is None:
         return False
     time_1_struct = datetime.now()
@@ -193,8 +193,24 @@ def UpdateUserInfo(token, updateUser):
         return None
 
 
-def UserResiger(username, password):
-    return 1
+def UserResiger(user):
+    if checkedUserName(user.username):
+        return "用户已存在"
+    conn = db.get_db()
+    c = conn.cursor()
+    try:
+        query = 'INSERT INTO User (username,pwd) VALUES ("{}","{}")'.format(user.username, user.password)
+        c.execute(query)
+        conn.commit()
+        query = "SELECT * FROM User WHERE username='{}'".format(user.username)
+        user = UserModel()
+        user.getUserInfoFromDB(c.execute(query).fetchone())
+        db.close_db()
+        return user
+    except IOError:
+        db.close_db()
+        return None
+
 
 
 class UserModel:

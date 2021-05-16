@@ -9,7 +9,6 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="/static/css/layui.css" media="all">
-    <link id="layuicss-layer" rel="stylesheet" href="" media="all">
     <link id="layuicss-layuiAdmin" rel="stylesheet" href="/static/admin.css" media="all">
 </head>
 
@@ -39,7 +38,7 @@
                 <div class="layui-form-item">
                     <label class="layadmin-user-login-icon layui-icon layui-icon-password"
                         for="LAY-user-login-password"></label>
-                    <input type="password" name="password2" id="LAY-user-login-password" lay-verify="required"
+                    <input type="password" name="confirmpwd" id="LAY-user-login-confirmpwd" lay-verify="required"
                         placeholder="确认密码" class="layui-input">
                 </div>
                 <div class="layui-form-item">
@@ -52,20 +51,15 @@
                         </div>
                         <div class="layui-col-xs5">
                             <div style="margin-left: 10px;">
-                                <!--
-                                <img src="https://www.oschina.net/action/user/captcha"
-                                    class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
-                                -->
-                                <img src="/imgCode"
-                                    class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
+                                <img id="img" onclick="code()" src="/imgCode"
+                                     class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-login-submit">登
-                        入</button>
+                    <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-login-submit">注册</button>
                 </div>
                 <div class="layui-trans layui-form-item layadmin-user-login-other">
                     <label>社交账号登入</label>
@@ -88,38 +82,65 @@
 
     </div>
     <script src="/static/layui.js"></script>
+    <script src="static/jsencrypt.min.js"></script>
     <script>
-        layui.use(['form'], function () {
-            var $ = layui.$, form = layui.form
-
-
+        function code() {
+            document.getElementById("img").src = "/imgCode?" + Math.random();
+        }
+        layui.use(['form', 'layer'], function () {
+            var $ = layui.$, form = layui.form, layer = layui.layer;
             form.render();
+
+            let encrypt = new JSEncrypt();
+            fetch("../getpublicKey").then(res => {
+                if (res.ok) {
+                    return res.json()
+                }
+            }).then(res => {
+                encrypt.setPublicKey(res.data.publickey);
+
+            })
 
             //提交
             form.on('submit(LAY-user-login-submit)', function (obj) {
-                console.log(obj.filed+"test")
-
-                
-                //请求登入接口
-                location.href="/manage"
+                console.log(obj.field.confirmpwd+"test"+obj.field.password)
+                if (obj.field.confirmpwd !== obj.field.password) {
+                    layer.msg("密码输入不一致，请重新输入")
+                    form.val('component-form-group', {
+                        'confirmpwd': '',
+                        'password': ''
+                    })
+                    return false
+                }
+                let result = encrypt.encrypt(JSON.stringify(obj.field.password));
+                fetch("../register", {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                            'username': obj.field.username,
+                            'password': result,
+                            'code': obj.field.vercode
+                        }
+                    )
+                }).then(res => {
+                        return res.json()
+                    }
+                ).then(res => {
+                    if (res.code === '0') {
+                        layer.msg("注册成功，请登录")
+                        setTimeout(e => {
+                            location.href = "/login"
+                        }, 1000)
+                    }
+                    code()
+                })
             });
-
-
-            //实际使用时记得删除该代码
-            layer.msg('为了方便演示，用户名密码可随意输入', {
-                offset: '15px'
-                , icon: 1
-            });
-
         });
     </script>
     </div>
-
-
-
-
-
-
 
     <style id="LAY_layadmin_theme">
         .layui-side-menu,
