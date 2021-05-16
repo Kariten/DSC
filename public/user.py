@@ -100,8 +100,8 @@ def userLogin(username, password):
     try:
         userInfo = c.execute(query).fetchone()
     except:
-        return 0
         conn.close()
+        return 0
     if userInfo is None:
         return 101
     if userInfo['pwd'] != password:
@@ -183,8 +183,7 @@ def UpdateUserInfo(token, updateUser):
     conn = db.get_db()
     c = conn.cursor()
     try:
-        query = "UPDATE User SET username='{}', info='{}',pwd='{}' WHERE id='{}'".format(user.username, user.info,
-                                                                                         user.password, user.userId)
+        query = "UPDATE User SET username='{}', info='{}', lable='{}',pwd='{}' WHERE id='{}'".format(user.username, user.info, user.lable, user.password, user.userId)
         c.execute(query)
         conn.commit()
         db.close_db()
@@ -202,6 +201,7 @@ class UserModel:
     username = ''
     userId = ''
     password = ''
+    lable = ''
     info = ''
     service = {}
 
@@ -215,15 +215,17 @@ class UserModel:
     def getUserInfoFromDB(self, user):
         self.username = user['username']
         self.info = user['info']
+        self.lable = user['lable']
         self.password = user['pwd']
         self.userId = user['id']
 
     def getUserVo(self):
-        return {'username': self.username, 'userId': self.userId, 'info': self.info, 'service': self.service}
+        return {'username': self.username, 'userId': self.userId, 'info': self.info, 'lable': self.lable, 'service': self.service}
 
     def updateUser(self, newUser):
         self.username = newUser.username if newUser.username is not '' else self.username
         self.info = newUser.info if newUser.info is not '' else self.info
+        self.lable = newUser.lable if newUser.lable is not '' else self.lable
         self.password = newUser.password if newUser.password is not '' else self.password
 
     def setService(self, data):
