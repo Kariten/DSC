@@ -157,10 +157,10 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">自定义标签</label>
                             <div class="layui-input-block">
-                                <input type="text" name="title" required  lay-verify="required" placeholder="请输入标签,使用“ , ”分隔" autocomplete="off" class="layui-input">
+                                <input type="text" name="userlable" id="userlable" placeholder="请输入标签,使用“ , ”分隔" autocomplete="off" class="layui-input">
                             </div>
                         </div>
-                        <div class="layui-form-item layui-form-text">
+                        <div class="layui-form-item">
                             <label class="layui-form-label">个人简介</label>
                             <div class="layui-input-block">
                                 <fieldset class="layui-elem-field">
@@ -223,6 +223,8 @@
         let t = document.getElementsByClassName('layui-form-item')
         t[2].style.display = '';
         t[3].style.display = '';
+
+        input[5].innerHTML = '<input placeholder="请输入标签,使用“ , ”分隔" name="userlable" class="layui-input"></input>'
 
         input[6].innerHTML = '<textarea placeholder="请输入一段简介" name="userinfo" class="layui-textarea"></textarea>'
 
