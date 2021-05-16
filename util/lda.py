@@ -70,8 +70,8 @@ def getidbyinfo(info):
     # lda模型，num_topics设置主题的个数
     lda = models.ldamodel.LdaModel(corpus=corpus, id2word=dictionary, num_topics=5)
     # 打印所有主题，每个主题显示4个词
-    for topic in lda.print_topics(num_words=4):
-        print(topic)
+    # for topic in lda.print_topics(num_words=4):
+    #     print(topic)
     # 主题推断
     # print(lda.inference(corpus)[0])
     x = 0
@@ -179,8 +179,8 @@ def getidbyuser(info, uid=0):
     # lda模型，num_topics设置主题的个数
     lda = models.ldamodel.LdaModel(corpus=corpus, id2word=dictionary, num_topics=5)
     # 打印所有主题，每个主题显示4个词
-    for topic in lda.print_topics(num_words=4):
-        print(topic)
+    # for topic in lda.print_topics(num_words=4):
+    #     print(topic)
     # 主题推断
     # print(lda.inference(corpus)[0])
     x = 0

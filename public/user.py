@@ -55,8 +55,8 @@ def getUserInfo(token):
     try:
         token_data = c.execute(query).fetchone()
     except:
-        return None
         conn.close()
+        return None
     if token_data is None:
         return None
     userId = token_data['userId']
