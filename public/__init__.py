@@ -295,6 +295,7 @@ def create_app():
             updateUser = UserModel()
             updateUser.username = request.json.get('username')
             updateUser.info = request.json.get('userinfo')
+            updateUser.lable = request.json.get('userlable')
 
             Service = []
             for i in range(1, 8):
@@ -303,7 +304,7 @@ def create_app():
                     Service.append(str(i))
             if Service is not []:
                 if updateService(service=Service) is None:
-                    return ApiResult('').fault('用戶類型修改失敗')
+                    return ApiResult('').fault('用户类型修改失败')
 
             password = request.json.get('password')
             newpwd = request.json.get('newpwd')

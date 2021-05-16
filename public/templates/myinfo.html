@@ -203,7 +203,7 @@
         document.getElementById("userName").innerText = res.username
         document.getElementById("username").innerText = res.username
         if(res.info){
-            document.getElementById('userlable').innerText = res.info
+            document.getElementById('userlable').innerText = res.lable
         }
         else{
             document.getElementById('userlable').innerText = "暂无"
@@ -255,7 +255,8 @@
                 var form = layui.form //获取form模块
                 form.val('component-form-group', {
                     'username': res.username,
-                    'userinfo': res.info
+                    'userinfo': res.info,
+                    'userlable': res.lable
                 })
             })
         })
