@@ -102,7 +102,8 @@ def resetUser():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE NOT NULL,
         pwd TEXT NOT NULL,
-        info TEXT
+        info TEXT,
+        lable TEXT
     )
     ''')
     users = [
@@ -110,17 +111,19 @@ def resetUser():
             'id': 0,
             'username': "admin",
             'pwd': "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
-            'info': "大数据 云计算 服务器"
+            'info': "大数据 云计算 服务器",
+            'lable': "大数据"
         },
         {
             'id': 1,
             'username': "guest",
             'pwd': "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
-            'info': "安全 备份 分布式"
+            'info': "安全 备份 分布式",
+            'lable': "安全"
         }
     ]
     for user in users:
-        query = 'INSERT INTO User VALUES ({id},"{username}","{pwd}","{info}")'.format(**user)
+        query = 'INSERT INTO User VALUES ({id},"{username}","{pwd}","{info}","{lable}")'.format(**user)
         print(query)
         c.execute(query)
         conn.commit()

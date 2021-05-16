@@ -9,7 +9,8 @@ CREATE TABLE User(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
     pwd TEXT NOT NULL,
-    info TEXT
+    info TEXT,
+    lable TEXT
 );
 
 CREATE TABLE Serv(
