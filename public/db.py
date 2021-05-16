@@ -253,8 +253,8 @@ if __name__ == "__main__":
     if len(sys.argv):
         if sys.argv[1] == 'reset':
             # resetServ()
-            # resetUser()
-            resetRecored()
+            resetUser()
+            # resetRecored()
             # resetLoginStatus()
         elif sys.argv[1] == 'reset_all':
             resetServ()

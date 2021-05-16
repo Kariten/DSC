@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>油田智云服务系统</title>
+    <script src="/static/jdenticon.min.js"></script>
     <link rel="stylesheet" href="/static/css/layui.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
 </head>
@@ -50,9 +51,9 @@
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img src="https://i.loli.net/2019/10/29/kIxyLJwb7saud1C.jpg" class="layui-nav-img">
-                    <span id="userName">&#12288;&#12288;&#12288;&#12288;</span>
+                <a href="javascript:;" id="user_img">
+                    <img  src="/static/img.jpg" class="layui-nav-img">
+                    <span id="userName"></span>
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="/myinfo">基本资料</a></dd>
@@ -98,12 +99,22 @@
                         <legend>个人信息</legend>
                     </fieldset>
                     <form class="layui-form" action="" lay-filter="component-form-group" id="userform">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户头像</label>
+                            <div class="layui-input-block" id="user_img_edit">
+                                <img  src="/static/img.jpg">
+                            </div>
+                        </div>
+
                         <div class="layui-form-item">
                             <label class="layui-form-label">用户名</label>
                             <div class="layui-input-block">
                                 <div class="mx-info" id="username"></div>
                             </div>
                         </div>
+
+
 
                         <div class="layui-form-item">
                             <label class="layui-form-label">原密码</label>
@@ -193,6 +204,7 @@
     </div>
 </div>
 <script src="/static/layui.js"></script>
+<script src="../static/avataaars.js"></script>
 <script src="/static/mx.js"></script>
 <script src="/static/jsencrypt.min.js"></script>
 <script>
@@ -202,6 +214,11 @@
         console.log(res)
         document.getElementById("userName").innerText = res.username
         document.getElementById("username").innerText = res.username
+        getarandomImage(res.userId).then(data=>{
+            console.log(data)
+            document.querySelector("#user_img img").src = data
+            document.querySelector("#user_img_edit img").src = data
+        });
         if(res.info){
             document.getElementById('userlable').innerText = res.lable
         }
@@ -227,21 +244,22 @@
     document.getElementById('edit-userinfo-button').onclick = (e) => {
         document.getElementById("service-select").removeEventListener("click", dontclick)
         let input = document.getElementsByClassName('layui-input-block')
-        input[0].innerHTML = '<input type="text" name="username" lay-verify="title" autocomplete="off" id="nameinput"' +
+        input[1].innerHTML = '<input type="text" name="username" lay-verify="title" autocomplete="off" id="nameinput"' +
             'lay-filter="nameinput"placeholder="测试用户" class="layui-input">'
 
-        input[1].innerHTML = '<input type="password" name="password" placeholder="请输入原密码" autocomplete="off" ' +
+        input[2].innerHTML = '<input type="password" name="password" placeholder="请输入原密码" autocomplete="off" ' +
             'class="layui-input">'
 
         let t = document.getElementsByClassName('layui-form-item')
-        t[2].style.display = '';
+        t[0].style.display = 'none'
         t[3].style.display = '';
+        t[4].style.display = '';
 
-        input[5].innerHTML = '<input placeholder="请输入标签,使用“ , ”分隔" name="userlable" class="layui-input"></input>'
+        input[6].innerHTML = '<input placeholder="请输入标签,使用“ , ”分隔" name="userlable" class="layui-input"></input>'
 
-        input[6].innerHTML = '<textarea placeholder="请输入一段简介" name="userinfo" class="layui-textarea"></textarea>'
+        input[7].innerHTML = '<textarea placeholder="请输入一段简介" name="userinfo" class="layui-textarea"></textarea>'
 
-        input[7].innerHTML = '<button  type="button"  lay-submit="" class="layui-btn" lay-filter="component-form-demo1">提交</button>' +
+        input[8].innerHTML = '<button  type="button"  lay-submit="" class="layui-btn" lay-filter="component-form-demo1">提交</button>' +
             '<button type="reset" class="layui-btn layui-btn-danger">重置</button>'
 
         document.querySelectorAll('#service-select input').forEach(e => {

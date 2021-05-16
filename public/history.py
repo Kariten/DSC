@@ -52,8 +52,9 @@ def getRecordByUserId(userId):
                                 recordType=record['recordType'], userId=record['userId'])
         history.recordTime = record['visitedTime']
         resList.append(history.Serialization())
+    print(resList)
     resList2 = []
-    for i in range(len(resList) - 1, 0, -1):
+    for i in range(len(resList) - 1, -1, -1):
         resList2.append(resList[i])
     return resList2
 

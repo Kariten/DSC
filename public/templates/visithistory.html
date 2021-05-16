@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>油田智云服务系统</title>
+
     <link rel="stylesheet" href="/static/css/layui.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
 </head>
@@ -50,8 +51,8 @@
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img src="https://i.loli.net/2019/10/29/kIxyLJwb7saud1C.jpg" class="layui-nav-img">
+               <a href="javascript:;" id="user_img">
+                    <img  src="/static/img.jpg" class="layui-nav-img">
                     <span id="userName"></span>
                 </a>
                 <dl class="layui-nav-child">
@@ -110,43 +111,19 @@
 </div>
 
 <script src="/static/layui.js"></script>
+<script src="../static/avataaars.js"></script>
 <script src="/static/mx.js"></script>
 <script>
     getUserInfo(window.localStorage['token'], (res) => {
-        console.log(res)
+
         document.getElementById("userName").innerText = res.username
+        getarandomImage(res.userId).then(data=>{
+
+            document.querySelector("#user_img img").src = data
+        });
     })
 
-    fetch("../api/getUserHistory?limit=20&page=1").then(res => {
-        return res.json()
-    }).then(res => {
-        console.log(res)
-        ul = document.getElementById("LAY_demo1")
-
-        historys = res.data.history
-        for (const history of historys) {
-            let info = ''
-            if (history.recordType === 1) {
-                info = history.recordTime + " &nbsp;&nbsp;&nbsp;访问了云服务：<a href='http://" + history.recordUrl + "'>" + history.recordName + "</a>"
-            } else if (history.recordType === 2) {
-                info = history.recordTime + "&nbsp;&nbsp;&nbsp;" + history.recordName
-            } else if (history.recordType === 3) {
-                info = history.recordTime + "&nbsp;&nbsp;&nbsp;访问了：<a href='../" + history.recordUrl + "'>" + history.recordName + "</a>页面"
-            }
-
-            console.log(info)
-            li = document.createElement("li")
-            li.classList.add("layui-timeline-item")
-            li.innerHTML = `
-                        <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title">${info}</div>
-                        </div>
-            `
-            ul.appendChild(li)
-        }
-    }).then(() => {
-        layui.use('flow', function () {
+    layui.use('flow', function () {
             var flow = layui.flow;
 
 
@@ -187,7 +164,6 @@
                 }
             });
         });
-    })
 
 
     //JavaScript代码区域

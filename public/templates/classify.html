@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>油田智云服务系统</title>
+    <script src="/static/jdenticon.min.js"></script>
     <link rel="stylesheet" href="/static/css/layui.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/layui-src@2.6.3-2/dist/layui.js"></script>
@@ -51,10 +52,10 @@
             </ul>
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
-                    <a href="javascript:;">
-                        <img src="https://i.loli.net/2019/10/29/kIxyLJwb7saud1C.jpg" class="layui-nav-img">
-                        <span id="userName"></span>
-                    </a>
+                    <a href="javascript:;" id="user_img">
+                    <img  src="/static/img.jpg" class="layui-nav-img">
+                    <span id="userName"></span>
+                </a>
                     <dl class="layui-nav-child">
                         <dd><a href="/myinfo">基本资料</a></dd>
                         <dd><a href="/visithistory">访问历史</a></dd>
@@ -149,11 +150,14 @@
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="jump">点击进入</a>
     </script>
+    <script src="../static/avataaars.js"></script>
     <script src="/static/mx.js"></script>
     <script>
         getUserInfo(window.localStorage['token'], (res) => {
-            console.log(res)
             document.getElementById("userName").innerText = res.username
+            getarandomImage(res.userId).then(data=>{
+            document.querySelector("#user_img img").src = data
+        });
         })
 
         window.onload = function () {

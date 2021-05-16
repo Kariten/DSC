@@ -138,7 +138,7 @@ def create_app():
             user.password = password
             res = UserResiger(user)
             if res.username:
-                HistoryRecord("注册成功", "register", 2, res.userId).addRecord()
+                HistoryRecord("用户注册成功，欢迎加入", "register", 2, res.userId).addRecord()
                 return ApiResult('').success("注册成功")
             elif res == "用户已存在":
                 return ApiResult('').fault("用户名已注册")

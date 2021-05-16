@@ -6,205 +6,216 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>油田智云服务系统</title>
     <link rel="stylesheet" href="/static/css/layui.css">
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+
+    </script>
     <script src="/static/layui.js"></script>
 </head>
 
 <body class="layui-layout-body">
-    <div class="layui-layout layui-layout-admin">
+<div class="layui-layout layui-layout-admin">
 
-        <!-- 头部区域（可配合layui已有的水平导航） -->
-        <div class="layui-header">
-            <div class="layui-logo">油田智云服务系统</div>
-            <ul class="layui-nav layui-layout-left">
-                <li class="layui-nav-item"><a href="/index">首页</a></li>
-                <li class="layui-nav-item">
-                    <a href="">云服务</a>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <div class="layui-header">
+        <div class="layui-logo">油田智云服务系统</div>
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="/index">首页</a></li>
+            <li class="layui-nav-item">
+                <a href="">云服务</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">持续部署服务</a></dd>
+                    <dd><a href="">持续测试服务</a></dd>
+                    <dd><a href="">地理信息服务</a></dd>
+                    <dd><a href="">对象存储服务</a></dd>
+                    <dd><a href="">分布式数据库</a></dd>
+                    <dd><a href="">负载均衡服务</a></dd>
+                    <dd><a href="">过程管理服务</a></dd>
+                    <dd><a href="">数字证书服务</a></dd>
+                    <dd><a href="">小机资源服务</a></dd>
+                    <dd><a href="">组件安全服务</a></dd>
+                    <dd><a href="">离线大数据分析服务</a></dd>
+                    <dd><a href="">分布式应用程序管理服务</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="/classification">个性化分类</a></li>
+            <li class="layui-nav-item"><a href="https://www.cnki.net">知识库</a></li>
+            <li class="layui-nav-item"><a href="">资源下载</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">开放平台</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">客服服务</a></dd>
+                    <dd><a href="">安全云盾</a></dd>
+                    <dd><a href="">代码仓库服务</a></dd>
+                    <dd><a href="">大数据开发云平台</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="/about">关于</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;" id="user_img">
+                    <img src="/static/img.jpg" class="layui-nav-img">
+                    <span id="userName"></span>
+                </a>
+                <span id="userName"></span>
+                <dl class="layui-nav-child">
+                    <dd><a href="/myinfo">基本资料</a></dd>
+                    <dd><a href="/visithistory">访问历史</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a id="logout" href="javascript:;">告辞</a></li>
+        </ul>
+    </div>
+
+    <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item "><a href="/classify">简单分类</a></li>
+                <li class="layui-nav-item"><a href="/classification">文本主题模型分类</a></li>
+                <li class="layui-nav-item"><a href="/userclassification">个性标签动态分类</a></li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">云服务管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="">持续部署服务</a></dd>
-                        <dd><a href="">持续测试服务</a></dd>
-                        <dd><a href="">地理信息服务</a></dd>
-                        <dd><a href="">对象存储服务</a></dd>
-                        <dd><a href="">分布式数据库</a></dd>
-                        <dd><a href="">负载均衡服务</a></dd>
-                        <dd><a href="">过程管理服务</a></dd>
-                        <dd><a href="">数字证书服务</a></dd>
-                        <dd><a href="">小机资源服务</a></dd>
-                        <dd><a href="">组件安全服务</a></dd>
-                        <dd><a href="">离线大数据分析服务</a></dd>
-                        <dd><a href="">分布式应用程序管理服务</a></dd>
+                        <dd><a href="/manage">云服务管理</a></dd>
+                        <dd><a href="/add" class="layui-this">添加云服务</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="/classification">个性化分类</a></li>
-                <li class="layui-nav-item"><a href="https://www.cnki.net">知识库</a></li>
-                <li class="layui-nav-item"><a href="">资源下载</a></li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">开放平台</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="">客服服务</a></dd>
-                        <dd><a href="">安全云盾</a></dd>
-                        <dd><a href="">代码仓库服务</a></dd>
-                        <dd><a href="">大数据开发云平台</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a href="/about">关于</a></li>
-            </ul>
-            <ul class="layui-nav layui-layout-right">
-                <li class="layui-nav-item">
-                    <a href="javascript:;">
-                        <img src="https://i.loli.net/2019/10/29/kIxyLJwb7saud1C.jpg" class="layui-nav-img">
-                        <span id="userName"></span>
-                    </a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/myinfo">基本资料</a></dd>
-                        <dd><a href="/visithistory">访问历史</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a id="logout" href="javascript:;">告辞</a></li>
             </ul>
         </div>
-
-        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-        <div class="layui-side layui-bg-black">
-            <div class="layui-side-scroll">
-                <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                    <li class="layui-nav-item "><a href="/classify">简单分类</a></li>
-                    <li class="layui-nav-item" ><a href="/classification">文本主题模型分类</a></li>
-                    <li class="layui-nav-item" ><a href="/userclassification">个性标签动态分类</a></li>
-                    <li class="layui-nav-item layui-nav-itemed">
-                        <a href="javascript:;">云服务管理</a>
-                        <dl class="layui-nav-child">
-                            <dd><a href="/manage">云服务管理</a></dd>
-                            <dd><a href="/add" class="layui-this">添加云服务</a></dd>
-                        </dl>
-                    </li>
-                </ul>
-            </div>
+    </div>
+    <!-- 内容主体区域 -->
+    <div class="layui-body">
+        <!--路径-->
+        <!--
+        <div style="margin-left: 20px; padding-bottom: 20px;">
+            <span class="layui-breadcrumb">
+                <a href="">首页</a>
+                <a href="">搜索</a>
+                <a><cite>专利信息录入</cite></a>
+            </span>
         </div>
-        <!-- 内容主体区域 -->
-        <div class="layui-body">
-            <!--路径-->
-            <!--
-            <div style="margin-left: 20px; padding-bottom: 20px;">
-                <span class="layui-breadcrumb">
-                    <a href="">首页</a>
-                    <a href="">搜索</a>
-                    <a><cite>专利信息录入</cite></a>
-                </span>
-            </div>
-            -->
+        -->
 
-            <div class="layui-fluid">
-                <div class="layui-card">
-                    <div class="layui-card-body" style="padding: 15px;">
-                        <fieldset class="layui-elem-field layui-field-title">
-                            <legend>添加云服务</legend>
-                        </fieldset>
-                        <form class="layui-form" action="" lay-filter="component-form-group">
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">服务名称</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="servname" lay-verify="title" autocomplete="off"
-                                        placeholder="请输入服务名称" class="layui-input">
-                                </div>
+        <div class="layui-fluid">
+            <div class="layui-card">
+                <div class="layui-card-body" style="padding: 15px;">
+                    <fieldset class="layui-elem-field layui-field-title">
+                        <legend>添加云服务</legend>
+                    </fieldset>
+                    <form class="layui-form" action="" lay-filter="component-form-group">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">服务名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="servname" lay-verify="title" autocomplete="off"
+                                       placeholder="请输入服务名称" class="layui-input">
                             </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">服务地址</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="serventrance" lay-verify="required" placeholder="请输入服务入口"
-                                        autocomplete="off" class="layui-input">
-                                </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">服务地址</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="serventrance" lay-verify="required" placeholder="请输入服务入口"
+                                       autocomplete="off" class="layui-input">
                             </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">服务类型</label>
-                                <div class="layui-input-block" >
-                                    <input type="radio" lay-filter="select" name="type" value="计算资源" onclick="select(this);" title="计算资源" checked>
-                                    <input type="radio" lay-filter="select" name="type" value="存储" onclick="select(this);" title="存储">
-                                    <input type="radio" lay-filter="select" name="type" value="中间件" onclick="select(this);" title="中间件">
-                                    <input type="radio" lay-filter="select" name="type" value="数据库" onclick="select(this);" title="数据库">
-                                    <input type="radio" lay-filter="select" name="type" value="应用" onclick="select(this);" title="应用">
-                                    <input type="radio" lay-filter="select" name="type" value="大数据" onclick="select(this);" title="大数据">
-                                    <input type="radio" lay-filter="select" name="type" value="安全" onclick="select(this);" title="安全">
-                                </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">服务类型</label>
+                            <div class="layui-input-block">
+                                <input type="radio" lay-filter="select" name="type" value="计算资源" onclick="select(this);"
+                                       title="计算资源" checked>
+                                <input type="radio" lay-filter="select" name="type" value="存储" onclick="select(this);"
+                                       title="存储">
+                                <input type="radio" lay-filter="select" name="type" value="中间件" onclick="select(this);"
+                                       title="中间件">
+                                <input type="radio" lay-filter="select" name="type" value="数据库" onclick="select(this);"
+                                       title="数据库">
+                                <input type="radio" lay-filter="select" name="type" value="应用" onclick="select(this);"
+                                       title="应用">
+                                <input type="radio" lay-filter="select" name="type" value="大数据" onclick="select(this);"
+                                       title="大数据">
+                                <input type="radio" lay-filter="select" name="type" value="安全" onclick="select(this);"
+                                       title="安全">
                             </div>
-                            <div class="layui-form-item layui-form-text">
-                                <label class="layui-form-label">服务简介</label>
-                                <div class="layui-input-block">
-                                  <textarea placeholder="请输入一段简介" name="info" class="layui-textarea"></textarea>
-                                </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">服务简介</label>
+                            <div class="layui-input-block">
+                                <textarea placeholder="请输入一段简介" name="info" class="layui-textarea"></textarea>
                             </div>
-                            <div class="layui-form-item">
-                                <div class="layui-input-block">
-                                    <button class="layui-btn" lay-submit lay-filter="component-form-demo1">立即提交</button>
-                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                                </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="component-form-demo1">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                             </div>
+                        </div>
 
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-
-
-
-
-        <div class="layui-footer">
-            <!-- 底部固定区域 -->
-            ©2021 油田智云服务系统
-        </div>
     </div>
-    <!--
-        <script src="/static/layui.js"></script>
-        <script src="./country.js"></script>
-        <script src="static/jquery.min.js"></script>
-        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
-    -->
-    
-    <script src="/static/mx.js"></script>
-    <script>
-        getUserInfo(window.localStorage['token'], (res) => {
-            console.log(res)
-            document.getElementById("userName").innerText = res.username
-        })
 
-        window.onload = function () {
 
-            layui.use(['form', 'upload'], function () {  //如果只加载一个模块，可以不填数组。如：layui.use('form')
-                var form = layui.form //获取form模块
-                    , upload = layui.upload; //获取upload模块
-                    $ = layui.$
-                    form.on('submit(component-form-demo1)', function(data){
-                        //layer.msg(JSON.stringify(data.field));
-                        $.ajax({
-                            url:'/add',
-                            type:'post',
-                            dataType:'text',
-                            contentType: 'application/json',
-                            data:JSON.stringify(data.field),
-                            success:function(data){
-                                mydata = JSON.parse(data)
-                                if(mydata.code === "1"){
-                                    layer.msg("提交失败，请重试");
-                                }
-                                else{
-                                    layer.msg("提交成功");
-                                    $("form")[0].reset();
-                                }
-                            },
-                            error:function () {
-                                layer.msg("提交失败，请重试");
-                            }
-                        })
-                        return false;
-                    });
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        ©2021 油田智云服务系统
+    </div>
+</div>
+<!--
+    <script src="/static/layui.js"></script>
+    <script src="./country.js"></script>
+    <script src="static/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+-->
 
-                form.render('select')
+<script src="../static/avataaars.js"></script>
+<script src="../static/mx.js"></script>
+<script>
+
+    getUserInfo(window.localStorage['token'], (res) => {
+        document.getElementById("userName").innerText = res.username
+        getarandomImage(res.userId).then(data=>{
+            console.log(data)
+            document.querySelector("#user_img img").src = data
+        });
+    })
+
+    window.onload = function () {
+
+        layui.use(['form', 'upload'], function () {  //如果只加载一个模块，可以不填数组。如：layui.use('form')
+            var form = layui.form //获取form模块
+                , upload = layui.upload; //获取upload模块
+            $ = layui.$
+            form.on('submit(component-form-demo1)', function (data) {
+                //layer.msg(JSON.stringify(data.field));
+                $.ajax({
+                    url: '/add',
+                    type: 'post',
+                    dataType: 'text',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data.field),
+                    success: function (data) {
+                        mydata = JSON.parse(data)
+                        if (mydata.code === "1") {
+                            layer.msg("提交失败，请重试");
+                        } else {
+                            layer.msg("提交成功");
+                            $("form")[0].reset();
+                        }
+                    },
+                    error: function () {
+                        layer.msg("提交失败，请重试");
+                    }
+                })
+                return false;
             });
-        }
 
-        //JavaScript代码区域
-        layui.use(['element', 'layer'], function () {
+            form.render('select')
+        });
+    }
+
+    //JavaScript代码区域
+    layui.use(['element', 'layer'], function () {
         var element = layui.element;
         const layer = layui.layer;
 
@@ -240,38 +251,48 @@
     });
 
 
+</script>
 
 
+</script>
 
-    </script>
+<style>
+    html {
+        background-color: #f2f2f2;
+        color: #666;
+    }
 
-    <style>
-        html {
-            background-color: #f2f2f2;
-            color: #666;
-        }
+    .layui-layout-admin .layui-body {
+        position: fixed;
+        top: 80px;
+        bottom: 44px;
+    }
 
-        .layui-layout-admin .layui-body {
-            position: fixed;
-            top: 80px;
-            bottom: 44px;
-        }
+    .layuiadmin-card-list p.layuiadmin-big-font {
+        font-size: 36px;
+        color: #666;
+        line-height: 36px;
+        padding: 5px 0 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        white-space: nowrap;
+    }
 
-        .layuiadmin-card-list p.layuiadmin-big-font {
-            font-size: 36px;
-            color: #666;
-            line-height: 36px;
-            padding: 5px 0 10px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            word-break: break-all;
-            white-space: nowrap;
-        }
+    .layui-col-sm6.layui-col-md3.width75 {
+        width: 75%;
+    }
 
-        .layui-col-sm6.layui-col-md3.width75 {
-            width: 75%;
-        }
-    </style>
+
+    .mx-user-img {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+        border-radius: 50%;
+        position: relative;
+        display: inline-block;
+    }
+</style>
 </body>
 
 </html>
