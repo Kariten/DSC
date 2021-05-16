@@ -136,11 +136,13 @@
 <script>
     getUserInfo(window.localStorage['token'], (res) => {
         console.log(res)
+        //console.log(res.info + res.lable)
+        
         document.getElementById("userName").innerText = res.username
 
         layui.use('table', function () {
             var table = layui.table;
-            var urltemp = "../api/selectdatabyuser?info=x&uid=z".replace('x', res.info).replace('z', res.userId);
+            var urltemp = "../api/selectdatabyuser?info="+res.info+" "+res.lable+"&uid="+res.userId;
             //第一个实例
             table.render({
                 elem: '#demo',
