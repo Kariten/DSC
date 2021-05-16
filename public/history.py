@@ -32,7 +32,7 @@ def getFreqTimesByUserId(userId):
     resList = []
     for record in records:
         resList.append(indexMap[record["recordName"]])
-    return Counter(resList).most_common(100)
+    return Counter(resList).most_common(5)
 
 
 def getRecordByUserId(userId):
