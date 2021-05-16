@@ -149,6 +149,15 @@
                                 <input type="checkbox" name="7" title="安全" disabled>
                                 <div class="layui-unselect layui-form-checkbox"><span>安全</span><i
                                         class="layui-icon layui-icon-ok"></i></div>
+                                
+                                
+                            </div>
+                            
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">自定义标签</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="title" required  lay-verify="required" placeholder="请输入标签,使用“ , ”分隔" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item layui-form-text">
@@ -166,7 +175,6 @@
                                 <button type="button" class="layui-btn layui-btn-normal" id="edit-userinfo-button">
                                     修改用户信息
                                 </button>
-
                             </div>
                         </div>
 
@@ -216,9 +224,9 @@
         t[2].style.display = '';
         t[3].style.display = '';
 
-        input[5].innerHTML = '<textarea placeholder="请输入一段简介" name="userinfo" class="layui-textarea"></textarea>'
+        input[6].innerHTML = '<textarea placeholder="请输入一段简介" name="userinfo" class="layui-textarea"></textarea>'
 
-        input[6].innerHTML = ' <button  type="button"  lay-submit="" class="layui-btn" lay-filter="component-form-demo1">提交</button>' +
+        input[7].innerHTML = '<button  type="button"  lay-submit="" class="layui-btn" lay-filter="component-form-demo1">提交</button>' +
             '<button type="reset" class="layui-btn layui-btn-danger">重置</button>'
 
         document.querySelectorAll('#service-select input').forEach(e => {
