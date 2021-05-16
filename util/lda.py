@@ -6,7 +6,6 @@ import sqlite3
 
 from public.history import getFreqTimesByUserId
 
-
 def getdb():
     conn = sqlite3.connect('public/classification.db',detect_types=sqlite3.PARSE_DECLTYPES)
     conn.row_factory = sqlite3.Row
@@ -115,7 +114,6 @@ def getidbyuser(info, uid=0):
 
     # 获取用户类型服务
     query = "SELECT typeid FROM UserType WHERE userid={}".format(uid)
-
     servs = c.execute(query).fetchall()
     for serv in servs:
         kword = ''
@@ -137,6 +135,16 @@ def getidbyuser(info, uid=0):
         servsbyutype = c.execute(query).fetchall()
         for servbt in servsbyutype:
             resultlist.append(servbt[0])
+
+    # 获取用户常用服务
+    servs = getFreqTimesByUserId(uid)
+    if len(servs) < 3:
+        for serv in servs:
+            resultlist.append(serv[0])
+    else:
+        for i in range(0,3):# 最多访问的三个服务
+            resultlist.append(servs[i][0])
+
     # 获取动态分类服务
     query = "SELECT * FROM Serv"
     servs = c.execute(query).fetchall()

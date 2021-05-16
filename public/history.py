@@ -8,7 +8,7 @@ def getFreqTimesByUserId(userId):
     conn = db.get_db()
     c = conn.cursor()
     try:
-        query = "select * from HistoryRecored where userId={} and recordType={}}".format(userId, 1)
+        query = "select * from HistoryRecored where userId={} and recordType={}".format(userId, 1)
         records = c.execute(query).fetchall()
         conn.commit()
     except IOError:
@@ -32,7 +32,7 @@ def getFreqTimesByUserId(userId):
     resList = []
     for record in records:
         resList.append(indexMap[record["recordName"]])
-    return Counter(resList).most_common(5)
+    return Counter(resList).most_common(100)
 
 
 def getRecordByUserId(userId):
