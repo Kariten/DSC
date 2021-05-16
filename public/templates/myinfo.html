@@ -157,7 +157,9 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">自定义标签</label>
                             <div class="layui-input-block">
-                                <input type="text" name="userlable" id="userlable" placeholder="请输入标签,使用“ , ”分隔" autocomplete="off" class="layui-input">
+                                <fieldset class="layui-elem-field">
+                                    <div class="layui-field-box" id="userlable"></div>
+                                </fieldset>
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -200,7 +202,18 @@
         console.log(res)
         document.getElementById("userName").innerText = res.username
         document.getElementById("username").innerText = res.username
-        document.getElementById('info').innerText = res.info
+        if(res.info){
+            document.getElementById('userlable').innerText = res.info
+        }
+        else{
+            document.getElementById('userlable').innerText = "暂无"
+        }
+        if(res.info){
+            document.getElementById('info').innerText = res.info
+        }
+        else{
+            document.getElementById('info').innerText = "暂无"
+        }
 
         layui.use(['form'], () => {
             let form = layui.form;
@@ -369,7 +382,7 @@
             let select = document.querySelectorAll("#service-select span")
             for (let i = 1; i < 8; i++) {
                 if (data[i.toString()] === 'on') {
-                    {#select[i-1].style = "background-color: #5FB878!important;"#}
+                    //{#select[i-1].style = "background-color: #5FB878!important;"#}
                     select[i - 1].classList.add("qc")
                     select[i - 1].classList.add("lx")
                     select[i - 1].classList.add("mx-select")
