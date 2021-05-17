@@ -209,16 +209,13 @@
 <script src="/static/jsencrypt.min.js"></script>
 <script>
     let user_form = document.getElementById('userform').innerHTML
-
+    document.querySelector("#user_img img").src = window.localStorage['user_img']
+    document.querySelector("#user_img_edit img").src = window.localStorage['user_img']
     getUserInfo(window.localStorage['token'], (res) => {
         console.log(res)
         document.getElementById("userName").innerText = res.username
         document.getElementById("username").innerText = res.username
-        getarandomImage(res.userId).then(data=>{
-            console.log(data)
-            document.querySelector("#user_img img").src = data
-            document.querySelector("#user_img_edit img").src = data
-        });
+
         if(res.info){
             document.getElementById('userlable').innerText = res.lable
         }

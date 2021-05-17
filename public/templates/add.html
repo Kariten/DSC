@@ -168,16 +168,12 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
 -->
 
-<script src="../static/avataaars.js"></script>
 <script src="../static/mx.js"></script>
 <script>
+    document.querySelector("#user_img img").src = window.localStorage['user_img']
 
     getUserInfo(window.localStorage['token'], (res) => {
         document.getElementById("userName").innerText = res.username
-        getarandomImage(res.userId).then(data=>{
-            console.log(data)
-            document.querySelector("#user_img img").src = data
-        });
     })
 
     window.onload = function () {

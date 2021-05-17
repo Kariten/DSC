@@ -114,13 +114,9 @@
 <script src="../static/avataaars.js"></script>
 <script src="/static/mx.js"></script>
 <script>
+    document.querySelector("#user_img img").src = window.localStorage['user_img']
     getUserInfo(window.localStorage['token'], (res) => {
-
         document.getElementById("userName").innerText = res.username
-        getarandomImage(res.userId).then(data=>{
-
-            document.querySelector("#user_img img").src = data
-        });
     })
 
     layui.use('flow', function () {

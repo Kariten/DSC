@@ -7,7 +7,8 @@ import os
 import json
 
 from public.history import HistoryRecord, getRecordByUserId
-from public.user import checkedToken, userLogin, userLogout, getUserInfo, UpdateUserInfo, UserModel, updateService, UserResiger
+from public.user import checkedToken, userLogin, userLogout, getUserInfo, UpdateUserInfo, UserModel, updateService, \
+    UserResiger
 from util.hash import generate_key, rsa_decrypt, getHash
 from util.imageCode import getImgCode
 from util.result import ApiResult
@@ -93,7 +94,7 @@ def create_app():
             session['token'] = token
             session['userId'] = userId
             HistoryRecord("登录成功", "login", 2, session['userId']).addRecord()
-            return ApiResult({"token": token}).success("登录成功")
+            return ApiResult({"token": token, "userId": userId}).success("登录成功")
 
     @app.route('/getpublicKey', methods=["GET"])
     def getPublickey():
@@ -144,10 +145,6 @@ def create_app():
                 return ApiResult('').fault("用户名已注册")
             else:
                 return ApiResult('').fault("注册失败")
-
-
-
-
 
     @app.route('/index')
     @app.route('/manage')
