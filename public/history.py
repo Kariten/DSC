@@ -88,7 +88,7 @@ class HistoryRecord:
         try:
             query = "INSERT INTO HistoryRecored(userid, recordName,visitedUrl,recordType,visitedTime) " \
                     "VALUES({}, '{}','{}',{},'{}')".format(self.userId, self.recordName, self.recordUrl,
-                                                           self.recordType, self.recordTime)
+                                                            self.recordType, self.recordTime)
 
             c.execute(query)
             conn.commit()

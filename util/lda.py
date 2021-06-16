@@ -179,10 +179,10 @@ def getidbyuser(info, uid=0):
     # lda模型，num_topics设置主题的个数
     lda = models.ldamodel.LdaModel(corpus=corpus, id2word=dictionary, num_topics=5)
     # 打印所有主题，每个主题显示4个词
-    # for topic in lda.print_topics(num_words=4):
-    #     print(topic)
+    for topic in lda.print_topics(num_words=4):
+        print(topic)
     # 主题推断
-    # print(lda.inference(corpus)[0])
+    print(lda.inference(corpus)[0])
     x = 0
     for value in lda.inference(corpus)[0][-1]:
         if value < 1 :
@@ -190,7 +190,7 @@ def getidbyuser(info, uid=0):
         else:
             break
     i = 0
-    
+
     if x == 5:
         for i in range(len(texts)-1):
             resultlist.append(i)
@@ -208,5 +208,5 @@ def getidbyuser(info, uid=0):
     return resultlist
 
 if __name__ == "__main__":
-    # print(getidbyinfo("大数据 云计算 服务器"))
-    print(getidbyuser("大数据 云计算 服务器"))
+    print(getidbyinfo("大数据 云计算 服务器"))
+    # print(getidbyuser("大数据 云计算 服务器"))
