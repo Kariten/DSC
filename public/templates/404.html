@@ -95,34 +95,19 @@
         layui.use(['form'], function () {
             var $ = layui.$, form = layui.form
 
-
             form.render();
 
             //提交
             form.on('submit(LAY-user-login-submit)', function (obj) {
                 console.log(obj.filed+"test")
 
-                
                 //请求登入接口
                 location.href="/manage"
-            });
-
-
-            //实际使用时记得删除该代码
-            layer.msg('为了方便演示，用户名密码可随意输入', {
-                offset: '15px'
-                , icon: 1
             });
 
         });
     </script>
     </div>
-
-
-
-
-
-
 
     <style id="LAY_layadmin_theme">
         .layui-side-menu,
